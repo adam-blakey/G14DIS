@@ -1,61 +1,88 @@
 module quadrature
     use parameters
+    implicit none
 
-    recursive function LegendrePolynomial(x, n) result(LPoly)
-        integer, parameter:: dp = selected_real_kind(15)
+    contains
+        function GaussLegendreQuadrature(f, n)
+            real(dp), external :: LegendrePolynomialDerivative, LegendrePolynomialRoot
 
-        integer, intent(in):: n
-        real(dp), intent(in):: x
+            integer, intent(in) :: n
+            real(dp) :: GaussLegendreQuadrature
+            interface inputFunction
+                function f(x)
+                    real(dp) :: f
+                    real(dp), intent(in) :: x
+                end function
+            end interface inputFunction
 
-        real(dp):: LPoly
+            real(dp) :: weight
+            integer :: i
+            real(dp) :: x
+            real(dp) :: h
 
-        if (n==0) then
-            LPoly = 1
-        else if (n==1) then
-            LPoly = x
-        else
-            LPoly = real(2*n - 1)/n * x * LegendrePolynomial(x, n-1) - real(n - 1)/n * LegendrePolynomial(x, n-2) 
-        end if
-    end function LegendrePolynomial
+            h = real(2)/n
+            GaussLegendreQuadrature = 0
 
-    recursive function LegendrePolynomialDerivative(x, n) result(LPoly)
-        integer, parameter:: dp = selected_real_kind(15)
-        real(dp), external:: LegendrePolynomial
+            do i = 1, n
+                x = LegendrePolynomialRoot(n, i)
+                weight = real(2)/((1-x**2)*(LegendrePolynomialDerivative(x, n))**2)
+                GaussLegendreQuadrature = GaussLegendreQuadrature + weight * f(x)
+            end do
+        end function GaussLegendreQuadrature
 
-        integer, intent(in):: n
-        real(dp), intent(in):: x
+        recursive function LegendrePolynomial(x, n) result(LPoly)
+            integer, intent(in) :: n
+            real(dp), intent(in) :: x
 
-        real(dp):: LPoly
+            real(dp) :: LPoly
 
-        if (n==0) then
-            LPoly = 0
-        else if (n==1) then
-            LPoly = 1
-        else
-            LPoly = real(2*n - 1)/(n - 1) * x * LegendrePolynomialDerivative(x, n-1) &
-                    - real(n)/(n - 1) * LegendrePolynomialDerivative(x, n-2)
-        end if
-    end function LegendrePolynomialDerivative
+            if (n==0) then
+                LPoly = 1
+            else if (n==1) then
+                LPoly = x
+            else
+                LPoly = real(2*n - 1)/n * x * LegendrePolynomial(x, n-1) - real(n - 1)/n * LegendrePolynomial(x, n-2) 
+            end if
+        end function LegendrePolynomial
 
-    function LegendrePolynomialRoot(n, i) result(root)
-        integer, parameter:: dp = selected_real_kind(15)
-        real(dp), parameter:: PI = 3.141592653589793115997963468544185161590576171875
+        recursive function LegendrePolynomialDerivative(x, n) result(LPoly)
+            !real(dp), external :: LegendrePolynomial
 
-        integer, intent(in):: n
-        integer, intent(in):: i
-        real(dp):: x
+            integer, intent(in) :: n
+            real(dp), intent(in) :: x
 
-        real(dp), external:: LegendrePolynomial
-        real(dp), external:: LegendrePolynomialDerivative
+            real(dp) :: LPoly
 
-        real(dp):: root
+            if (n==0) then
+                LPoly = 0
+            else if (n==1) then
+                LPoly = 1
+            else
+                LPoly = real(2*n - 1)/(n - 1) * x * LegendrePolynomialDerivative(x, n-1) &
+                        - real(n)/(n - 1) * LegendrePolynomialDerivative(x, n-2)
+            end if
+        end function LegendrePolynomialDerivative
 
-        x = -cos((real(2*i - 1)/(2*n))*PI)
+        function LegendrePolynomialRoot(n, i) result(root)
+            integer, intent(in) :: n
+            integer, intent(in) :: i
+            real(dp) :: x
 
-        do while (abs(LegendrePolynomial(x, n)) >= 1e-5)
-            x = x - LegendrePolynomial(x, n)/LegendrePolynomialDerivative(x, n)
-        end do
+            !real(dp), external :: LegendrePolynomial
+            !real(dp), external :: LegendrePolynomialDerivative
 
-        root = x
-    end function LegendrePolynomialRoot
+            real(dp) :: root
+
+            x = -cos((real(2*i - 1)/(2*n))*PI)
+
+            do while (abs(LegendrePolynomial(x, n)) >= 1e-5)
+                x = x - LegendrePolynomial(x, n)/LegendrePolynomialDerivative(x, n)
+            end do
+
+            root = x
+        end function LegendrePolynomialRoot
 end module quadrature
+
+program test
+
+end program test

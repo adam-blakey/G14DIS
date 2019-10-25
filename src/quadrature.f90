@@ -2,14 +2,23 @@ module quadrature
     use parameters
     implicit none
 
+    !interface functionArguments
+    !    subroutine singleArguementDP(real(dp) x)
+    !        use parameters
+    !    end subroutine
+    !end interface
+
     contains
         function GaussLegendreQuadrature(f, n)
-            real(dp), external :: LegendrePolynomialDerivative, LegendrePolynomialRoot
+        !function GaussLegendreQuadrature(f_ptr, n)
+            !real(dp), external :: LegendrePolynomialDerivative, LegendrePolynomialRoot
 
             integer, intent(in) :: n
             real(dp) :: GaussLegendreQuadrature
+            !procedure(singleArguementDP) :: f_ptr
             interface inputFunction
                 function f(x)
+                    import
                     real(dp) :: f
                     real(dp), intent(in) :: x
                 end function
@@ -63,7 +72,7 @@ module quadrature
             end if
         end function LegendrePolynomialDerivative
 
-        function LegendrePolynomialRoot(n, i) result(root)
+        function LegendrePolynomialRoot(n, i)
             integer, intent(in) :: n
             integer, intent(in) :: i
             real(dp) :: x
@@ -71,7 +80,7 @@ module quadrature
             !real(dp), external :: LegendrePolynomial
             !real(dp), external :: LegendrePolynomialDerivative
 
-            real(dp) :: root
+            real(dp) :: LegendrePolynomialRoot
 
             x = -cos((real(2*i - 1)/(2*n))*PI)
 
@@ -79,10 +88,6 @@ module quadrature
                 x = x - LegendrePolynomial(x, n)/LegendrePolynomialDerivative(x, n)
             end do
 
-            root = x
+            LegendrePolynomialRoot = x
         end function LegendrePolynomialRoot
 end module quadrature
-
-program test
-
-end program test

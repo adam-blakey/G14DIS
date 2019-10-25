@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+			"path": "src"
+		},
+		{
+			"path": ".",
+			"folder_exclude_patterns": ["/*"],
+			"file_include_patterns": ["Makefile"]
+}
+	]
+}

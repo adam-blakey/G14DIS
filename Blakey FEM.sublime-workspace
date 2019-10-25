@@ -1,0 +1,1674 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Lege",
+				"LegendrePolynomial"
+			],
+			[
+				"Legen",
+				"LegendrePolynomialDerivative"
+			],
+			[
+				"excepti",
+				"exception\tstandard header"
+			],
+			[
+				"exce",
+				"exception\tstandard header"
+			],
+			[
+				"stdlib",
+				"cstdlib\tstandard header"
+			],
+			[
+				"aVe",
+				"aVector2"
+			],
+			[
+				"vec",
+				"vector2"
+			],
+			[
+				"vecto",
+				"vector2"
+			],
+			[
+				"veco",
+				"vector2"
+			],
+			[
+				"ran",
+				"randomElements"
+			],
+			[
+				"vec1",
+				"vector1"
+			],
+			[
+				"ve",
+				"vector1"
+			],
+			[
+				"de",
+				"deallocateVector"
+			],
+			[
+				"aM",
+				"aMatrix"
+			],
+			[
+				"matrix",
+				"matrixProduct"
+			],
+			[
+				"matri",
+				"matrixProduct"
+			],
+			[
+				"aMatr",
+				"aMatrixProduct"
+			],
+			[
+				"invers",
+				"inverseMatrix"
+			],
+			[
+				"inver",
+				"inverseMatrix"
+			],
+			[
+				"inv",
+				"inverseMatrix"
+			],
+			[
+				"sphin",
+				"sphinx_rtd_theme"
+			],
+			[
+				"Mon",
+				"MonteCarloPi"
+			],
+			[
+				"print",
+				"printNoIterations"
+			],
+			[
+				"Le",
+				"LegendrePolynomialRoot"
+			],
+			[
+				"mo",
+				"module"
+			],
+			[
+				"Lee",
+				"LegendrePolynomialRoots"
+			],
+			[
+				"myT",
+				"myTemperature1"
+			],
+			[
+				"temper",
+				"temperature"
+			],
+			[
+				"tempera",
+				"temperatureValue"
+			],
+			[
+				"temp",
+				"temperature"
+			],
+			[
+				"tmp",
+				"temperatureFInt"
+			],
+			[
+				"Cto",
+				"CtoFOffset"
+			],
+			[
+				"C",
+				"CtoFFactor"
+			],
+			[
+				"factorial",
+				"factorial_call"
+			],
+			[
+				"factor",
+				"factorial_call"
+			],
+			[
+				"FreeSpaceIn",
+				"FFreeSpaceInGB"
+			],
+			[
+				"Integer",
+				"IntegerField"
+			],
+			[
+				"FreeMr",
+				"FFreeMemoryInGB"
+			],
+			[
+				"author",
+				"author_name"
+			],
+			[
+				"dates",
+				"dates_updated"
+			],
+			[
+				"all",
+				"all_by_name_query"
+			],
+			[
+				"fundr",
+				"fundraising"
+			],
+			[
+				"random",
+				"random_date"
+			],
+			[
+				"da",
+				"dates_to_use"
+			],
+			[
+				"paid",
+				"paid"
+			],
+			[
+				"a",
+				"auto\tpointer-events"
+			],
+			[
+				"pr",
+				"processClick"
+			],
+			[
+				"trans",
+				"transition-property\tproperty"
+			],
+			[
+				"border",
+				"border-color\tproperty"
+			],
+			[
+				"padd",
+				"padding\tproperty"
+			],
+			[
+				"fo",
+				"font-family\tproperty"
+			],
+			[
+				"shado",
+				"box-shadow\tproperty"
+			],
+			[
+				"transit",
+				"transition-duration\tproperty"
+			],
+			[
+				"text",
+				"text-align\tproperty"
+			],
+			[
+				"list",
+				"list-style-type\tproperty"
+			],
+			[
+				"padding",
+				"padding-left\tproperty"
+			],
+			[
+				"anima",
+				"animation-direction\tproperty"
+			],
+			[
+				"animation-d",
+				"animation-duration\tproperty"
+			],
+			[
+				"eas",
+				"ease-in-out\tanimation-timing-function"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"transi",
+				"transition-property\tproperty"
+			],
+			[
+				"dot",
+				"dot"
+			],
+			[
+				"one",
+				"one"
+			],
+			[
+				"font",
+				"font-size\tproperty"
+			],
+			[
+				"inline",
+				"inline-block\tdisplay"
+			],
+			[
+				"isP",
+				"isPercentage2"
+			],
+			[
+				"m",
+				"multiply"
+			],
+			[
+				"opera",
+				"operationPressed"
+			],
+			[
+				"user_blowso",
+				"user_blowsoc_role"
+			],
+			[
+				"member",
+				"members"
+			],
+			[
+				"user_blow",
+				"user_blowsoc_role"
+			],
+			[
+				"user_blows",
+				"user_blowsoc_roles"
+			],
+			[
+				"user_blowsoc",
+				"user_blowsoc_roles_all"
+			],
+			[
+				"all_blow",
+				"all_blowsoc_roles"
+			],
+			[
+				"all_user",
+				"all_user_blowsoc_roles"
+			],
+			[
+				"hestia_team",
+				"hestia_team_section"
+			],
+			[
+				"movie",
+				"movie_categories"
+			],
+			[
+				"mvo",
+				"movie_categories"
+			],
+			[
+				"catego",
+				"movie_categories"
+			],
+			[
+				"erro",
+				"error_messages"
+			],
+			[
+				"page_",
+				"page_result"
+			],
+			[
+				"event",
+				"event_result"
+			],
+			[
+				"list-s",
+				"list-style-type\tproperty"
+			],
+			[
+				"email",
+				"email_address"
+			],
+			[
+				"database",
+				"database_connection"
+			],
+			[
+				"delet",
+				"delete_query"
+			],
+			[
+				"detle",
+				"delete_query"
+			],
+			[
+				"PASSWORD",
+				"PASSWORD_DEFAULT"
+			],
+			[
+				"pass",
+				"password_hashed"
+			],
+			[
+				"success",
+				"success_message"
+			],
+			[
+				"nu",
+				"number_of_rows"
+			],
+			[
+				"movie_query",
+				"movie_query_text"
+			],
+			[
+				"number",
+				"number_of_columns"
+			],
+			[
+				"mov",
+				"movie_query_text"
+			],
+			[
+				"background",
+				"background-color\tproperty"
+			],
+			[
+				"cate",
+				"category"
+			],
+			[
+				"categor",
+				"category_selected"
+			],
+			[
+				"movie_",
+				"movie_query_text"
+			],
+			[
+				"moi",
+				"movie_query"
+			],
+			[
+				"addi",
+				"additional_query"
+			],
+			[
+				"additi",
+				"additional_queries"
+			],
+			[
+				"add",
+				"additional_queries"
+			],
+			[
+				"additio",
+				"additional_query"
+			],
+			[
+				"curren",
+				"current_year"
+			],
+			[
+				"succ",
+				"success_message"
+			],
+			[
+				"ticket",
+				"ticket_query"
+			],
+			[
+				"error",
+				"error_message"
+			],
+			[
+				"user",
+				"user_event_query"
+			],
+			[
+				"end",
+				"end_timestamp"
+			],
+			[
+				"start",
+				"start_timestamp"
+			],
+			[
+				"row",
+				"rows_per_page"
+			],
+			[
+				"new",
+				"new_password"
+			],
+			[
+				"password_er",
+				"password_verify"
+			],
+			[
+				"update",
+				"update_query"
+			],
+			[
+				"err",
+				"error_messages_initially"
+			],
+			[
+				"data",
+				"database_connection"
+			],
+			[
+				"passwo",
+				"password_confirmation"
+			],
+			[
+				"datab",
+				"database_password"
+			],
+			[
+				"join",
+				"join_name"
+			],
+			[
+				"emai",
+				"email_address"
+			],
+			[
+				"paddn",
+				"padding-left\tproperty"
+			],
+			[
+				"full",
+				"full_events"
+			],
+			[
+				"next",
+				"next_month"
+			],
+			[
+				"res",
+				"related_events"
+			],
+			[
+				"php",
+				"php"
+			],
+			[
+				"events",
+				"events_to_show"
+			],
+			[
+				"move",
+				"movies_on_slider"
+			],
+			[
+				"movies_on",
+				"movies_on_bottom"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 314,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/quadrature.f90",
+			"settings":
+			{
+				"buffer_size": 2801,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "documentation/Doxygen/Doxyfile",
+			"settings":
+			{
+				"buffer_size": 112016,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "documentation/Doxygen/xml/index.xml",
+			"settings":
+			{
+				"buffer_size": 2603,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "documentation/Sphinx/conf.py",
+			"settings":
+			{
+				"buffer_size": 2098,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "documentation/Sphinx/index.rst",
+			"settings":
+			{
+				"buffer_size": 399,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/sphinx.sublime-build",
+			"settings":
+			{
+				"buffer_size": 886,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/Fortran Build.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/DoxyDoxygen/Doxy.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/DoxyDoxygen/Doxy.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Fortran/build-systems/GFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build Run.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build Run.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/Fortran Build Run.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/Fortran Build.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"Basic Builder - PdfLaTeX"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"Basic Builder"
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Chrome.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/sphinx.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					""
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/sphinx.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					""
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/sphinx.sublime-build",
+					"and Doxygen"
+				]
+			],
+			[
+				"Packages/User/sphinx.sublime-build",
+				"and Doxygen"
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/Fortran Build Run.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build Run.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/Fortran Build Run.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Fortran Build.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/Fortran Build.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"edit",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"packageresource",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"packagere",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"sublime",
+				"SublimeHighlight: view as RTF"
+			],
+			[
+				"latext",
+				"LaTeXTools: Build cache of LaTeX packages"
+			],
+			[
+				"latex",
+				"LaTeXTools: Check system"
+			],
+			[
+				"latextools",
+				"LaTeXTools: Check system"
+			],
+			[
+				"",
+				"LaTeXTools: Check system"
+			],
+			[
+				"packageresour",
+				"PackageResourceViewer: Open Resource"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 157.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src"
+	],
+	"file_history":
+	[
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/parameters.f90",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test.f90",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/quadrature.f90",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/Blakey FEM.sublime-project",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Function Passing.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Difference-Equations.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Binet.tex",
+		"/C/Users/Adam/Desktop/status.html",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Doxygen/xml/index.xml",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/README.md",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/docs/Doxyfile",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/conf.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/test.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/index.rst",
+		"/C/Users/Adam/src/cakephpsphinx/setup.py",
+		"/C/Users/Adam/src/cakephpsphinx/cakephpsphinx/config/all.py",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/sphinx.sublime-build",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/source/conf.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/source/parameters.rst",
+		"/C/Python38/Lib/site-packages/sphinx/util/compat.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/source/index.rst",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test20191017/docs/md_all.srt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test20191017/docs/index.rst",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test20191017/docs/conf.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test20191017/src/md_gprof.f90",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/requirements.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES3/14.cpp",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/C++/C.sublime-syntax",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/C++/Comments (C++).tmPreferences",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/PackageResourceViewer.sublime-settings",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES3/13.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES2/9.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES3/12.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES3/11.cpp",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/Fortran Build.sublime-build",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/Chrome.sublime-build",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/OmniMarkupPreviewer/OmniMarkupPreviewer.sublime-settings",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/.gitignore",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Function Passing",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/parameters.mod",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ProjectEuler/test1.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ProjectEuler/FallingDown.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES1/5.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES2/8.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES2/7a.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES2/7.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES2/5a.cpp",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/Fortran Build Run.sublime-build",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/2b.f03",
+		"/C/Users/Adam/Fortran/CW1/2a.f03",
+		"/C/Users/Adam/Fortran/CW1/1c.f03",
+		"/C/Users/Adam/Fortran/CW1/1a.f03",
+		"/C/Users/Adam/Fortran/CW1/2b.f03",
+		"/C/Users/Adam/Downloads/Your new look Blowsoc email! (1).eml",
+		"/C/Users/Adam/Downloads/calendar (1).ics",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/CW1/1a.f03",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES1/3b.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/ES1/1a.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/factorial.f03",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/inverse_sine.f03",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/type_confusion.f03",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/roots.f03",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/expressions.f03",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Installed Packages/Fortran.sublime-package",
+		"/C/Users/Adam/Fortran/ES1/factorial.f03",
+		"/C/Users/Adam/Fortran/ES1/inverse_sine.f03",
+		"/C/Users/Adam/Downloads/su-website-demo-template.html",
+		"/C/Users/Adam/Fortran/ES1/hello_world.f03",
+		"/C/Users/Adam/Desktop/circle.f03",
+		"/C/Users/Adam/Desktop/derived_type_example.f03",
+		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
+		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/20190911-PatrickComments.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Delphi Debugging on Android and iOS Guide.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Why Delphi is Less Good than Great.txt",
+		"/C/Users/Adam/Desktop/test.f03",
+		"/C/Users/Adam/Downloads/calendar.ics",
+		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Things I did to help get Dave's push notification",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/Base Representation of Numbers.tex",
+		"/C/SVNSeattle/WebTrack/Logs/DevLog.txt",
+		"/C/OscarDevServerLogs/OscarDevLog.txt",
+		"/C/OscarDevServerLogs/OscarDevLog - Copy.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/SUMS.preamble.tex",
+		"/C/SVNSeattle/Oscar/Bin/Logs/OscarClientLog.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/Base Representation of Numbers.log",
+		"/C/SVNSeattle/20190912-1758-UtilityUnit.patch",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 3/G14PJS/Report Files/main.tex",
+		"/C/SVNSeattle/20190912-1753-UtilityUnit.patch",
+		"/C/SVNSeattle/Oscar/API/APIUnit - 20190911.pas",
+		"/C/SVNSeattle/20190911-1237-SocketUnit.patch",
+		"/C/SVNSeattle/Oscar/API/APISharedUnit - 20190911.pas",
+		"/C/Oscar/OscarAdamTheatre/Logs/ServerLog_.txt",
+		"/C/Oscar/OscarAdamTheatre/Bin/Logs/OscarClientLog.txt",
+		"/C/SVNSeattle/Common/SocketUnit.pas",
+		"/C/Users/Adam/Downloads/ServerInfoForm.pas",
+		"/C/Users/Adam/AppData/Local/Temp/Rar$DIa10780.7665/OFL.txt",
+		"/C/Oscar/OscarAdamTheatre/Logs/OscarAPILog.txt",
+		"/C/SVNSeattle/20190906UtilityUnit-JSONableAdam.patch",
+		"/C/Oscar/OscarAdamTheatre/Logs/WebLog.txt",
+		"/C/Oscar/OscarAdamTheatre/Logs/ServerLog.txt",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/template-parts/content-page.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/page-templates/template-event.php",
+		"/C/Users/Adam/Desktop/ReadMe.txt",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/inc/views/blog/class-hestia-header-layout-manager.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/the-events-calendar/src/functions/template-tags/general.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/the-events-calendar/src/views/single-event.php",
+		"/C/SVNSeattle/AdamTheatre/Adam/JSONTest.pas",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/akismet/.htaccess",
+		"/C/SVNSeattle/Marvin/Logs/DevLog.txt",
+		"/C/Users/Adam/Documents/Embarcadero/Studio/Projects/Win32/Debug/log.txt",
+		"/C/SVNSeattle/AdamTheatre/WebServer/WebUnit.pas",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/the-events-calendar/the-events-calendar.php",
+		"/C/SVNSeattle/Oscar/WebServer/CinemaTemplateV3/CinemaTemplateV3WidgetUnit.pas",
+		"/C/Users/Adam/AppData/Local/Temp/fz3temp-2/index.php",
+		"/C/Users/Adam/Desktop/delete_me.xml",
+		"/C/Users/Adam/Desktop/dm.xml",
+		"/C/Users/Adam/Downloads/Unit1.pas",
+		"/C/Oscar/Logs/OscarClientLog.txt",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/the-events-calendar/src/views/modules/meta/venue.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/plugins/the-events-calendar/src/views/modules/meta.php",
+		"/C/Users/Adam/Desktop/ToPNG.jsx",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/readme.txt",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/page.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/template-parts/content-single.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/page-templates/template-fullwidth.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/inc/views/main/class-hestia-header.php",
+		"/C/Users/Adam/Blakey Cloud/Blowsoc/Website/New/wp-content/themes/hestia/page-templates/template-event-old.php"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 205.0,
+		"where_history":
+		[
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins\\the-events-calendar,C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\themes\\hestia",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins\\the-events-calendar",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\themes\\hestia",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\Hestia",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\themes\\hestia",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins\\the-events-calendar",
+			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\themes\\hestia",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"program",
+			"module",
+			"legendrepolynomialroot",
+			"legendrepolynomialroot_",
+			"LPoly",
+			"root",
+			"png",
+			"your netdata server",
+			"registry.my-netdata.io",
+			"cakephpsphinx",
+			"../../../",
+			"../../../\n",
+			"file_pattern",
+			"BlakeyFEM",
+			"xml",
+			"input",
+			"project_name",
+			"pattern",
+			"\\",
+			"file",
+			"\\",
+			"concert-band",
+			"Concert Band",
+			"y",
+			"user",
+			"class",
+			"source.c",
+			"(",
+			"matrixResult",
+			"inverseMatrix",
+			"matrix",
+			"matrixPtr",
+			"answer",
+			"GaussLegendreQuadrature",
+			"::",
+			"LegendrePolynomialDerivative",
+			"LegendrePolynomialRootsDriver",
+			"LegendrePolynomialRootDriver",
+			"LegendrePolynomialRoots",
+			"LegendrePolynomialDerivativeDriver",
+			"LegendrePolynomialRoots",
+			")\n",
+			"LegendrePolynomialDriver",
+			"LegendrePolynomial",
+			"ndrePolynomial",
+			"x",
+			"a",
+			"CtoFFactor",
+			"tostring",
+			"std::",
+			"\"font-weight: bold",
+			" bold",
+			"5",
+			"verdana",
+			"2e3f77",
+			"factorial_call",
+			"type_confusion",
+			"python",
+			"\t",
+			"arithmetic",
+			"Ollie",
+			"Jenson",
+			"Jake",
+			"Tom",
+			"William",
+			"Linden",
+			"Josiah",
+			"Joseph",
+			"Billy",
+			"Reuben",
+			"Amani",
+			"Tristan",
+			"[JSONable]",
+			"adamhere",
+			"join",
+			"adamhere",
+			"adamadamadam error",
+			"error",
+			"adamadamadam",
+			"committed",
+			"programme",
+			"adamadamadam end",
+			"adamadamadam",
+			"blob_",
+			"adamadamadam",
+			"\\section",
+			" on ",
+			"on",
+			"use",
+			"42601",
+			"use",
+			"conditional",
+			"join",
+			"condition",
+			"programme",
+			"webrequest",
+			"populatefromiis",
+			"X",
+			"penandpaper",
+			"sidenote",
+			"?\n",
+			"rgb",
+			"headings",
+			"empty",
+			"logo.png",
+			"PASS+",
+			"exit",
+			"aGUID",
+			"VenueCode",
+			"if",
+			"IF",
+			"if",
+			"adamadam",
+			"adamadama",
+			"adamadam",
+			"adamadamadam",
+			"NewPerformance",
+			"aPerformance",
+			"GetPerformanceMsg.Performances.Items[I]",
+			"    F",
+			"F",
+			"    [JSONable] property F",
+			"    F",
+			"\tF",
+			"F",
+			"Flag",
+			"String",
+			"NewPerformance.PerformanceString"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"beta.blowsoc.com",
+			"bear in mind",
+			"64B5F6",
+			"1976D2",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								235,
+								235
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 10,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/quadrature.f90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2801,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 0,
+							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "documentation/Doxygen/Doxyfile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 112016,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								95115,
+								95115
+							]
+						],
+						"settings":
+						{
+							"SL.68.region_keys":
+							[
+							],
+							"function_name_status_row": 2173,
+							"syntax": "Packages/DoxyDoxygen/INI.tmLanguage",
+							"tab_size": 5,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 45266.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "documentation/Doxygen/xml/index.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2603,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								454,
+								454
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 5,
+							"syntax": "Packages/XML/XML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "documentation/Sphinx/conf.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2098,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1544,
+								1544
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 42,
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 300.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "documentation/Sphinx/index.rst",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 399,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								218,
+								218
+							]
+						],
+						"settings":
+						{
+							"SL.72.region_keys":
+							[
+							],
+							"function_name_status_row": 11,
+							"syntax": "Packages/RestructuredText/reStructuredText.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/sphinx.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 886,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								886,
+								886
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 17,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 45.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 178.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 156.0
+	},
+	"pinned_build_system": "",
+	"project": "Blakey FEM.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 267.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

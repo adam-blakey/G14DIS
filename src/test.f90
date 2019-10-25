@@ -1,7 +1,3 @@
-function adam()
-
-end function
-
 program test
     use quadrature
     implicit none

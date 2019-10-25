@@ -9,6 +9,10 @@ Welcome to Blakey FEM's documentation!
    :project: BlakeyFEM
    :members:
 
+.. doxygennamespace:: quadrature
+   :project: BlakeyFEM
+   :members:
+
 .. autosummary::
     :toctree: ./
 

@@ -11,7 +11,6 @@ module quadrature
     contains
         function GaussLegendreQuadrature(f, n)
         !function GaussLegendreQuadrature(f_ptr, n)
-            !real(dp), external :: LegendrePolynomialDerivative, LegendrePolynomialRoot
 
             integer, intent(in) :: n
             real(dp) :: GaussLegendreQuadrature
@@ -55,8 +54,6 @@ module quadrature
         end function LegendrePolynomial
 
         recursive function LegendrePolynomialDerivative(x, n) result(LPoly)
-            !real(dp), external :: LegendrePolynomial
-
             integer, intent(in) :: n
             real(dp), intent(in) :: x
 
@@ -77,9 +74,6 @@ module quadrature
             integer, intent(in) :: i
             real(dp) :: x
 
-            !real(dp), external :: LegendrePolynomial
-            !real(dp), external :: LegendrePolynomialDerivative
-
             real(dp) :: LegendrePolynomialRoot
 
             x = -cos((real(2*i - 1)/(2*n))*PI)
@@ -90,4 +84,36 @@ module quadrature
 
             LegendrePolynomialRoot = x
         end function LegendrePolynomialRoot
+
+        function Thomas(a, b, c, d, n)
+            integer,                  intent(in) :: n
+            real(dp), dimension(n),   intent(in) :: a
+            real(dp), dimension(n),   intent(in) :: b
+            real(dp), dimension(n-1), intent(in) :: c
+            real(dp), dimension(n),   intent(in) :: d
+
+            real(dp), dimension(n) :: Thomas
+
+            real(dp), dimension(n-1) :: c_
+            real(dp), dimension(n)   :: d_
+
+            integer :: i
+
+            c_(1) = c(1)/b(1)
+            do i = 2, n
+                c_(i) = c(i)/(b(i) - c_(i-1)*a(i))
+            end do
+
+            d_(1) = d(1)/b(1)
+            do i = 2, n
+                d_(i) = (d(i) - d_(i-1)*a(i))/(b(i) - c_(i-1)*a(i))
+            end do
+
+            Thomas(n) = d_(n)
+            do i = n-1, 1, -1
+                Thomas(i) = d_(i) - c_(i)*Thomas(i+1)
+            end do
+
+        end function Thomas
+
 end module quadrature

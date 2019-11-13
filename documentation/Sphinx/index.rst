@@ -13,6 +13,10 @@ Welcome to Blakey FEM's documentation!
    :project: BlakeyFEM
    :members:
 
+.. doxygennamespace:: finiteDifference
+   :project: BlakeyFEM
+   :members:
+
 .. autosummary::
     :toctree: ./
 

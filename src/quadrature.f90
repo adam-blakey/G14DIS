@@ -9,19 +9,21 @@ module quadrature
     !end interface
 
     contains
-        function GaussLegendreQuadrature(f, n)
-        !function GaussLegendreQuadrature(f_ptr, n)
-
+        !function GaussLegendreQuadrature(f, n)
+        function GaussLegendreQuadrature(f_ptr, n)
             integer, intent(in) :: n
             real(dp) :: GaussLegendreQuadrature
-            !procedure(singleArguementDP) :: f_ptr
-            interface inputFunction
-                function f(x)
+            !procedure(singleArguementDP) :: f_ptr#
+
+            abstract interface
+                function func(x)
                     import
-                    real(dp) :: f
+                    real(dp) :: func
                     real(dp), intent(in) :: x
                 end function
-            end interface inputFunction
+            end interface
+
+            procedure(func), pointer, intent(in) :: f_ptr
 
             real(dp) :: weight
             integer :: i
@@ -34,7 +36,7 @@ module quadrature
             do i = 1, n
                 x = LegendrePolynomialRoot(n, i)
                 weight = real(2)/((1-x**2)*(LegendrePolynomialDerivative(x, n))**2)
-                GaussLegendreQuadrature = GaussLegendreQuadrature + weight * f(x)
+                GaussLegendreQuadrature = GaussLegendreQuadrature + weight * f_ptr(x)
             end do
         end function GaussLegendreQuadrature
 
@@ -84,36 +86,5 @@ module quadrature
 
             LegendrePolynomialRoot = x
         end function LegendrePolynomialRoot
-
-        function Thomas(a, b, c, d, n)
-            integer,                  intent(in) :: n
-            real(dp), dimension(n),   intent(in) :: a
-            real(dp), dimension(n),   intent(in) :: b
-            real(dp), dimension(n-1), intent(in) :: c
-            real(dp), dimension(n),   intent(in) :: d
-
-            real(dp), dimension(n) :: Thomas
-
-            real(dp), dimension(n-1) :: c_
-            real(dp), dimension(n)   :: d_
-
-            integer :: i
-
-            c_(1) = c(1)/b(1)
-            do i = 2, n
-                c_(i) = c(i)/(b(i) - c_(i-1)*a(i))
-            end do
-
-            d_(1) = d(1)/b(1)
-            do i = 2, n
-                d_(i) = (d(i) - d_(i-1)*a(i))/(b(i) - c_(i-1)*a(i))
-            end do
-
-            Thomas(n) = d_(n)
-            do i = n-1, 1, -1
-                Thomas(i) = d_(i) - c_(i)*Thomas(i+1)
-            end do
-
-        end function Thomas
 
 end module quadrature

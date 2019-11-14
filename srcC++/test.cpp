@@ -1,10 +1,66 @@
+#include "common.cpp"
 #include "linearSystems.cpp"
 #include "quadrature.cpp"
+#include "interpolation.cpp"
 #include <cmath>
 #include <functional>
 #include <iostream>
 
 using namespace std;
+
+double basis0(const double x)
+{
+	if (0 <= x && x <= 1)
+		return 1-x;
+	else
+		return 0;
+}
+
+double basis1(const double x)
+{
+	if (0 <= x && x <= 1)
+		return x;
+	else
+		return 0;
+}
+
+double linearInterpolate(const int n, const double solutions[], const double x)
+{
+	/*double h = double(2)/n;
+
+	int i = floor(x/h);
+
+	return constantMultiplyFunction(solutions[i], basis1);*/
+
+	assert(-1 <= x && x <= 1);
+
+	double h = double(2)/(n-1);
+
+	bool foundRange = false;
+	int i = 0;
+	double node1, node2;
+	while(!foundRange && i<n-1)
+	{
+		node1 = -1 + i*h;
+		node2 = -1 + (i+1)*h;
+
+		if (node1 <= x && x <= node2)
+			foundRange = true;
+
+		++i;
+	}
+
+	//function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis0((x - node1)/h));
+	//function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis1((x - node1)/h));
+	function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis0);
+	function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis1);
+
+	return addFunction(f1, f2)(x);
+
+
+
+	
+}
 
 double u(double x)
 {
@@ -49,6 +105,7 @@ int main()
 
 		thomasInvert(n, a, b, c, d, sol);
 
+		/*
 		double node;
 		double* errors2 = new double[n];
 		for (int i=0; i<n; ++i)
@@ -65,6 +122,19 @@ int main()
 		lastNorm = integral;
 
 		delete[] errors2;
+		*/
+
+		//cout << linearInterpolate(n, sol, 0.5) << endl;
+
+		//cout << basisL2Norm(n, u);
+
+
+
+
+
+
+
+
 
 		delete[] sol;
 		delete[] d;

@@ -27,44 +27,40 @@ using namespace std;
  *$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
 /******************************************************************************
- * basis0_
- * 
- * @details    Returns the derivative of \phi_0 for a global h.
- *
- * @param[in] h 	Global h.
- ******************************************************************************/
-
-double basis0_(const double h);
-
-/******************************************************************************
  * basis1_
  * 
- * @details    Returns the derivative of \phi_1 for a global h.
- *
- * @param[in] h 	Global h.
+ * @details    Returns the derivative of \phi_0.
  ******************************************************************************/
 
-double basis1_(const double h);
+double basis1_();
 
 /******************************************************************************
- * basis0
+ * basis2_
+ * 
+ * @details    Returns the derivative of \phi_1.
+ ******************************************************************************/
+
+double basis2_();
+
+/******************************************************************************
+ * basis1
  * 
  * @details    Returns the value of \phi_0 at x.
  *
  * @param[in] x 	The point to evaluate at.
  ******************************************************************************/
 
-double basis0(const double x);
+double basis1(const double x);
 
 /******************************************************************************
- * basis1
+ * basis2
  * 
  * @details    Returns the value of \phi_1 at x.
  *
  * @param[in] x 	The point to evaluate at.
  ******************************************************************************/
 
-double basis1(const double x);
+double basis2(const double x);
 
 /******************************************************************************
  * l
@@ -124,29 +120,82 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 			                                                  
  *$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
-/******************************************************************************
- * basis0_
- ******************************************************************************/
 
-double basis0_(const double h)
+
+
+
+
+function<double(double)> linearInterpolate(const int n, const double solutions[], const double x)
 {
-	return -double(1)/h;
+	/*double h = double(2)/n;
+
+	int i = floor(x/h);
+
+	return constantMultiplyFunction(solutions[i], basis2);*/
+
+	assert(-1 <= x && x <= 1);
+
+	double h = double(2)/(n-1);
+
+	bool foundRange = false;
+	int i = 0;
+	double node1, node2;
+	while(!foundRange && i<n-1)
+	{
+		node1 = -1 + i*h;
+		node2 = -1 + (i+1)*h;
+
+		if (node1 <= x && x <= node2)
+			foundRange = true;
+
+		++i;
+	}
+
+	//function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis1((x - node1)/h));
+	//function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis2((x - node1)/h));
+	function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis1);
+	function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis2);
+
+	return addFunction(f1, f2);
+
+
+
+	
 }
+
+
+
+
+
+
+
+
+
+
 
 /******************************************************************************
  * basis1_
  ******************************************************************************/
 
-double basis1_(const double h)
+double basis1_()
 {
-	return double(1)/h;
+	return -1;
 }
 
 /******************************************************************************
- * basis0
+ * basis2_
  ******************************************************************************/
 
-double basis0(const double x)
+double basis2_()
+{
+	return 1;
+}
+
+/******************************************************************************
+ * basis1
+ ******************************************************************************/
+
+double basis1(const double x)
 {
 	if (0 <= x && x <= 1)
 		return 1-x;
@@ -155,10 +204,10 @@ double basis0(const double x)
 }
 
 /******************************************************************************
- * basis1
+ * basis2
  ******************************************************************************/
 
-double basis1(const double x)
+double basis2(const double x)
 {
 	if (0 <= x && x <= 1)
 		return x;
@@ -184,12 +233,12 @@ double l(int j, int node1Index, double node1, double node2, function<double(doub
 		node = node1 + h_*a;
 
 		if (j == node1Index)
-			fValues[a] = f(node)*basis1((node - node1)/h);
+			fValues[a] = f(node)*basis2((node - node1)/h)*h;
 		else
-			fValues[a] = f(node)*basis0((node - node1)/h);
+			fValues[a] = f(node)*basis1((node - node1)/h)*h;
 	}
 
-	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.
+	return trapeziumRule(n, fValues, h)*h; // Does integration on reference element.
 
 	delete[] fValues;
 }
@@ -207,22 +256,21 @@ double a(int i, int j, int node1Index, double node1, double node2, function<doub
 	double h  = node2 - node1; ///< Global h.
 	double h_ = (node2-node1)/(n-1); ///< Local h for creating our sub-elements.
 
-	// Scale for h?????????
 	for (int a=0; a<n; ++a)
 	{
 		nodes[a] = node1 + h_*a;
 		if (i==j)
 		{
 			if (i==node1Index)
-				fValues[a] = p(nodes[a])*basis1_(h)*basis1_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+				fValues[a] = p(nodes[a])*basis2_()*basis2_()/h + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis2((nodes[a] - node1)/h)*h;
 			else
-				fValues[a] = p(nodes[a])*basis0_(h)*basis0_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+				fValues[a] = p(nodes[a])*basis1_()*basis1_()/h + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h)*h;
 		}
 		else
-			fValues[a] = p(nodes[a])*basis1_(h)*basis0_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+			fValues[a] = p(nodes[a])*basis2_()*basis1_()/h + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h)*h;
 	}
 
-	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.
+	return trapeziumRule(n, fValues, h)*h; // Does integration on reference element.
 
 	delete[] fValues;
 	delete[] nodes;
@@ -258,6 +306,22 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 		// *******************************************************
 		// Loops over both adjacent nodes twice (nested loop).
 		// *******************************************************
+		for (int j=meshCounter; j<=meshCounter+1; ++j)
+		{
+			F[j] += l(j, meshCounter, meshLeft, meshRight, f); 
+
+			for (int i=meshCounter; i<=meshCounter+1; ++i)
+			{
+				if (j<i)
+					A1[j] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+				else if (j==i)
+					A2[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+				else
+					A3[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+			}		
+		}
+
+		// *******************************************************
 		// Here's an example of the numbering used...
 		// -------------------------------------------------------
 		// 
@@ -286,23 +350,7 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 		// 
 		// So element 2 is neighboured by nodes 2 and 3.
 		// *******************************************************
-		for (int j=meshCounter; j<=meshCounter+1; ++j)
-		{
-			F[j] += l(j, meshCounter, meshLeft, meshRight, f); 
-
-			for (int i=meshCounter; i<=meshCounter+1; ++i)
-			{
-				if (j<i)
-					A1[j] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
-				else if (j==i)
-					A2[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
-				else
-					A3[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
-			}		
-		}
 	}
-
-	
 
 	// **************************************************************************
 	// We know the solution at the end points, so reduce the problem accordingly.
@@ -341,36 +389,6 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 	// Zeros (n-1)th column and makes diagonal entry 1.
 	A2[n-1] = 1;
 	A3[n-2] = 0;
-
-
-
-
-
-	// TODO - FOR DEBUGGING!
-	/*for (int i=0; i<n-1; ++i)
-	{
-		cout << "A1_" << i << ": " << A1[i] << endl;
-	}
-	cout << endl;
-	for (int i=0; i<n; ++i)
-	{
-		cout << "A2_" << i << ": " << A2[i] << endl;
-	}
-	cout << endl;
-	for (int i=0; i<n-1; ++i)
-	{
-		cout << "A3_" << i << ": " << A3[i] << endl;
-	}
-	cout << endl;
-	for (int i=0; i<n; ++i)
-	{
-		cout << "F_" << i << ": " << F[i] << endl;
-	}
-	cout << endl;*/
-
-
-
-
 
 	// ***************************************
 	// Inverts the reduced tridiagonal matrix.

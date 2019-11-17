@@ -1,7 +1,7 @@
 FC = gfortran
 FFLAGS = -DARPACK -DMETIS_5_64 -DMUMPS -DDebug -DSPARSKIT -fbounds-check
 
-mainsources = src/quadrature.f90
+mainsources = src/quadrature.f90 src/linearSystems.f90
 
 test:
 	$(FC) $(FFLAGS) -o build/$@.out src/test.f90 $(mainsources) -J build

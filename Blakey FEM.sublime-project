@@ -5,9 +5,33 @@
 			"path": "src"
 		},
 		{
-			"path": ".",
-			"folder_exclude_patterns": ["/*"],
-			"file_include_patterns": ["Makefile"]
-}
+			"file_include_patterns":
+			[
+				"Makefile"
+			],
+			"folder_exclude_patterns":
+			[
+				"/*"
+			],
+			"path": "."
+		},
+		{
+			"file_include_patterns":
+			[
+				"documentation/Sphinx/index.rst"
+			],
+			"folder_exclude_patterns":
+			[
+				"documentation/Breathe",
+				"documentation/Doxygen",
+				"documentation/Sphinx/_build",
+				"documentation/Sphinx/_static",
+				"documentation/Sphinx/_templates"
+			],
+			"path": "documentation"
+		},
+		{
+			"path": "srcC++"
+		}
 	]
 }

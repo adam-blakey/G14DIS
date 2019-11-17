@@ -20,12 +20,6 @@ void setToZero(const int n, double array[])
 	}
 }
 
-template <class F, class G>
-decltype(auto) composeFunction(F&& f, G&& g)
-{
-	return [=](auto x) { return f(g(x)); };
-}
-
 function<double(double)> transformFunction(function<double(double)> f, double xj, double xjp1)
 {
 	//return [=](double x)->double{ return f(((x + 1)/2 + xj)*(xjp1 - xj)); };
@@ -36,12 +30,6 @@ function<double(double)> addFunction(function<double(double)> f, function<double
 {
 	return [=](double x)->double{ return f(x) + g(x); };
 }
-
-/*template <class F, class G>
-decltype(auto) multiplyFunction(F&& f, G&& g)
-{
-	return [&](auto x) { return f(x) * g(x); };
-}*/
 
 function<double(double)> multiplyFunction(function<double(double)> f, function<double(double)> g)
 {

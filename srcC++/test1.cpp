@@ -59,6 +59,7 @@ double solutionL2Norm(const int n, const double solution[], function<double(doub
 {
 	double norm = 0;
 
+	double node1, node2;
 	double h = double(2)/(n-1);
 	function<double(double)> u_;
 	function<double(double)> error;
@@ -67,15 +68,17 @@ double solutionL2Norm(const int n, const double solution[], function<double(doub
 	// Loops over each element.
 	for (int i=0; i<n-1; ++i)
 	{
+		node1 = -1 + h*i;
+		node2 = node1 + h;
 		u_ = addFunction(constantMultiplyFunction(solution[i], basis1), constantMultiplyFunction(solution[i+1], basis2));
-		error = addFunction(transformFunction(u, -1+h*i, -1+h*(i+1)), constantMultiplyFunction(-1, u_));
+		error = addFunction(transformFunction(u, node1, node2), constantMultiplyFunction(-1, u_));
 		error2 = multiplyFunction(error, error);
-		norm += gaussLegendreQuadrature(error2, n)*h;
+		norm += gaussLegendreQuadrature(error2, n)*(node2-node1)/2;
 		//cout << "x = " << -1+h*i << " " << error(-1) << " " << error(0) << " " << error(1) << endl;
 		//for (int j=0; j<100; ++j)
 			//cout << "WOW" << j << " " << solution[i] << " " << solution[i+1] << " " << u_(-1+j*double(2)/99) << " " << u(-1+h*i+j*h*double(1)/(99)) << endl;
 			//cout << "WOW" << j << " " << solution[i] << " " << solution[i+1] << " " << u_(-1+j*double(2)/99) << " " << transformFunction(u, -1+h*i, -1+h*(i+1))(-1+j*double(2)/99) << endl;
-		//cout << "WOW: " << gaussLegendreQuadrature(error2, n)*h << endl;
+		cout << "WOW: " << gaussLegendreQuadrature(error2, n)*(node2-node1)/2 << endl;
 	}
 
 	return sqrt(norm);

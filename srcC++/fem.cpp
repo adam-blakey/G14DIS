@@ -27,19 +27,9 @@ using namespace std;
  *$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
 /******************************************************************************
- * basis0_
- * 
- * @details    Returns the derivative of \phi_0 for a global h.
- *
- * @param[in] h 	Global h.
- ******************************************************************************/
-
-double basis0_(const double h);
-
-/******************************************************************************
  * basis1_
  * 
- * @details    Returns the derivative of \phi_1 for a global h.
+ * @details    Returns the derivative of \phi_0 for a global h.
  *
  * @param[in] h 	Global h.
  ******************************************************************************/
@@ -47,24 +37,34 @@ double basis0_(const double h);
 double basis1_(const double h);
 
 /******************************************************************************
- * basis0
+ * basis2_
+ * 
+ * @details    Returns the derivative of \phi_1 for a global h.
+ *
+ * @param[in] h 	Global h.
+ ******************************************************************************/
+
+double basis2_(const double h);
+
+/******************************************************************************
+ * basis1
  * 
  * @details    Returns the value of \phi_0 at x.
  *
  * @param[in] x 	The point to evaluate at.
  ******************************************************************************/
 
-double basis0(const double x);
+double basis1(const double x);
 
 /******************************************************************************
- * basis1
+ * basis2
  * 
  * @details    Returns the value of \phi_1 at x.
  *
  * @param[in] x 	The point to evaluate at.
  ******************************************************************************/
 
-double basis1(const double x);
+double basis2(const double x);
 
 /******************************************************************************
  * l
@@ -125,28 +125,28 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
  *$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
 /******************************************************************************
- * basis0_
- ******************************************************************************/
-
-double basis0_(const double h)
-{
-	return -double(1)/h;
-}
-
-/******************************************************************************
  * basis1_
  ******************************************************************************/
 
 double basis1_(const double h)
 {
+	return -double(1)/h;
+}
+
+/******************************************************************************
+ * basis2_
+ ******************************************************************************/
+
+double basis2_(const double h)
+{
 	return double(1)/h;
 }
 
 /******************************************************************************
- * basis0
+ * basis1
  ******************************************************************************/
 
-double basis0(const double x)
+double basis1(const double x)
 {
 	if (0 <= x && x <= 1)
 		return 1-x;
@@ -155,10 +155,10 @@ double basis0(const double x)
 }
 
 /******************************************************************************
- * basis1
+ * basis2
  ******************************************************************************/
 
-double basis1(const double x)
+double basis2(const double x)
 {
 	if (0 <= x && x <= 1)
 		return x;
@@ -184,9 +184,9 @@ double l(int j, int node1Index, double node1, double node2, function<double(doub
 		node = node1 + h_*a;
 
 		if (j == node1Index)
-			fValues[a] = f(node)*basis1((node - node1)/h);
+			fValues[a] = f(node)*basis2((node - node1)/h);
 		else
-			fValues[a] = f(node)*basis0((node - node1)/h);
+			fValues[a] = f(node)*basis1((node - node1)/h);
 	}
 
 	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.
@@ -214,12 +214,12 @@ double a(int i, int j, int node1Index, double node1, double node2, function<doub
 		if (i==j)
 		{
 			if (i==node1Index)
-				fValues[a] = p(nodes[a])*basis1_(h)*basis1_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+				fValues[a] = p(nodes[a])*basis2_(h)*basis2_(h) + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h);
 			else
-				fValues[a] = p(nodes[a])*basis0_(h)*basis0_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+				fValues[a] = p(nodes[a])*basis1_(h)*basis1_(h) + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h);
 		}
 		else
-			fValues[a] = p(nodes[a])*basis1_(h)*basis0_(h) + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis0((nodes[a] - node1)/h);
+			fValues[a] = p(nodes[a])*basis2_(h)*basis1_(h) + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h);
 	}
 
 	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.

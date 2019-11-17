@@ -29,22 +29,36 @@ using namespace std;
 /******************************************************************************
  * basis1_
  * 
+<<<<<<< HEAD
  * @details    Returns the derivative of \phi_0 for a global h.
  *
  * @param[in] h 	Global h.
  ******************************************************************************/
 
 double basis1_(const double h);
+=======
+ * @details    Returns the derivative of \phi_0.
+ ******************************************************************************/
+
+double basis1_();
+>>>>>>> Github/master
 
 /******************************************************************************
  * basis2_
  * 
+<<<<<<< HEAD
  * @details    Returns the derivative of \phi_1 for a global h.
  *
  * @param[in] h 	Global h.
  ******************************************************************************/
 
 double basis2_(const double h);
+=======
+ * @details    Returns the derivative of \phi_1.
+ ******************************************************************************/
+
+double basis2_();
+>>>>>>> Github/master
 
 /******************************************************************************
  * basis1
@@ -124,22 +138,90 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 			                                                  
  *$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+function<double(double)> linearInterpolate(const int n, const double solutions[], const double x)
+{
+	/*double h = double(2)/n;
+
+	int i = floor(x/h);
+
+	return constantMultiplyFunction(solutions[i], basis2);*/
+
+	assert(-1 <= x && x <= 1);
+
+	double h = double(2)/(n-1);
+
+	bool foundRange = false;
+	int i = 0;
+	double node1, node2;
+	while(!foundRange && i<n-1)
+	{
+		node1 = -1 + i*h;
+		node2 = -1 + (i+1)*h;
+
+		if (node1 <= x && x <= node2)
+			foundRange = true;
+
+		++i;
+	}
+
+	//function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis1((x - node1)/h));
+	//function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis2((x - node1)/h));
+	function<double(double)> f1 = constantMultiplyFunction(solutions[i], basis1);
+	function<double(double)> f2 = constantMultiplyFunction(solutions[i+1], basis2);
+
+	return addFunction(f1, f2);
+
+
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> Github/master
 /******************************************************************************
  * basis1_
  ******************************************************************************/
 
+<<<<<<< HEAD
 double basis1_(const double h)
 {
 	return -double(1)/h;
+=======
+double basis1_()
+{
+	return -1;
+>>>>>>> Github/master
 }
 
 /******************************************************************************
  * basis2_
  ******************************************************************************/
 
+<<<<<<< HEAD
 double basis2_(const double h)
 {
 	return double(1)/h;
+=======
+double basis2_()
+{
+	return 1;
+>>>>>>> Github/master
 }
 
 /******************************************************************************
@@ -184,12 +266,21 @@ double l(int j, int node1Index, double node1, double node2, function<double(doub
 		node = node1 + h_*a;
 
 		if (j == node1Index)
+<<<<<<< HEAD
 			fValues[a] = f(node)*basis2((node - node1)/h);
 		else
 			fValues[a] = f(node)*basis1((node - node1)/h);
 	}
 
 	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.
+=======
+			fValues[a] = f(node)*basis2((node - node1)/h)*h;
+		else
+			fValues[a] = f(node)*basis1((node - node1)/h)*h;
+	}
+
+	return trapeziumRule(n, fValues, h)*h; // Does integration on reference element.
+>>>>>>> Github/master
 
 	delete[] fValues;
 }
@@ -207,13 +298,17 @@ double a(int i, int j, int node1Index, double node1, double node2, function<doub
 	double h  = node2 - node1; ///< Global h.
 	double h_ = (node2-node1)/(n-1); ///< Local h for creating our sub-elements.
 
+<<<<<<< HEAD
 	// Scale for h?????????
+=======
+>>>>>>> Github/master
 	for (int a=0; a<n; ++a)
 	{
 		nodes[a] = node1 + h_*a;
 		if (i==j)
 		{
 			if (i==node1Index)
+<<<<<<< HEAD
 				fValues[a] = p(nodes[a])*basis2_(h)*basis2_(h) + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h);
 			else
 				fValues[a] = p(nodes[a])*basis1_(h)*basis1_(h) + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h);
@@ -223,6 +318,17 @@ double a(int i, int j, int node1Index, double node1, double node2, function<doub
 	}
 
 	return basisTrapeziumRule(n, fValues)*h; // Does integration on reference element.
+=======
+				fValues[a] = p(nodes[a])*basis2_()*basis2_()/h + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis2((nodes[a] - node1)/h)*h;
+			else
+				fValues[a] = p(nodes[a])*basis1_()*basis1_()/h + q(nodes[a])*basis1((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h)*h;
+		}
+		else
+			fValues[a] = p(nodes[a])*basis2_()*basis1_()/h + q(nodes[a])*basis2((nodes[a] - node1)/h)*basis1((nodes[a] - node1)/h)*h;
+	}
+
+	return trapeziumRule(n, fValues, h)*h; // Does integration on reference element.
+>>>>>>> Github/master
 
 	delete[] fValues;
 	delete[] nodes;
@@ -258,6 +364,25 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 		// *******************************************************
 		// Loops over both adjacent nodes twice (nested loop).
 		// *******************************************************
+<<<<<<< HEAD
+=======
+		for (int j=meshCounter; j<=meshCounter+1; ++j)
+		{
+			F[j] += l(j, meshCounter, meshLeft, meshRight, f); 
+
+			for (int i=meshCounter; i<=meshCounter+1; ++i)
+			{
+				if (j<i)
+					A1[j] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+				else if (j==i)
+					A2[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+				else
+					A3[i] += a(i, j, meshCounter, meshLeft, meshRight, p, q);
+			}		
+		}
+
+		// *******************************************************
+>>>>>>> Github/master
 		// Here's an example of the numbering used...
 		// -------------------------------------------------------
 		// 
@@ -286,6 +411,7 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 		// 
 		// So element 2 is neighboured by nodes 2 and 3.
 		// *******************************************************
+<<<<<<< HEAD
 		for (int j=meshCounter; j<=meshCounter+1; ++j)
 		{
 			F[j] += l(j, meshCounter, meshLeft, meshRight, f); 
@@ -304,6 +430,10 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 
 	
 
+=======
+	}
+
+>>>>>>> Github/master
 	// **************************************************************************
 	// We know the solution at the end points, so reduce the problem accordingly.
 	// **************************************************************************
@@ -342,6 +472,7 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
+<<<<<<< HEAD
 
 
 
@@ -372,6 +503,8 @@ void linearFEM(const int n, const double nodes[], function<double(double)> p, fu
 
 
 
+=======
+>>>>>>> Github/master
 	// ***************************************
 	// Inverts the reduced tridiagonal matrix.
 	// ***************************************

@@ -7,6 +7,7 @@
 #include <iostream>
 
 using namespace std;
+using namespace common;
 
 double basis1(const double x)
 {
@@ -52,7 +53,7 @@ double linearInterpolate(const int n, const double solutions[], const double x)
 
 double u(double x)
 {
-	return -(x-1)*(x+1)/2;
+	return (x-1)*(x+1)/2;
 }
 
 double solutionL2Norm(const int n, const double solution[], function<double(double)> u)
@@ -78,7 +79,7 @@ double solutionL2Norm(const int n, const double solution[], function<double(doub
 		//for (int j=0; j<100; ++j)
 			//cout << "WOW" << j << " " << solution[i] << " " << solution[i+1] << " " << u_(-1+j*double(2)/99) << " " << u(-1+h*i+j*h*double(1)/(99)) << endl;
 			//cout << "WOW" << j << " " << solution[i] << " " << solution[i+1] << " " << u_(-1+j*double(2)/99) << " " << transformFunction(u, -1+h*i, -1+h*(i+1))(-1+j*double(2)/99) << endl;
-		cout << "WOW: " << gaussLegendreQuadrature(error2, n)*(node2-node1)/2 << endl;
+		//cout << "WOW: " << gaussLegendreQuadrature(error2, n)*(node2-node1)/2 << endl;
 	}
 
 	return sqrt(norm);
@@ -94,7 +95,7 @@ int main()
 	double lastNorm = 0;
 
 	//for (int n=2; n<=32; n*=2)
-	for (int n=2; n<=16; n*=2)
+	for (int n=2; n<=32; n*=2)
 	//for (int n=2; n<=8; n*=2)
 	//for (int n=4; n==4; n*=2)
 	{

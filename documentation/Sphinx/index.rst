@@ -1,32 +1,18 @@
 Welcome to Blakey FEM's documentation!
 ======================================
 
+Contents
+########
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-.. doxygennamespace:: parameters
-   :project: BlakeyFEM
-   :members:
-
-.. doxygennamespace:: quadrature
-   :project: BlakeyFEM
-   :members:
-
-.. doxygennamespace:: finiteDifference
-   :project: BlakeyFEM
-   :members:
-
-.. autosummary::
-    :toctree: ./
-
-    sphinx.environment.BuildEnvironment
-    sphinx.util.relative_uri
+   common
+   fem
+   interpolation
+   linearSystems
+   quadrature
 
 
-Indices and tables
-==================
-
+Index
+#####
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

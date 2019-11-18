@@ -28,7 +28,8 @@ author = 'Adam Matthew Blakey, Paul Houston'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-	'breathe'
+	'breathe',
+	'sphinx.ext.imgmath'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

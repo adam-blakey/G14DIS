@@ -11,6 +11,8 @@
 #include <cmath>
 #include <functional>
 
+#include <iostream>
+
 /******************************************************************************
  * legendrePolynomial
  * 
@@ -55,7 +57,26 @@ double legendrePolynomialDerivative(const double x, const int n)
 }
 
 /******************************************************************************
- * legendrePolynomialRoot
+ * legendrePolynomialRoots
+ * 
+ * @details    Calculates the ith root of the nth degree Legendre polynomial.
+ *
+ * @param[in] n 			Gives the degree of the polynomial.
+ * @param[in] i 			Which root to return.
+ ******************************************************************************/
+
+double legendrePolynomialRoot(const int n, const int i)
+{
+	double root = -cos(double(2*i + 1)/(2*n)*M_PI);
+
+	while (fabs(legendrePolynomial(root, n)) >= 1e-5)
+		root = root - legendrePolynomial(root, n)/legendrePolynomialDerivative(root, n);
+
+	return root;
+}
+
+/******************************************************************************
+ * legendrePolynomialRoots
  * 
  * @details    Calculates the roots of the real roots of the nth Legendre
  * 				polynomial at the point x.
@@ -68,12 +89,7 @@ void legendrePolynomialRoots(const int n, double roots[])
 {
 	for (int i=0; i<n; ++i)
 	{
-		roots[i] = -cos(double(2*i - 1)/(2*n)*M_PI);
-
-		while (fabs(legendrePolynomial(roots[i], n)) >= 1e-5)
-		{
-			roots[i] = roots[i] - legendrePolynomial(roots[i], n)/legendrePolynomialDerivative(roots[i], n);
-		}
+		roots[i] = legendrePolynomialRoot(n, i);
 	}		
 }
 
@@ -93,18 +109,12 @@ double gaussLegendreQuadrature(const std::function<double(double)> f, const int 
 	double h = double(2)/n;
 	double quadrature = 0;
 
-	double* roots = new double[n];
-
-	legendrePolynomialRoots(n, roots);
-
 	for (int i=0; i<n; ++i)
 	{
-		x = roots[i];
+		x = legendrePolynomialRoot(n, i);
 		weight = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(x, n), 2));
 		quadrature += weight * f(x);
 	}
-
-	delete[] roots;
 
 	return quadrature;
 }

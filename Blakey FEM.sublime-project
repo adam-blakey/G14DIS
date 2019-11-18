@@ -29,9 +29,6 @@
 				"documentation/Sphinx/_templates"
 			],
 			"path": "documentation"
-		},
-		{
-			"path": "srcC++"
 		}
 	]
 }

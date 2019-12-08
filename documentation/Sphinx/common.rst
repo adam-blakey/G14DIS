@@ -1,4 +1,4 @@
-Lib: Common
+Namespace: Common
 ===========
 .. doxygennamespace:: common
    :project: BlakeyFEM

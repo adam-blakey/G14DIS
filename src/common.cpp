@@ -1,48 +1,93 @@
-/**
+/******************************************************************************
  * @details This is a file containing functions regarding common functions.
  * 
  * @author     Adam Matthew Blakey
  * @date       2019/11/11
- */
+ ******************************************************************************/
 #include <cmath>
 #include <functional>
 
 namespace common
 {
-	using namespace std;
-
-	/**
+	/******************************************************************************
 	 * __setToZero__
 	 * 
 	 * @details 	This sets all n elements of the double array to zero.
 	 * 
 	 * @param[in] n 		The number of elements in the array.
 	 * @param[in] array 	A pointer to the first element of the array.
-	 */
-	void setToZero(const int n, double array[])
+	 ******************************************************************************/
+	void setToZero(const int &n, double* const array)
 	{
 		for (int i=0; i<n; ++i)
-		{
 			array[i] = 0;
-		}
 	}
 
-	/**
+	/******************************************************************************
+	 * __copyArray__
+	 * 
+	 * @details 	Does a deep copy on an array.
+	 * 
+	 * @param[in] n 		The number of elements in the arrays.
+	 * @param[in] array1 	The source array.
+	 * @param[in] array2 	The destination array.
+	 ******************************************************************************/
+	void setToZero(const int &n, const double* const &array1, double* const &array2)
+	{
+		for (int i=0; i<n; ++i)
+			array2[i] = array1[i];
+	}
+
+	/******************************************************************************
+	 * __allocateMatrix__
+	 * 
+	 * @details 	Allocates a matrix given the number of rows and columns.
+	 * 
+	 * @param[in] noRows 	Number of rows.
+	 * @param[in] noCols 	Number of columns.
+	 * @return  			A double double-pointer.
+	 ******************************************************************************/
+	double** allocateMatrix(const int &noRows, const int &noCols)
+	{
+		double** matrix = new double*[noRows];
+		for (int i=0; i<noRows; ++i)
+			matrix[i] = new double[noCols];
+
+		return matrix;
+	}
+
+	/******************************************************************************
+	 * __deallocateMatrix__
+	 * 
+	 * @details 	Deallocates a matrix, given the number of rows in that matrix.
+	 * 
+	 * @param[in] noRows 	Number of rows.
+	 * @param[out] matrix 	Matrix to deallocate.
+	 ******************************************************************************/
+	void deallocateMatrix(const int &noRows, double** &matrix)
+	{
+		for (int i=0; i<noRows; ++i)
+			delete[] matrix[i];
+
+		delete[] matrix;
+	}
+
+	/******************************************************************************
 	 * __transformFunction__
 	 * 
 	 * @details 	Transforms the given function to the reference element.
 	 * 
 	 * @param[in] f 		The function.
-	 * @param[in] n 		Left node of the element.
-	 * @param[in] array 	Right node of the element.
+	 * @param[in] xj 		The left side of the element.
+	 * @param[in] xjp1 		The right side of the element.
 	 * @return     			A function that is transformed to the reference element using the left and right side of a 1D element.
-	 */
-	function<double(double)> transformFunction(function<double(double)> f, double xj, double xjp1)
+	 ******************************************************************************/
+	std::function<double(double)> transformFunction(const std::function<double(double)> &f, const double &xj, const double &xjp1)
 	{
 		return [=](double x)->double{ return f((x+1)*(xjp1-xj)/2 + xj); };
 	}
 
-	/**
+	/******************************************************************************
 	 * __addFunction__
 	 * 
 	 * @details 	Returns the sum of two functions.
@@ -50,13 +95,13 @@ namespace common
 	 * @param[in] f 		First function
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) + g(x)`.
-	 */
-	function<double(double)> addFunction(function<double(double)> f, function<double(double)> g)
+	 ******************************************************************************/
+	std::function<double(double)> addFunction(const std::function<double(double)> &f, const std::function<double(double)> &g)
 	{
 		return [=](double x)->double{ return f(x) + g(x); };
 	}
 
-	/**
+	/******************************************************************************
 	 * __multiplyFunction__
 	 * 
 	 * @details 	Returns the product of two functions.
@@ -64,13 +109,13 @@ namespace common
 	 * @param[in] f 		First function
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) * g(x)`.
-	 */
-	function<double(double)> multiplyFunction(function<double(double)> f, function<double(double)> g)
+	 ******************************************************************************/
+	std::function<double(double)> multiplyFunction(const std::function<double(double)> &f, const std::function<double(double)> &g)
 	{
 		return [=](double x)->double{ return f(x) * g(x); };
 	}
 
-	/**
+	/******************************************************************************
 	 * __constantMultiplyFunction__
 	 * 
 	 * @details 	Returns a the value of a function multiplied by a constant.
@@ -78,13 +123,13 @@ namespace common
 	 * @param[in] a 		The constant.
 	 * @param[in] f 		The function.
 	 * @return     			A function that is `h(x) = a * f(x)`.
-	 */
-	function<double(double)> constantMultiplyFunction(double a, function<double(double)> f)
+	 ******************************************************************************/
+	std::function<double(double)> constantMultiplyFunction(const double &a, const std::function<double(double)> &f)
 	{
 		return [=](double x)->double{ return a * f(x); };
 	}
 
-	/**
+	/******************************************************************************
 	 * __referenceL2Norm__
 	 * 
 	 * @details 	Returns the L2 norm on the reference element.
@@ -92,8 +137,8 @@ namespace common
 	 * @param[in] f 		First function
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) + g(x)`.
-	 */
-	double referenceL2Norm(const int n, std::function<double(double)> u)
+	 ******************************************************************************/
+	double referenceL2Norm(const int &n, const std::function<double(double)> &u)
 	{
 		double norm = 0;
 		double h = double(2)/(n-1);
@@ -108,7 +153,7 @@ namespace common
 		return sqrt(norm);
 	}
 
-	/**
+	/******************************************************************************
 	 * __tridiagonalVectorMultiplication__
 	 * 
 	 * @details 	Calculates the product `Ax`.
@@ -119,8 +164,8 @@ namespace common
 	 * @param[in] c 		Upper diagonal of `A`.
 	 * @param[in] x 		The vector to multiply by.
 	 * @param[out] solution The result of the operation.
-	 */
-	void tridiagonalVectorMultiplication(const int n, const double a[], const double b[], const double c[], const double x[], double solution[])
+	 ******************************************************************************/
+	void tridiagonalVectorMultiplication(const int &n, const double* const &a, const double* const &b, const double* const &c, const double* const &x, double* const &solution)
 	{
 		for (int i=0; i<n; ++i)
 		{

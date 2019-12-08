@@ -18,7 +18,7 @@
 		{
 			"file_include_patterns":
 			[
-				"documentation/Sphinx/index.rst"
+				"documentation/Sphinx/*.rst"
 			],
 			"folder_exclude_patterns":
 			[
@@ -29,6 +29,9 @@
 				"documentation/Sphinx/_templates"
 			],
 			"path": "documentation"
+		},
+		{
+			"path": "C:\\Users\\Adam\\Blakey Cloud\\Documents\\Education\\University of Nottingham\\Year 4\\G14DIS\\FEM Program\\Report"
 		}
 	]
 }

@@ -7,9 +7,8 @@ Contents
    :maxdepth: 2
 
    common
-   fem
-   interpolation
-   linearSystems
+   element
+   elements
    quadrature
 
 

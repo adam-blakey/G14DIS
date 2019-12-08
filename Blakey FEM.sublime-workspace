@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"legendrePol",
+				"legendrePolynomialRoots"
+			],
+			[
 				"c",
 				"c"
 			],
@@ -510,88 +514,77 @@
 			[
 				"join",
 				"join_name"
-			],
-			[
-				"emai",
-				"email_address"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "srcC++/test1.cpp",
+			"file": "src/element.hpp",
 			"settings":
 			{
-				"buffer_size": 3207,
+				"buffer_size": 775,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "srcC++/quadrature.cpp",
+			"contents": "#ifndef MESH_HPP\n#define MESH_HPP\n\nclass Mesh\n{\n\tprivate:\n\t\tint noElements;\n\t\tint noNodes;\n\t\tint dimProblem;\n\n\tpublic:\n\t\tdouble* elements;\n\t\tMesh();\n};\n\n#endif",
+			"file": "src/mesh.hpp",
+			"file_size": 174,
+			"file_write_time": 132194211851016869,
 			"settings":
 			{
-				"buffer_size": 3919,
-				"encoding": "UTF-8",
+				"buffer_size": 159,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "srcC++/test2.cpp",
+			"file": "/C/Users/Adam/Downloads/Classes/Vector.cpp",
 			"settings":
 			{
-				"buffer_size": 1362,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "documentation/Sphinx/index.rst",
-			"settings":
-			{
-				"buffer_size": 545,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": ".gitignore",
-			"settings":
-			{
-				"buffer_size": 350,
-				"encoding": "UTF-8",
+				"buffer_size": 3802,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "srcC++/interpolation.cpp",
+			"file": "src/common.cpp",
 			"settings":
 			{
-				"buffer_size": 360,
+				"buffer_size": 3498,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "srcC++/fem.cpp",
+			"file": "src/element.cpp",
 			"settings":
 			{
-				"buffer_size": 15274,
+				"buffer_size": 3076,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "srcC++/common.cpp",
+			"file": "src/quadrature.cpp",
 			"settings":
 			{
-				"buffer_size": 1758,
+				"buffer_size": 4471,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/testNewFEM.cpp",
+			"settings":
+			{
+				"buffer_size": 708,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
 	],
-	"build_system": "Packages/C++/C++ Single File.sublime-build",
+	"build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
 	"build_system_choices":
 	[
 		[
@@ -663,7 +656,7 @@
 			],
 			[
 				"Packages/C++/C++ Single File.sublime-build",
-				""
+				"Run"
 			]
 		],
 		[
@@ -916,6 +909,70 @@
 			[
 				"Packages/LaTeXTools/LaTeX.sublime-build",
 				"Basic Builder"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Make Adam.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Make Adam.sublime-build",
+					"clean"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"Basic Builder - XeLaTeX"
 			]
 		],
 		[
@@ -1288,15 +1345,39 @@
 	"expanded_folders":
 	[
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++"
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx"
 	],
 	"file_history":
 	[
+		"/C/Users/Adam/Downloads/Classes/Vector.hpp",
+		"/C/Users/Adam/Downloads/Classes/Vector.cpp",
+		"/C/Users/Adam/Downloads/Classes/Matrix.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/element.rst",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/index.rst",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/Blakey FEM.sublime-project",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14FEM/Coursework/Coursework 2/README.md",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14FEM/Coursework/Coursework 2/plan.txt",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/conf.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/quadrature.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/test3.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/test1.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Report/references.bib",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Report/Progress Report.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Report/progress_report_template.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 3/G14PJS/Report Files/progress_report.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Report/uonmathreport.cls",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Report/main.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/testfem.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/fem.rst",
+		"/C/Users/Adam/AppData/Local/Temp/Rar$DRa11164.33189/fem.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/.gitignore",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/common.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/fem.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/interpolation.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/test2.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/test1.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/srcC++/quadrature.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14FEM/Coursework/Coursework 2/.git/config",
 		"/C/Users/Adam/Desktop/ONELAB/G14FEM-master/Coursework/Coursework 1/quadrature.cpp",
 		"/C/Users/Adam/Desktop/ONELAB/contrib/Revoropt/include/Revoropt/Mesh/normals_def.hpp",
@@ -1313,8 +1394,6 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Doxygen/Doxyfile",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/Makefile",
 		"/C/Users/Adam/Downloads/history-1990-01-01.kml",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/Blakey FEM.sublime-project",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/index.rst",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/test1.f90",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/quadrature.f90",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/mesh.f90",
@@ -1323,10 +1402,8 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/type_confusion.f03",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/hello_world.f03",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Fortran Tests/ES1/expressions.f03",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/.gitignore",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/.git/index",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/.git/HEAD",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Sphinx/conf.py",
 		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/Make Adam.sublime-build",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/CMakeLists.txt",
 		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/sphinx.sublime-build",
@@ -1400,33 +1477,11 @@
 		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
 		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/20190911-PatrickComments.txt",
 		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Delphi Debugging on Android and iOS Guide.txt",
-		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Why Delphi is Less Good than Great.txt",
-		"/C/Users/Adam/Desktop/test.f03",
-		"/C/Users/Adam/Downloads/calendar.ics",
-		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Things I did to help get Dave's push notification",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/Base Representation of Numbers.tex",
-		"/C/SVNSeattle/WebTrack/Logs/DevLog.txt",
-		"/C/OscarDevServerLogs/OscarDevLog.txt",
-		"/C/OscarDevServerLogs/OscarDevLog - Copy.txt",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/SUMS.preamble.tex",
-		"/C/SVNSeattle/Oscar/Bin/Logs/OscarClientLog.txt",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Base Representations/Base Representation of Numbers.log",
-		"/C/SVNSeattle/20190912-1758-UtilityUnit.patch",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 3/G14PJS/Report Files/main.tex",
-		"/C/SVNSeattle/20190912-1753-UtilityUnit.patch",
-		"/C/SVNSeattle/Oscar/API/APIUnit - 20190911.pas",
-		"/C/SVNSeattle/20190911-1237-SocketUnit.patch",
-		"/C/SVNSeattle/Oscar/API/APISharedUnit - 20190911.pas",
-		"/C/Oscar/OscarAdamTheatre/Logs/ServerLog_.txt",
-		"/C/Oscar/OscarAdamTheatre/Bin/Logs/OscarClientLog.txt",
-		"/C/SVNSeattle/Common/SocketUnit.pas",
-		"/C/Users/Adam/Downloads/ServerInfoForm.pas",
-		"/C/Users/Adam/AppData/Local/Temp/Rar$DIa10780.7665/OFL.txt",
-		"/C/Oscar/OscarAdamTheatre/Logs/OscarAPILog.txt"
+		"/C/Users/Adam/Blakey Cloud/Documents/Savoy/Why Delphi is Less Good than Great.txt"
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -1451,6 +1506,35 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tempElements",
+			"void",
+			"1",
+			"element2",
+			"element1",
+			"double",
+			"Mesh",
+			"10",
+			"73",
+			"5",
+			"polynomialDegrees",
+			"mapLocaltoGlobal",
+			"noNodes",
+			"getBasisFunctions",
+			"elements",
+			"dimProblem",
+			"noNodes",
+			"node1",
+			"noNodes",
+			"FDMs",
+			"addfunction",
+			"basis0",
+			"basis1",
+			"******************************************************************************/",
+			"/******************************************************************************",
+			"d[",
+			"d",
+			"basisL2",
+			"=",
 			"basis0",
 			"basis1",
 			"}*/\n",
@@ -1549,36 +1633,7 @@
 			"Joseph",
 			"Billy",
 			"Reuben",
-			"Amani",
-			"Tristan",
-			"[JSONable]",
-			"adamhere",
-			"join",
-			"adamhere",
-			"adamadamadam error",
-			"error",
-			"adamadamadam",
-			"committed",
-			"programme",
-			"adamadamadam end",
-			"adamadamadam",
-			"blob_",
-			"adamadamadam",
-			"\\section",
-			" on ",
-			"on",
-			"use",
-			"42601",
-			"use",
-			"conditional",
-			"join",
-			"condition",
-			"programme",
-			"webrequest",
-			"populatefromiis",
-			"X",
-			"penandpaper",
-			"sidenote"
+			"Amani"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1601,131 +1656,37 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "srcC++/test1.cpp",
+					"file": "src/element.hpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3207,
+						"buffer_size": 775,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								186,
-								186
+								666,
+								666
 							]
 						],
 						"settings":
 						{
-							"SL.15.region_keys":
+							"SL.14.region_keys":
 							[
 							],
-							"SL.23.region_keys":
+							"SL.16.region_keys":
 							[
 							],
-							"function_name_status_row": 8,
+							"function_name_status_row": 29,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "srcC++/quadrature.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3919,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2828,
-								2828
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 89,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1280.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "srcC++/test2.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1362,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								862,
-								862
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 39,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 756.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "documentation/Sphinx/index.rst",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 545,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								346,
-								346
-							]
-						],
-						"settings":
-						{
-							"SL.46.region_keys":
-							[
-							],
-							"function_name_status_row": 17,
-							"syntax": "Packages/RestructuredText/reStructuredText.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1735,26 +1696,26 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": ".gitignore",
+					"buffer": 1,
+					"file": "src/mesh.hpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 350,
+						"buffer_size": 159,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								350,
-								350
+								151,
+								151
 							]
 						],
 						"settings":
 						{
-							"function_name_status_row": 28,
-							"syntax": "Packages/Git Formats/Git Ignore.sublime-syntax"
+							"function_name_status_row": 13,
+							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1764,98 +1725,166 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "srcC++/interpolation.cpp",
+					"buffer": 2,
+					"file": "/C/Users/Adam/Downloads/Classes/Vector.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 360,
+						"buffer_size": 3802,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								360,
-								360
+								1573,
+								1573
 							]
 						],
 						"settings":
 						{
-							"SL.23.region_keys":
+							"function_name_status_row": 75,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/common.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3498,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								554,
+								554
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 25,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 45.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "src/element.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3076,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								479,
+								479
+							]
+						],
+						"settings":
+						{
+							"SL.15.region_keys":
 							[
 							],
-							"function_name_status_row": 12,
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"SL.17.region_keys":
+							[
+							],
+							"SL.29.region_keys":
+							[
+							],
+							"function_name_status_row": 23,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 42.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/quadrature.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4471,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2198,
+								2198
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 71,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "srcC++/fem.cpp",
+					"file": "src/testNewFEM.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15274,
+						"buffer_size": 708,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7026,
-								7026
+								175,
+								175
 							]
 						],
 						"settings":
 						{
-							"SL.24.region_keys":
-							[
-							],
-							"SL.69.region_keys":
-							[
-							],
-							"function_name_status_row": 204,
+							"function_name_status_row": 13,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3388.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "srcC++/common.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1758,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1323,
-								1323
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 50,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 378.0,
+						"translation.y": 78.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1866,11 +1895,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 23.0
 	},
 	"input":
 	{
-		"height": 45.0
+		"height": 51.2
 	},
 	"layout":
 	{
@@ -1881,11 +1910,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.459459459459,
 			1.0
 		],
 		"rows":
@@ -1901,7 +1937,7 @@
 	},
 	"output.exec":
 	{
-		"height": 160.0
+		"height": 524.0
 	},
 	"output.find_results":
 	{
@@ -1915,7 +1951,7 @@
 	"project": "Blakey FEM.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1953,7 +1989,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 264.0,
+	"side_bar_width": 218.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

@@ -74,7 +74,7 @@ double solutionL2Norm(const int n, const double solution[], function<double(doub
 		u_ = addFunction(constantMultiplyFunction(solution[i], basis1), constantMultiplyFunction(solution[i+1], basis2));
 		error = addFunction(transformFunction(u, node1, node2), constantMultiplyFunction(-1, u_));
 		error2 = multiplyFunction(error, error);
-		norm += gaussLegendreQuadrature(error2, n)*(node2-node1)/2;
+		norm += gaussLegendreQuadrature(error2, 4)*(node2-node1)/2;
 		//cout << "x = " << -1+h*i << " " << error(-1) << " " << error(0) << " " << error(1) << endl;
 		//for (int j=0; j<100; ++j)
 			//cout << "WOW" << j << " " << solution[i] << " " << solution[i+1] << " " << u_(-1+j*double(2)/99) << " " << u(-1+h*i+j*h*double(1)/(99)) << endl;
@@ -95,7 +95,7 @@ int main()
 	double lastNorm = 0;
 
 	//for (int n=2; n<=32; n*=2)
-	for (int n=2; n<=32; n*=2)
+	for (int n=2; n<=1024; n*=2)
 	//for (int n=2; n<=8; n*=2)
 	//for (int n=4; n==4; n*=2)
 	{
@@ -147,6 +147,8 @@ int main()
 		delete[] b;
 		delete[] a;
 	}
+
+	cout << "All done!" << endl;
 
 	return 0;
 }

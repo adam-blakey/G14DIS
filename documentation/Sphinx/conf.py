@@ -20,7 +20,7 @@ sys.path.append( "../Breathe/" )
 project = 'Blakey FEM'
 copyright = '2019, Adam Matthew Blakey, Paul Houston'
 author = 'Adam Matthew Blakey, Paul Houston'
-
+display_version = True
 
 # -- General configuration ---------------------------------------------------
 

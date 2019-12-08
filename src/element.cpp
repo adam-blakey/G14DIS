@@ -124,12 +124,12 @@ double Element::Jacobian() const
  * @param[in] f 		The function to integrate over the element with.
  * @return  			The quadrature value.
  ******************************************************************************/
-double Element::quadrature(std::function<double(double)> a_f)
+double Element::quadrature(f_double a_f)
 {
 	double node1 = this->nodeCoordinates[0];
 	double node2 = this->nodeCoordinates[1];
 
-	std::function<double(double)> fTransform = common::transformFunction(a_f, node1, node2);
+	f_double fTransform = common::transformFunction(a_f, node1, node2);
 
 	return quadrature::gaussLegendreQuadrature(fTransform, 8)*Jacobian();
 }
@@ -142,7 +142,7 @@ double Element::quadrature(std::function<double(double)> a_f)
  * @param[in] a_i 		Which basis function to return.
  * @return  			The requested basis function.
  ******************************************************************************/
-std::function<double(double)> Element::basisFunctions(const int &a_i)
+f_double Element::basisFunctions(const int &a_i)
 {
 	switch(a_i)
 	{
@@ -172,7 +172,7 @@ std::function<double(double)> Element::basisFunctions(const int &a_i)
  * @param[in] a_i 		Which derivative basis function to return.
  * @return  			The requested derivative basis function.
  ******************************************************************************/
-std::function<double(double)> Element::basisFunctions_(const int &a_i)
+f_double Element::basisFunctions_(const int &a_i)
 {
 	switch(a_i)
 	{

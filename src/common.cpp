@@ -3,9 +3,16 @@
  * 
  * @author     Adam Matthew Blakey
  * @date       2019/11/11
+ * 
+ * [ ] Need to split into header file and source file.
  ******************************************************************************/
+#ifndef NAMESPACE_COMMON
+#define NAMESPACE_COMMON
+
 #include <cmath>
 #include <functional>
+
+typedef std::function<double(double)> f_double;
 
 namespace common
 {
@@ -32,7 +39,7 @@ namespace common
 	 * @param[in] array1 	The source array.
 	 * @param[in] array2 	The destination array.
 	 ******************************************************************************/
-	void setToZero(const int &n, const double* const &array1, double* const &array2)
+	void copyArray(const int &n, const double* const &array1, double* const &array2)
 	{
 		for (int i=0; i<n; ++i)
 			array2[i] = array1[i];
@@ -82,7 +89,7 @@ namespace common
 	 * @param[in] xjp1 		The right side of the element.
 	 * @return     			A function that is transformed to the reference element using the left and right side of a 1D element.
 	 ******************************************************************************/
-	std::function<double(double)> transformFunction(const std::function<double(double)> &f, const double &xj, const double &xjp1)
+	f_double transformFunction(const f_double &f, const double &xj, const double &xjp1)
 	{
 		return [=](double x)->double{ return f((x+1)*(xjp1-xj)/2 + xj); };
 	}
@@ -96,7 +103,7 @@ namespace common
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) + g(x)`.
 	 ******************************************************************************/
-	std::function<double(double)> addFunction(const std::function<double(double)> &f, const std::function<double(double)> &g)
+	f_double addFunction(const f_double &f, const f_double &g)
 	{
 		return [=](double x)->double{ return f(x) + g(x); };
 	}
@@ -110,7 +117,7 @@ namespace common
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) * g(x)`.
 	 ******************************************************************************/
-	std::function<double(double)> multiplyFunction(const std::function<double(double)> &f, const std::function<double(double)> &g)
+	f_double multiplyFunction(const f_double &f, const f_double &g)
 	{
 		return [=](double x)->double{ return f(x) * g(x); };
 	}
@@ -124,7 +131,7 @@ namespace common
 	 * @param[in] f 		The function.
 	 * @return     			A function that is `h(x) = a * f(x)`.
 	 ******************************************************************************/
-	std::function<double(double)> constantMultiplyFunction(const double &a, const std::function<double(double)> &f)
+	f_double constantMultiplyFunction(const double &a, const f_double &f)
 	{
 		return [=](double x)->double{ return a * f(x); };
 	}
@@ -138,7 +145,7 @@ namespace common
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) + g(x)`.
 	 ******************************************************************************/
-	double referenceL2Norm(const int &n, const std::function<double(double)> &u)
+	double referenceL2Norm(const int &n, const f_double &u)
 	{
 		double norm = 0;
 		double h = double(2)/(n-1);
@@ -178,3 +185,5 @@ namespace common
 		}
 	}
 }
+
+#endif

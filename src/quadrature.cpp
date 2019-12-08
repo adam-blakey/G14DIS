@@ -4,12 +4,13 @@
  * @author     Adam Matthew Blakey
  * @date       2019/12/07
  ******************************************************************************/
+#ifndef NAMESPACE_QUADRATURE
+#define NAMESPACE_QUADRATURE
 
+#include "common.cpp"
 #include <cassert>
 #include <cmath>
 #include <functional>
-
-#include <iostream>
 
 namespace quadrature
 {
@@ -22,7 +23,7 @@ namespace quadrature
 	 * @param[in] x 			The point at which to evaluate the polynomial.
 	 * @return 					The Legendre polynomial.
 	 ******************************************************************************/
-	std::function<double(double)> legendrePolynomial(const int n)
+	f_double legendrePolynomial(const int n)
 	{
 		assert(n >= 0);
 
@@ -66,7 +67,7 @@ namespace quadrature
 	 * @param[in] x 			The point at which to evaluate the polynomial.
 	 * @return 					The Legendre polynomial derivative.
 	 ******************************************************************************/
-	std::function<double(double)> legendrePolynomialDerivative(const int n)
+	f_double legendrePolynomialDerivative(const int n)
 	{
 		assert(n >= 0);
 
@@ -148,7 +149,7 @@ namespace quadrature
 	 * 							 with.
 	 * @return 					The quadrature.
 	 ******************************************************************************/
-	double gaussLegendreQuadrature(const std::function<double(double)> f, const int n)
+	double gaussLegendreQuadrature(const f_double f, const int n)
 	{
 		double weight, x;
 		double h = double(2)/n;
@@ -190,3 +191,5 @@ namespace quadrature
 		return h/(n-1) * answer;
 	}
 }
+
+#endif

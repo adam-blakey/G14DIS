@@ -153,6 +153,7 @@ std::function<double(double)> Element::basisFunctions(const int &a_i)
 					else
 						return 0;
 				};
+				break;
 		case 1: return [](double x) -> double
 				{
 					if (-1 <= x && x <= 1)
@@ -182,6 +183,7 @@ std::function<double(double)> Element::basisFunctions_(const int &a_i)
 					else
 						return 0;
 				};
+				break;
 		case 1: return [](double x) -> double
 				{
 					if (-1 <= x && x <= 1)

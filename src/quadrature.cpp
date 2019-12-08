@@ -22,16 +22,39 @@ namespace quadrature
 	 * @param[in] x 			The point at which to evaluate the polynomial.
 	 * @return 					The Legendre polynomial.
 	 ******************************************************************************/
-	double legendrePolynomial(const double x, const int n)
+	std::function<double(double)> legendrePolynomial(const int n)
 	{
 		assert(n >= 0);
 
-		if (n==0)
-			return 1;
-		else if (n==1)
-			return x;
-		else
-			return double(2*n - 1)/n * x * legendrePolynomial(x, n-1) - double(n - 1)/n * legendrePolynomial(x, n-2);
+		switch(n)
+		{
+			case 0: return[](double x) -> double
+					{
+						return 1;
+					};
+					break;
+			case 1: return[](double x) -> double
+					{
+						return x;
+					};
+					break;
+			default: return[n](double x) -> double
+					{
+						return common::addFunction  (
+														common::constantMultiplyFunction(
+																							double(2*n - 1)/n * x,
+																							legendrePolynomial(n-1)
+																						),
+														common::constantMultiplyFunction(
+																							-1,
+																							common::constantMultiplyFunction(
+																																double(n - 1)/n,
+																																legendrePolynomial(n-2)
+																															)
+																						)
+													)(x);
+					};
+		}
 	}
 
 	/******************************************************************************
@@ -43,17 +66,40 @@ namespace quadrature
 	 * @param[in] x 			The point at which to evaluate the polynomial.
 	 * @return 					The Legendre polynomial derivative.
 	 ******************************************************************************/
-	double legendrePolynomialDerivative(const double x, const int n)
+	std::function<double(double)> legendrePolynomialDerivative(const int n)
 	{
 		assert(n >= 0);
 
-		if (n==0)
-			return 0;
-		else if (n==1)
-			return 1;
-		else
-			return double(2*n - 1)/(n - 1) * x * legendrePolynomialDerivative(x, n-1)
-					- double(n)/(n - 1) * legendrePolynomialDerivative(x, n-2);
+		switch(n)
+		{
+			case 0: return[](double x) -> double
+					{
+						return 0;	
+					};
+					break;
+			case 1: return[](double x) -> double
+					{
+						return 1;
+					};
+					break;
+			default: return[n](double x) -> double
+					{
+						return common::addFunction  (
+														common::constantMultiplyFunction(
+																							double(2*n - 1)/(n - 1) * x,
+																							legendrePolynomialDerivative(n-1)
+																						),
+														common::constantMultiplyFunction(
+																							-1,
+																							common::constantMultiplyFunction(
+																																double(n)/(n - 1),
+																																legendrePolynomialDerivative(n-2)
+																															)
+																						)
+													)(x);						
+					};
+
+		}
 	}
 
 	/******************************************************************************
@@ -69,8 +115,8 @@ namespace quadrature
 	{
 		double root = -cos(double(2*i + 1)/(2*n)*M_PI);
 
-		while (fabs(legendrePolynomial(root, n)) >= 1e-5)
-			root = root - legendrePolynomial(root, n)/legendrePolynomialDerivative(root, n);
+		while (fabs(legendrePolynomial(n)(root)) >= 1e-5)
+			root = root - legendrePolynomial(n)(root)/legendrePolynomialDerivative(n)(root);
 
 		return root;
 	}
@@ -111,7 +157,7 @@ namespace quadrature
 		for (int i=0; i<n; ++i)
 		{
 			x = legendrePolynomialRoot(n, i);
-			weight = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(x, n), 2));
+			weight = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(n)(x), 2));
 			quadrature += weight * f(x);
 		}
 

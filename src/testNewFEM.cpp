@@ -12,6 +12,12 @@ double test(double x)
 	return 1;
 }
 
+int main2()
+{
+	//std::function<double(double)> h = cos + test;
+	//std::cout << h(0) << std::endl;
+}
+
 int main()
 {	
 	std::cout << "Hello" << std::endl;
@@ -21,6 +27,7 @@ int main()
 	Element* myElement = (*(myMesh->elements))[0];
 
 	std::cout << myElement->quadrature(cos) << std::endl;
+	std::cout << myElement->Jacobian() << std::endl;
 
 	delete &myElements;
 

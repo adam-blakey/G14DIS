@@ -9,7 +9,8 @@ class Element
 	private:
 		int elementNo;
 		int noNodes;
-		double* nodeCoordinates;
+		double* nodeCoordinates; // Duplicated here -- should be moved to elements.
+		// Node coordiantes stored in elements, which a connectiviy array in element to tell you which nodes you're talking about.
 		void init(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates);
 
 	public:
@@ -34,7 +35,7 @@ class Elements
 		int noElements;
 		double** connectivityMatrix;
 		Element** elements;
-		double* boundaryElements;
+		double* boundaryElements; // This info (if needed at all) is best attached to an individual element.
 
 	public:
 		Elements(const int &a_noElements);

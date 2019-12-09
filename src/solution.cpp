@@ -43,10 +43,30 @@ void Solution::Solve()
 	double* A1 = new double[n-1];
 	double* A2 = new double[n];
 	double* A3 = new double[n-1];
+	double* F  = new double[n];
 
 	common::setToZero(n-1, A1);
 	common::setToZero(n,   A2);
 	common::setToZero(n-1, A3);
+	common::setToZero(n,   F);
+
+	for (int elementCounter=0; elementCounter<=n-2; ++elementCounter)
+	{
+		Element* currentElement = (*(this->mesh->elements))[0];
+
+		double elementLeft  = currentElement->get_nodeCoordinates()[0];
+		double elementRight = currentElement->get_nodeCoordinates()[1];
+
+		for (int j=meshCounter; j<=meshCounter+1; ++j)
+		{
+			F[j] += currentElement->quadrature();
+
+			for (int i=meshCounter; i<=meshCounter+1; ++i)
+			{
+
+			}
+		}
+	}
 
 	delete[] A3;
 	delete[] A2;

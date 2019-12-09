@@ -14,6 +14,8 @@ class Mesh
 		Elements* elements;
 		Mesh(const int &a_noElements);
 		~Mesh();
+
+		// Also store 'faces', with many 'face's.
 };
 
 #endif

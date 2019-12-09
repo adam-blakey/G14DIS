@@ -43,9 +43,9 @@ void Solution::Solve()
 	double* A2 = new double[n];
 	double* A3 = new double[n-1];
 
-	/*common::setToZero(n-1, A1);
+	common::setToZero(n-1, A1);
 	common::setToZero(n,   A2);
-	common::setToZero(n-1, A3);*/
+	common::setToZero(n-1, A3);
 
 	delete[] A3;
 	delete[] A2;

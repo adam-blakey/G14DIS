@@ -532,7 +532,25 @@
 			"file": "src/testNewFEM.cpp",
 			"settings":
 			{
-				"buffer_size": 1108,
+				"buffer_size": 856,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/solution.hpp",
+			"settings":
+			{
+				"buffer_size": 272,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/mesh.hpp",
+			"settings":
+			{
+				"buffer_size": 244,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -551,6 +569,24 @@
 			"settings":
 			{
 				"buffer_size": 6399,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/solution.cpp",
+			"settings":
+			{
+				"buffer_size": 696,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/mesh.cpp",
+			"settings":
+			{
+				"buffer_size": 1154,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1224,7 +1260,7 @@
 			]
 		]
 	],
-	"build_varint": "and Doxygen",
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 0.0,
@@ -1479,6 +1515,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Solution::",
+			"Mesh",
 			"f_double",
 			"std::function<double(double)>",
 			"elementNo",
@@ -1604,9 +1642,7 @@
 			"verdana",
 			"2e3f77",
 			"factorial_call",
-			"type_confusion",
-			"python",
-			"\t"
+			"type_confusion"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1629,7 +1665,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -1662,7 +1698,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1671,15 +1707,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1108,
+						"buffer_size": 856,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								611,
-								611
+								89,
+								89
 							]
 						],
 						"settings":
@@ -1687,7 +1723,7 @@
 							"SL.160.region_keys":
 							[
 							],
-							"function_name_status_row": 30,
+							"function_name_status_row": 3,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
@@ -1695,17 +1731,78 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/solution.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 272,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								196
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 13,
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/mesh.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								237,
+								237
+							]
+						],
+						"settings":
+						{
+							"SL.22.region_keys":
+							[
+							],
+							"function_name_status_row": 19,
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "src/element.cpp",
 					"semi_transient": false,
 					"settings":
@@ -1731,11 +1828,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "src/common.cpp",
 					"semi_transient": false,
 					"settings":
@@ -1747,8 +1844,8 @@
 						"selection":
 						[
 							[
-								3784,
-								3732
+								3680,
+								3680
 							]
 						],
 						"settings":
@@ -1756,12 +1853,70 @@
 							"SL.182.region_keys":
 							[
 							],
-							"function_name_status_row": 107,
+							"function_name_status_row": 105,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 1287.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/solution.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 696,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								446,
+								446
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 13,
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/mesh.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1154,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1154,
+								1154
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 36,
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,

@@ -14,6 +14,9 @@ class Mesh
 		Elements* elements;
 		Mesh(const int &a_noElements);
 		~Mesh();
+
+		int get_dimProblem();
+		int get_noNodes();
 };
 
 #endif

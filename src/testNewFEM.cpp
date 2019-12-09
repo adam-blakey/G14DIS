@@ -1,15 +1,11 @@
 //#include "common.cpp"
 #include "element.hpp"
 #include "mesh.hpp"
+#include "solution.hpp"
 #include <cmath>
 #include <iostream>
 
 #include <functional>
-
-std::function<double(double)> operator+(const std::function<double(double)> &f, const std::function<double(double)> &g)
-{
-	return [=](double x)->double{ return f(x) + g(x); };
-}
 
 double test(double x)
 {
@@ -17,12 +13,6 @@ double test(double x)
 }
 
 int main()
-{
-	std::function<double(double)> h = cos + test;
-	std::cout << h(0) << std::endl;
-}
-
-int main2()
 {	
 	std::cout << "Hello" << std::endl;
 

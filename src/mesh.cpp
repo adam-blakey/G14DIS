@@ -25,3 +25,23 @@ Mesh::~Mesh()
 {
 	delete this->elements;
 }
+
+/******************************************************************************
+ * __get_dimProblem__
+ * 
+ * @details 	Returns the value of the private variable 'dimProblem'.
+ ******************************************************************************/
+int Mesh::get_dimProblem()
+{
+	return this->dimProblem;
+}
+
+/******************************************************************************
+ * __get_noNodes__
+ * 
+ * @details 	Returns the value of the private variable 'noNodes'.
+ ******************************************************************************/
+int Mesh::get_noNodes()
+{
+	return this->noNodes;
+}

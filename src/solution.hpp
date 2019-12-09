@@ -1,7 +1,7 @@
 #ifndef SOLUTION_HPP
 #define SOLUTION_HPP
 
-class Element
+class Solution
 {
 	private:
 		int noDOFs;
@@ -11,7 +11,10 @@ class Element
 		// DOF STORAGE
 
 	public:
-		double getElementSolutionValues();
+		Solution(Mesh* const &a_mesh);
+		~Solution();
+		//double getElementSolutionValues();
+		void Solve();
 		
 };
 

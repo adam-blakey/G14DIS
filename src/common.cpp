@@ -6,13 +6,9 @@
  * 
  * [ ] Need to split into header file and source file.
  ******************************************************************************/
-#ifndef NAMESPACE_COMMON
-#define NAMESPACE_COMMON
-
+#include "common.hpp"
 #include <cmath>
 #include <functional>
-
-typedef std::function<double(double)> f_double;
 
 namespace common
 {
@@ -185,5 +181,3 @@ namespace common
 		}
 	}
 }
-
-#endif

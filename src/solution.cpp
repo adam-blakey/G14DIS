@@ -1,3 +1,4 @@
+#include "common.hpp"
 #include "element.hpp"
 #include "mesh.hpp"
 #include "solution.hpp"

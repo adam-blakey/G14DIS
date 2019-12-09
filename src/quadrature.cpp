@@ -7,7 +7,7 @@
 #ifndef NAMESPACE_QUADRATURE
 #define NAMESPACE_QUADRATURE
 
-#include "common.cpp"
+#include "common.hpp"
 #include <cassert>
 #include <cmath>
 #include <functional>

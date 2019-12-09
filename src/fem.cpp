@@ -7,7 +7,7 @@
  * @date       2019/11/11
   =============================================================================*/
 
-#include "common.cpp"
+#include "common.hpp"
 #include "linearSystems.cpp"
 #include "quadrature.cpp"
 #include <cmath>

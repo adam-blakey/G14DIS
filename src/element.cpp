@@ -6,7 +6,7 @@
  ******************************************************************************/
 
 #include "element.hpp"
-#include "common.cpp"
+#include "common.hpp"
 #include "quadrature.cpp"
 #include <cassert>
 #include <functional>

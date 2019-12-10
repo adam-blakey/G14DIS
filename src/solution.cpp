@@ -3,6 +3,8 @@
 #include "mesh.hpp"
 #include "solution.hpp"
 
+#include <cmath>
+
 /******************************************************************************
  * __Solution__
  * 
@@ -57,13 +59,18 @@ void Solution::Solve()
 		double elementLeft  = currentElement->get_nodeCoordinates()[0];
 		double elementRight = currentElement->get_nodeCoordinates()[1];
 
-		for (int j=meshCounter; j<=meshCounter+1; ++j)
+		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
-			F[j] += currentElement->quadrature();
+			F[j] += this->l();
 
-			for (int i=meshCounter; i<=meshCounter+1; ++i)
+			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
-
+				if (j<i)
+					A1[i] += this->a();
+				else if (j==i)
+					A2[i] += this->a();
+				else
+					A3[i] += this->a();
 			}
 		}
 	}

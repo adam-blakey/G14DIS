@@ -6,8 +6,9 @@
 class Solution
 {
 	private:
-		int noDOFs;
-		double* solution;
+		
+		double* boundaryConditions;
+		
 		double* polynomialDegrees;
 		Mesh* mesh;
 		double a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q);
@@ -15,6 +16,8 @@ class Solution
 		// DOF STORAGE
 
 	public:
+		int noDOFs; // TEMP
+		double* solution; // TEMP
 		Solution(Mesh* const &a_mesh);
 		~Solution();
 		//double getElementSolutionValues();

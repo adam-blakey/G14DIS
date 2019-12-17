@@ -4,10 +4,8 @@
  * @author     Adam Matthew Blakey
  * @date       2019/12/07
  ******************************************************************************/
-#ifndef NAMESPACE_QUADRATURE
-#define NAMESPACE_QUADRATURE
-
 #include "common.hpp"
+#include "quadrature.hpp"
 #include <cassert>
 #include <cmath>
 #include <functional>
@@ -191,5 +189,3 @@ namespace quadrature
 		return h/(n-1) * answer;
 	}
 }
-
-#endif

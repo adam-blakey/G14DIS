@@ -7,7 +7,7 @@
 
 #include "element.hpp"
 #include "common.hpp"
-#include "quadrature.cpp"
+#include "quadrature.hpp"
 #include <cassert>
 #include <functional>
 

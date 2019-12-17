@@ -1,10 +1,12 @@
 #include "common.hpp"
 #include "element.hpp"
+#include "linearSystems.cpp"
 #include "mesh.hpp"
-#include "quadrature.cpp"
+#include "quadrature.hpp"
 #include "solution.hpp"
 
 #include <cmath>
+#include <iostream>
 
 /******************************************************************************
  * __Solution__
@@ -18,6 +20,7 @@ Solution::Solution(Mesh* const &a_mesh)
 	this->noDOFs 			= a_mesh->get_dimProblem();
 	this->solution 			= new double[a_mesh->get_noNodes()];
 	this->polynomialDegrees = new double[a_mesh->get_noNodes()];
+	this->boundaryConditions= new double[2];
 	this->mesh 				= a_mesh;
 
 	for (int i=0; i<a_mesh->get_noNodes(); ++i)
@@ -31,6 +34,7 @@ Solution::~Solution()
 {
 	delete[] this->solution;
 	delete[] this->polynomialDegrees;
+	delete[] this->boundaryConditions;
 }
 
 /******************************************************************************
@@ -41,6 +45,9 @@ Solution::~Solution()
  ******************************************************************************/
 void Solution::Solve(f_double f, f_double p, f_double q)
 {
+	double A = 0;
+	double B = 0;
+
 	int n = this->noDOFs;
 
 	double* A1 = new double[n-1];
@@ -63,6 +70,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
 			F[j] += this->l(currentElement, j, elementCounter, f);
+			std::cout << "l = " << this->l(currentElement, j, elementCounter, f) << std::endl;
 
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
@@ -75,6 +83,45 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 			}
 		}
 	}
+
+	double* F_ = new double[n]; 
+	double* u0 = new double[n]; 
+	
+	A2[0] = 0;
+	A3[0] = 0;
+	F[0] = 0;
+
+	A1[n-2] = 0;
+	A2[n-1] = 0;
+	F[n-1] = 0;
+
+	common::setToZero(n, u0);
+	u0[0]   = A;
+	u0[n-1] = B;
+
+	std::cout << "WOW" << std:: endl;
+	for (int i=0; i<n; ++i)
+		std::cout << F[i] << std::endl;
+	std::cout << std::endl;
+	
+	common::tridiagonalVectorMultiplication(n, A1, A2, A3, u0, F_); 
+	for (int i=0; i<n; ++i)
+	{
+		F[i] -= F_[i];
+	}
+
+	delete[] u0;
+
+	A1[0] = 0;
+	A2[0] = 1;
+
+	A2[n-1] = 1;
+	A3[n-2] = 0;
+
+	thomasInvert(n, A1, A2, A3, F, this->solution);
+
+	this->solution[0]   = A;
+	this->solution[n-1] = B;
 
 	delete[] A3;
 	delete[] A2;

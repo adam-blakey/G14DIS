@@ -7,18 +7,31 @@
 
 #include <functional>
 
-double test(double x)
+double zero(double x)
+{
+	return 0;
+}
+
+double one(double x)
 {
 	return 1;
 }
 
-int main2()
+int main()
 {
-	//std::function<double(double)> h = cos + test;
-	//std::cout << h(0) << std::endl;
+	Mesh*     myMesh     = new Mesh(12);
+	Solution* mySolution = new Solution(myMesh);
+
+	mySolution->Solve(one, one, zero);
+
+	for (int i=0; i<mySolution->noDOFs; ++i)
+		std::cout << mySolution->solution[i] << std::endl;
+
+	delete mySolution;
+	delete myMesh;
 }
 
-int main()
+int main2()
 {	
 	std::cout << "Hello" << std::endl;
 

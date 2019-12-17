@@ -17,6 +17,11 @@ double one(double x)
 	return 1;
 }
 
+double exact(double x)
+{
+	return double(1)/2 * (1 - pow(x, 2));
+}
+
 int main()
 {
 	Mesh*     myMesh     = new Mesh(12);
@@ -24,8 +29,17 @@ int main()
 
 	mySolution->Solve(one, one, zero);
 
+	std::cout << "Approximate:" << std::endl;
 	for (int i=0; i<mySolution->noDOFs; ++i)
 		std::cout << mySolution->solution[i] << std::endl;
+
+	std::cout << "Exact:" << std::endl;
+	for (int i=0; i<mySolution->noDOFs; ++i)
+	{
+		double x = -1 + i*double(2)/(mySolution->noDOFs-1);
+		std::cout << exact(x) << std::endl;
+	}
+
 
 	delete mySolution;
 	delete myMesh;

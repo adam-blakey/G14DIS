@@ -62,7 +62,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 
 	for (int elementCounter=0; elementCounter<=n-2; ++elementCounter)
 	{
-		Element* currentElement = (*(this->mesh->elements))[0];
+		Element* currentElement = (*(this->mesh->elements))[elementCounter];
 
 		double elementLeft  = currentElement->get_nodeCoordinates()[0];
 		double elementRight = currentElement->get_nodeCoordinates()[1];
@@ -70,7 +70,6 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
 			F[j] += this->l(currentElement, j, elementCounter, f);
-			std::cout << "l = " << this->l(currentElement, j, elementCounter, f) << std::endl;
 
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
@@ -100,8 +99,8 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	u0[n-1] = B;
 
 	std::cout << "WOW" << std:: endl;
-	for (int i=0; i<n; ++i)
-		std::cout << F[i] << std::endl;
+	for (int i=0; i<n-1; ++i)
+		std::cout << A1[i] << std::endl;
 	std::cout << std::endl;
 	
 	common::tridiagonalVectorMultiplication(n, A1, A2, A3, u0, F_); 

@@ -10,15 +10,15 @@ class Solution
 		double* solution;
 		double* polynomialDegrees;
 		Mesh* mesh;
-		double a(const int &i, const int &j, const int &node1Index, f_double p, f_double q);
-		double l(              const int &j, const int &node1Index, f_double f);
+		double a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q);
+		double l(Element* currentElement,               const int &j, const int &node1Index, f_double f);
 		// DOF STORAGE
 
 	public:
 		Solution(Mesh* const &a_mesh);
 		~Solution();
 		//double getElementSolutionValues();
-		void Solve();
+		void Solve(f_double f, f_double p, f_double q);
 		
 };
 

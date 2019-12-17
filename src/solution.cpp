@@ -1,6 +1,7 @@
 #include "common.hpp"
 #include "element.hpp"
 #include "mesh.hpp"
+#include "quadrature.cpp"
 #include "solution.hpp"
 
 #include <cmath>
@@ -38,7 +39,7 @@ Solution::~Solution()
  * @details 	Uses the stored data to calculate and populate the value in
  * 					local variable 'solution'.
  ******************************************************************************/
-void Solution::Solve()
+void Solution::Solve(f_double f, f_double p, f_double q)
 {
 	int n = this->noDOFs;
 
@@ -61,16 +62,16 @@ void Solution::Solve()
 
 		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
-			F[j] += this->l();
+			F[j] += this->l(currentElement, j, elementCounter, f);
 
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
 				if (j<i)
-					A1[i] += this->a();
+					A1[i] += this->a(currentElement, i, j, elementCounter, p, q);
 				else if (j==i)
-					A2[i] += this->a();
+					A2[i] += this->a(currentElement, i, j, elementCounter, p, q);
 				else
-					A3[i] += this->a();
+					A3[i] += this->a(currentElement, i, j, elementCounter, p, q);
 			}
 		}
 	}
@@ -78,4 +79,89 @@ void Solution::Solve()
 	delete[] A3;
 	delete[] A2;
 	delete[] A1;
+}
+
+double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
+{
+	double h = currentElement->Jacobian();
+	double node1 = currentElement->get_nodeCoordinates()[0];
+	double node2 = currentElement->get_nodeCoordinates()[1];
+	f_double integrand;
+
+	if (j == node1Index)
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							common::transformFunction(currentElement->basisFunctions(1), node1, node2),
+							f
+						)
+					);
+	else
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							common::transformFunction(currentElement->basisFunctions(0), node1, node2),
+							f
+						)
+					);
+
+	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
+}
+
+double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
+{
+	double h = currentElement->Jacobian();
+	double node1 = currentElement->get_nodeCoordinates()[0];
+	double node2 = currentElement->get_nodeCoordinates()[1];
+	f_double integrand;
+
+	if (i==j)
+	{
+		if (i==node1Index)
+			integrand = common::addFunction(
+							common::multiplyFunction(
+								common::constantMultiplyFunction(double(1)/h, p),
+								common::multiplyFunction(currentElement->basisFunctions_(1), currentElement->basisFunctions_(1))
+							),
+							common::multiplyFunction(
+								common::constantMultiplyFunction(h, q),
+								common::multiplyFunction(
+									common::transformFunction(currentElement->basisFunctions(1), node1, node2),
+									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
+									)
+								)
+							);
+		else 
+			integrand = common::addFunction(
+							common::multiplyFunction(
+								common::constantMultiplyFunction(double(1)/h, p),
+								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(0))
+							),
+							common::multiplyFunction(
+								common::constantMultiplyFunction(h, q),
+								common::multiplyFunction(
+									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
+									common::transformFunction(currentElement->basisFunctions(0), node1, node2)
+									)
+								)
+							);
+	}
+	else
+	{
+		integrand = common::addFunction(
+							common::multiplyFunction(
+								common::constantMultiplyFunction(double(1)/h, p),
+								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(1))
+							),
+							common::multiplyFunction(
+								common::constantMultiplyFunction(h, q),
+								common::multiplyFunction(
+									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
+									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
+									)
+								)
+							);
+	}
+
+	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
 }

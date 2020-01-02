@@ -26,7 +26,7 @@
  * @param[in] a_noNodes 			Number of nodes in this element.
  * @param[in] a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates)
+void Element::init(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates)
 {
 	this->elementNo = a_elementNo;
 	this->noNodes = a_noNodes;
@@ -63,7 +63,7 @@ Element::Element(const Element &a_element)
  ******************************************************************************/
 Element::Element(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates)
 {
-	init_Element(a_elementNo, a_noNodes, a_nodeCoordinates);
+	init(a_elementNo, a_noNodes, a_nodeCoordinates);
 }
 
 /******************************************************************************
@@ -85,7 +85,7 @@ Element::~Element()
  ******************************************************************************/
 Element& Element::operator=(const Element &a_element)
 {
-	init_Element(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeCoordinates());
+	init(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeCoordinates());
 
 	return *this;
 }

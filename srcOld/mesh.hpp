@@ -1,9 +1,3 @@
-/******************************************************************************
- * @details This is a file containing declarations of [mesh].
- * 
- * @author     Adam Matthew Blakey
- * @date       2019/12/03
- ******************************************************************************/
 #ifndef MESH_HPP
 #define MESH_HPP
 

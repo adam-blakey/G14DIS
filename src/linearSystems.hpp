@@ -1,11 +1,11 @@
 /******************************************************************************
- * @details Declarations for [Common] namespace.
+ * @details Declarations for [linearSystems] namespace.
  * 
  * @author     Adam Matthew Blakey
  * @date       2019/11/11
  ******************************************************************************/
-#ifndef NAMESPACE_COMMON
-#define NAMESPACE_COMMON
+#ifndef NAMESPACE_LINEARSYSTEMS
+#define NAMESPACE_LINEARSYSTEMS
 
 #include <cmath>
 #include <functional>

@@ -1,9 +1,3 @@
-/******************************************************************************
- * @details This is a file containing declarations of the [Solution] namespace.
- * 
- * @author     Adam Matthew Blakey
- * @date       2019/12/03
- ******************************************************************************/
 #ifndef SOLUTION_HPP
 #define SOLUTION_HPP
 

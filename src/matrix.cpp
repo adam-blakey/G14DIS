@@ -128,6 +128,13 @@ int Matrix<T>::get_index(const int &a_x, const int &a_y) const
 template<class T>
 T& Matrix<T>::item(const int &a_x, const int &a_y)
 {
+	// Dimensions must be the same.
+	if (a_x >= noColumns || a_y >= noRows)
+	{
+		std::cerr << "Invalid index.";
+		return items[8];
+	}
+
 	return items[get_index(a_x, a_y)];
 }
 
@@ -139,6 +146,13 @@ T& Matrix<T>::item(const int &a_x, const int &a_y)
 template<class T>
 const T& Matrix<T>::item(const int &a_x, const int &a_y) const
 {
+	// Dimensions must be the same.
+	if (a_x >= noColumns || a_y >= noRows)
+	{
+		std::cerr << "Invalid index.";
+		return items[0];
+	}
+
 	return items[get_index(a_x, a_y)];
 }
 

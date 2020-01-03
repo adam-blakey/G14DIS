@@ -5,8 +5,8 @@
  * @author     Adam Matthew Blakey
  * @date       2019/12/03
  ******************************************************************************/
-#ifndef ELEMENT_HPP
-#define ELEMENT_HPP
+#ifndef CLASS_ELEMENT
+#define CLASS_ELEMENT
 
 #include <functional>
 

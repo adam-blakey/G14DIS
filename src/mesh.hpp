@@ -4,8 +4,8 @@
  * @author     Adam Matthew Blakey
  * @date       2019/12/03
  ******************************************************************************/
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef CLASS_MESH
+#define CLASS_MESH
 
 #include "element.hpp"
 

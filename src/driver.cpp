@@ -1,5 +1,6 @@
-//#include "common.cpp"
+#include "common.hpp"
 #include "element.hpp"
+#include "matrix.hpp"
 #include "mesh.hpp"
 #include "solution.hpp"
 #include <cmath>

@@ -4,8 +4,8 @@
  * @author     Adam Matthew Blakey
  * @date       2019/12/03
  ******************************************************************************/
-#ifndef SOLUTION_HPP
-#define SOLUTION_HPP
+#ifndef CLASS_SOLUTION
+#define CLASS_SOLUTION
 
 #include "common.hpp"
 

@@ -13,7 +13,7 @@
 #include <iostream>
 
 /******************************************************************************
- * __Matrix__
+ * __Matrix_full__
  * 
  * @details 	The default [Matrix] constructor.
  ******************************************************************************/
@@ -25,7 +25,7 @@ Matrix_full<T>::Matrix_full(const int &N)
 }
 
 /******************************************************************************
- * __Matrix__
+ * __Matrix_full__
  * 
  * @details 	
  ******************************************************************************/
@@ -38,7 +38,7 @@ Matrix_full<T>::Matrix_full(const int &a_noColumns, const int &a_noRows)
 }
 
 /******************************************************************************
- * __Matrix__
+ * __Matrix_full__
  * 
  * @details 	
  ******************************************************************************/
@@ -52,7 +52,7 @@ Matrix_full<T>::Matrix_full(const int &a_noColumns, const int &a_noRows, const T
 }
 
 /******************************************************************************
- * __Matrix__
+ * __Matrix_full__
  * 
  * @details 	
  ******************************************************************************/
@@ -227,6 +227,102 @@ Matrix_full<T> Matrix_full<T>::operator/(const T &a_RHS)
 	tempMatrix /= a_RHS;
 
 	return tempMatrix;
+}
+
+/******************************************************************************
+ * STANDALONE VECTOR TENSORISATION -- IS THIS THE BEST PLACE FOR IT?!?!?!
+******************************************************************************/
+template<class T>
+Matrix_full<T> Tensorise(const std::vector<T> &a_vec1, const std::vector<T> &a_vec2)
+{
+	// Temporary matrices.
+	Matrix_full<T> mat1(a_vec1.size(), 1);
+	for (int i=0; i<a_vec1.size(); ++i)
+		mat1(1, i) = a_vec1[i];
+
+	Matrix_full<T> mat2(1, a_vec2.size());
+	for (int i=0; i<a_vec2.size(); ++i)
+		mat2(i, 1) = a_vec2[i];
+
+	// Matrix result.
+	Matrix_full<T> result = mat1 * mat2;
+
+	return result;
+}
+
+/******************************************************************************
+ * STANDALONE VECTOR REDUCTION -- IS THIS THE BEST PLACE FOR IT?!?!?!
+******************************************************************************/
+template<class T>
+T Scalarise(const std::vector<T> &a_vec1, const std::vector<T> &a_vec2)
+{
+	// Temporary matrices.
+	Matrix_full<T> mat1(1, a_vec1.size());
+	for (int i=0; i<a_vec1.size(); ++i)
+		mat1(1, i) = a_vec1[i];
+
+	Matrix_full<T> mat2(a_vec2.size(), 1);
+	for (int i=0; i<a_vec2.size(); ++i)
+		mat2(i, 1) = a_vec2[i];
+
+	// Single value result.
+	Matrix_full<T> result = mat1 * mat2;
+
+	return result(0, 0);
+}
+
+/******************************************************************************
+ * STANDALONE VECTOR NORM -- IS THIS THE BEST PLACE FOR IT?!?!?!
+******************************************************************************/
+template<class T>
+T l2Norm(const std::vector<T> &a_vec)
+{
+	T value = 0;
+
+	for (int i=0; i<a_vec.size(); ++i)
+		value += pow(a_vec[i], 2);
+
+	return sqrt(value);
+}
+
+/******************************************************************************
+ * STANDALONE CONJUGATE GRADIENT -- IS THIS THE BEST PLACE FOR IT?!?!?!
+******************************************************************************/
+template<class T>
+std::vector<T> ConjugateGradient(/*const*/ Matrix<T> &a_matrix, const std::vector<T> &a_vector)
+{
+	// Tolerance.
+	const int TOL = 1e-10;
+
+	// Sets up some temporary variables.
+	std::vector<T> y_m  (a_matrix.get_noColumns());
+	std::vector<T> y_mm1(a_matrix.get_noColumns(), 0); // I.C.
+	std::vector<T> r_m  (a_matrix.get_noColumns());
+	std::vector<T> r_mm1(a_matrix.get_noColumns());
+	std::vector<T> p_m  (a_matrix.get_noColumns());
+	std::vector<T> p_mp1(a_matrix.get_noColumns());
+
+	// Initialises the temporary variables.
+	r_mm1 = a_vector - (a_matrix*y_mm1);
+	p_m = r_mm1;
+
+	// Loops while the norm is big.
+	while(l2Norm(r_mm1) > TOL)
+	{
+		// Applies conjugate gradient.
+		double alpha = Scalarise(r_mm1, r_mm1)/Scalarise(p_m, a_matrix*p_m);
+		y_m = y_mm1 + alpha*p_m;
+		r_m = r_mm1 - alpha*a_matrix*p_m;
+		double beta = Scalarise(r_m, r_m)/Scalarise(r_mm1, r_mm1);
+		p_mp1 = r_m + beta*p_m;
+
+		// Sets variables for next iteration.
+		r_mm1 = r_m;
+		y_mm1 = y_m;
+		p_m = p_mp1;
+	}
+
+	return y_m;
 }
 
 #endif

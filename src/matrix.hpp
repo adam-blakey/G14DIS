@@ -13,29 +13,19 @@
 template<class T>
 class Matrix
 {
-	private:
-		// Hidden default constructor.
-		Matrix();
-
+	protected:
 		// Storage.
-		std::vector<T> items;
 		int noColumns;
 		int noRows;
 
-		// Index calculation.
-		int get_index(const int &x, const int &y) const;
+		// Resizing.
+		virtual void resize(const int &a_noNonZeros);
 
 		// Gets an individual item.
-		T&       item(const int &a_x, const int &a_y);
-		const T& item(const int &a_x, const int &a_y) const;
+		virtual T&       item(const int &a_x, const int &a_y) = 0;
+		virtual const T& item(const int &a_x, const int &a_y) const = 0;
 
 	public:
-		// Constructors.
-		Matrix(const int &a_N);
-		Matrix(const int &a_noColumns, const int &a_noRows);
-		Matrix(const int &a_noColumns, const int &a_noRows, const T &a_initial);
-		Matrix(const Matrix<T> &a_matrix);
-
 		// Getters.
 		int            get_noRows() const;
 		int            get_noColumns() const;

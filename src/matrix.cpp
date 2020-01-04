@@ -12,59 +12,6 @@
 #include <iostream>
 
 /******************************************************************************
- * __Matrix__
- * 
- * @details 	The default [Matrix] constructor.
- ******************************************************************************/
-template<class T>
-Matrix<T>::Matrix(const int &N)
-: Matrix(N, N)
-{
-	//
-}
-
-/******************************************************************************
- * __Matrix__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T>::Matrix(const int &a_noColumns, const int &a_noRows)
-{
-	this->noColumns = a_noColumns;
-	this->noRows = a_noRows;
-	items.reserve(noRows * noColumns);
-}
-
-/******************************************************************************
- * __Matrix__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T>::Matrix(const int &a_noColumns, const int &a_noRows, const T &a_initial)
-: Matrix(a_noColumns, a_noRows)
-{
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			items[get_index(i, j)] = a_initial;
-}
-
-/******************************************************************************
- * __Matrix__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T>::Matrix(const Matrix<T> &a_matrix)
-: Matrix(a_matrix.get_noColumns(), a_matrix.get_noRows())
-{
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			items[get_index(i, j)] = a_matrix(i, j);
-}
-
-/******************************************************************************
  * __get_noRows__
  * 
  * @details 	
@@ -104,59 +51,6 @@ std::vector<T> Matrix<T>::get_diagonal() const
 }
 
 /******************************************************************************
- * __get_index__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-int Matrix<T>::get_index(const int &a_x, const int &a_y) const
-{
-	if (a_x >= noColumns || a_y >= noRows)
-	{
-		std::cerr << "Error: Requested indices exceed matrix dimensions." << std::endl;
-		return 0;
-	}
-
-	return a_x + a_y*noColumns;
-}
-
-/******************************************************************************
- * __item__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-T& Matrix<T>::item(const int &a_x, const int &a_y)
-{
-	// Dimensions must be the same.
-	if (a_x >= noColumns || a_y >= noRows)
-	{
-		std::cerr << "Invalid index.";
-		return items[8];
-	}
-
-	return items[get_index(a_x, a_y)];
-}
-
-/******************************************************************************
- * __item__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-const T& Matrix<T>::item(const int &a_x, const int &a_y) const
-{
-	// Dimensions must be the same.
-	if (a_x >= noColumns || a_y >= noRows)
-	{
-		std::cerr << "Invalid index.";
-		return items[0];
-	}
-
-	return items[get_index(a_x, a_y)];
-}
-
-/******************************************************************************
  * __operator()__
  * 
  * @details 	
@@ -192,7 +86,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T> &a_RHS)
 	this->noRows = a_RHS.get_noRows();
 	this->noColumns = a_RHS.get_noColumns();
 
-	items.reserve(noRows * noColumns);
+	this->resize(noRows * noColumns);
 
 	for (int i=0; i<noColumns; ++i)
 		for (int j=0; j<noRows; ++j)

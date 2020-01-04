@@ -129,4 +129,104 @@ const T& Matrix_full<T>::item(const int &a_x, const int &a_y) const
 	return items[get_index(a_x, a_y)];
 }
 
+/******************************************************************************
+ * __operator+__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_full<T> Matrix_full<T>::operator+(const Matrix<T> &a_RHS)
+{
+	// Creates new matrix and calculates elements appropriately.
+	Matrix_full<T> tempMatrix((*this));
+	
+	tempMatrix += a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator-__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_full<T> Matrix_full<T>::operator-(const Matrix<T> &a_RHS)
+{
+	// Creates new matrix and calculates elements appropriately.
+	Matrix_full<T> tempMatrix((*this));
+	
+	tempMatrix -= a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator*__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_full<T> Matrix_full<T>::operator*(const Matrix<T> &a_RHS)
+{
+		// Matching dimensions.
+	if (this->noRows != a_RHS.get_noColumns())
+	{
+		std::cerr << "Matrix dimensions do not match (cannot multiply "
+			<< this->noColumns
+			<< "x"
+			<< this->noRows
+			<< " by "
+			<< a_RHS.get_noColumns()
+			<< "x"
+			<< a_RHS.get_noRows()
+			<< ").";
+
+		return *this;
+	}
+
+	int newRows = a_RHS.get_noRows();
+	int newColumns = this->noColumns;
+
+	Matrix_full<T> tempMatrix(newColumns, newRows, 0);
+
+	// Creates new matrix and calculates elements appropriately.
+	for (int i=0; i<newColumns; ++i)
+		for (int j=0; j<newRows; ++j)
+			for (int k=0; k<this->noRows; ++k)
+				tempMatrix(i, j) += item(i, k) * a_RHS(k, j);
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator*__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_full<T> Matrix_full<T>::operator*(const T &a_RHS)
+{
+	Matrix_full<T> tempMatrix(*this);
+
+	tempMatrix *= a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator/__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_full<T> Matrix_full<T>::operator/(const T &a_RHS)
+{
+	Matrix_full<T> tempMatrix(*this);
+
+	tempMatrix /= a_RHS;
+
+	return tempMatrix;
+}
+
 #endif

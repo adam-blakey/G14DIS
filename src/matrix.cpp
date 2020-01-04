@@ -96,22 +96,6 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T> &a_RHS)
 }
 
 /******************************************************************************
- * __operator+__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T> Matrix<T>::operator+(const Matrix<T> &a_RHS)
-{
-	// Creates new matrix and calculates elements appropriately.
-	Matrix<T> tempMatrix((*this));
-	
-	tempMatrix += a_RHS;
-
-	return tempMatrix;
-}
-
-/******************************************************************************
  * __operator+=__
  * 
  * @details 	
@@ -135,22 +119,6 @@ Matrix<T>& Matrix<T>::operator+=(const Matrix<T> &a_RHS)
 }
 
 /******************************************************************************
- * __operator-__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T> Matrix<T>::operator-(const Matrix<T> &a_RHS)
-{
-	// Creates new matrix and calculates elements appropriately.
-	Matrix<T> tempMatrix((*this));
-	
-	tempMatrix -= a_RHS;
-
-	return tempMatrix;
-}
-
-/******************************************************************************
  * __operator-=__
  * 
  * @details 	
@@ -171,81 +139,6 @@ Matrix<T>& Matrix<T>::operator-=(const Matrix<T> &a_RHS)
 			item(i, j) -= a_RHS(i, j); // I think it's a problem with this LHS -- I don't think you can write to it...
 
 	return *this;
-}
-
-/******************************************************************************
- * __operator*__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T> Matrix<T>::operator*(const Matrix<T> &a_RHS)
-{
-		// Matching dimensions.
-	if (noRows != a_RHS.get_noColumns())
-	{
-		std::cerr << "Matrix dimensions do not match (cannot multiply "
-			<< noColumns
-			<< "x"
-			<< noRows
-			<< " by "
-			<< a_RHS.get_noColumns()
-			<< "x"
-			<< a_RHS.get_noRows()
-			<< ").";
-
-		return *this;
-	}
-
-	int newRows = a_RHS.get_noRows();
-	int newColumns = noColumns;
-
-	Matrix<T> tempMatrix(newColumns, newRows, 0);
-
-	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<newColumns; ++i)
-		for (int j=0; j<newRows; ++j)
-			for (int k=0; k<noRows; ++k)
-				tempMatrix(i, j) += item(i, k) * a_RHS(k, j);
-
-	return tempMatrix;
-}
-
-/******************************************************************************
- * __operator*__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix<T> Matrix<T>::operator*(const T &a_RHS)
-{
-	Matrix<T> tempMatrix(*this);
-
-	tempMatrix *= a_RHS;
-
-	return tempMatrix;
-}
-
-/******************************************************************************
- * __operator*__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-std::vector<T> Matrix<T>::operator*(const std::vector<T> &a_RHS)
-{
-	if (noColumns != a_RHS.size())
-	{
-		std::cerr << "Error: Matrix-vector dimensions do not match." << std::endl;
-		return a_RHS;
-	}
-
-	std::vector<T> tempVector(noColumns, 0);
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			tempVector[i] += item(i, j) * a_RHS[j];
-
-	return tempVector;
 }
 
 /******************************************************************************
@@ -293,19 +186,27 @@ Matrix<T>& Matrix<T>::operator*=(const T &a_RHS)
 }
 
 /******************************************************************************
- * __operator/__
+ * __operator*__
  * 
  * @details 	
  ******************************************************************************/
 template<class T>
-Matrix<T> Matrix<T>::operator/(const T &a_RHS)
+std::vector<T> Matrix<T>::operator*(const std::vector<T> &a_RHS)
 {
-	Matrix<T> tempMatrix(*this);
+	if (noColumns != a_RHS.size())
+	{
+		std::cerr << "Error: Matrix-vector dimensions do not match." << std::endl;
+		return a_RHS;
+	}
 
-	tempMatrix /= a_RHS;
+	std::vector<T> tempVector(noColumns, 0);
+	for (int i=0; i<noColumns; ++i)
+		for (int j=0; j<noRows; ++j)
+			tempVector[i] += item(i, j) * a_RHS[j];
 
-	return tempMatrix;
+	return tempVector;
 }
+
 
 /******************************************************************************
  * __operator/=__

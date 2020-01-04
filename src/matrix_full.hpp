@@ -37,6 +37,15 @@ class Matrix_full: public Matrix<T>
 		Matrix_full(const int &a_noColumns, const int &a_noRows);
 		Matrix_full(const int &a_noColumns, const int &a_noRows, const T &a_initial);
 		Matrix_full(const Matrix<T> &a_matrix);
+
+		// Matrix-Matrix operations.
+		Matrix_full<T> operator+(const Matrix<T> &a_RHS);
+		Matrix_full<T> operator-(const Matrix<T> &a_RHS);
+		Matrix_full<T> operator*(const Matrix<T> &a_RHS);
+
+		// Matrix-scalar operations.
+		Matrix_full<T> operator*(const T &a_RHS);
+		Matrix_full<T> operator/(const T &a_RHS);
 };
 
 #include "matrix_full.cpp"

@@ -19,7 +19,7 @@ class Matrix
 		int noRows;
 
 		// Resizing.
-		virtual void resize(const int &a_noNonZeros);
+		virtual void resize(const int &a_noNonZeros) = 0;
 
 		// Gets an individual item.
 		virtual T&       item(const int &a_x, const int &a_y) = 0;
@@ -37,17 +37,12 @@ class Matrix
 
 		// Matrix-Matrix operations.
 		Matrix<T>& operator= (const Matrix<T> &a_RHS);
-		Matrix<T>  operator+ (const Matrix<T> &a_RHS);
 		Matrix<T>& operator+=(const Matrix<T> &a_RHS);
-		Matrix<T>  operator- (const Matrix<T> &a_RHS);
 		Matrix<T>& operator-=(const Matrix<T> &a_RHS);
-		Matrix<T>  operator* (const Matrix<T> &a_RHS);
 		Matrix<T>& operator*=(const Matrix<T> &a_RHS);
 
 		// Matrix-scalar operations.
-		Matrix<T>  operator* (const T &a_RHS);
 		Matrix<T>& operator*=(const T &a_RHS);
-		Matrix<T>  operator/ (const T &a_RHS);
 		Matrix<T>& operator/=(const T &a_RHS);
 
 		// Matrix-vector operations.

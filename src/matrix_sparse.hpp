@@ -35,10 +35,18 @@ class Matrix_sparse: public Matrix<T>
 
 	public:
 		// Constructors.
-		Matrix_sparse(const int &a_N);
-		Matrix_sparse(const int &a_noColumns, const int &a_noRows);
+		Matrix_sparse(const int &a_N, const int &a_noNonZero);
 		Matrix_sparse(const int &a_noColumns, const int &a_noRows, const int &a_noNonZero);
 		Matrix_sparse(const Matrix<T> &a_matrix);
+
+		// Matrix-Matrix operations.
+		Matrix_sparse<T> operator+(const Matrix<T> &a_RHS);
+		Matrix_sparse<T> operator-(const Matrix<T> &a_RHS);
+		Matrix_sparse<T> operator*(const Matrix<T> &a_RHS);
+
+		// Matrix-scalar operations.
+		Matrix_sparse<T> operator*(const T &a_RHS);
+		Matrix_sparse<T> operator/(const T &a_RHS);
 };
 
 #include "matrix_full.cpp"

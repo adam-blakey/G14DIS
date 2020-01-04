@@ -18,8 +18,8 @@
  * @details 	The default [Matrix] constructor.
  ******************************************************************************/
 template<class T>
-Matrix_sparse<T>::Matrix_sparse(const int &N)
-: Matrix(N, N)
+Matrix_sparse<T>::Matrix_sparse(const int &a_N, const int &a_noNonZero)
+: Matrix(a_N, a_N, a_noNonZero)
 {
 	//
 }
@@ -30,25 +30,12 @@ Matrix_sparse<T>::Matrix_sparse(const int &N)
  * @details 	
  ******************************************************************************/
 template<class T>
-Matrix_sparse<T>::Matrix_sparse(const int &a_noColumns, const int &a_noRows)
+Matrix_sparse<T>::Matrix_sparse(const int &a_noColumns, const int &a_noRows, const int &a_noNonZero)
 {
 	this->noColumns = a_noColumns;
 	this->noRows = a_noRows;
-	items.reserve(noRows * noColumns);
-}
 
-/******************************************************************************
- * __Matrix__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-Matrix_sparse<T>::Matrix_sparse(const int &a_noColumns, const int &a_noRows, const T &a_initial)
-: Matrix_sparse(a_noColumns, a_noRows)
-{
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			items[get_index(i, j)] = a_initial;
+	this->resize(a_noNonZero);
 }
 
 /******************************************************************************
@@ -60,9 +47,42 @@ template<class T>
 Matrix_sparse<T>::Matrix_sparse(const Matrix<T> &a_matrix)
 : Matrix_sparse(a_matrix.get_noColumns(), a_matrix.get_noRows())
 {
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			items[get_index(i, j)] = a_matrix(i, j);
+	// Temporary vectors with matrix entries and column numbers.
+	std::vector<T> tempMatrixEntries(0);
+	std::vector<T> tempColumnNos(0);
+
+	// Resizes the row starts vector to correct length.
+	this->rowStarts.resize(this->noRows + 1);
+
+	for (int j=0; j<noRows; ++j)
+	{
+		bool rowStartAssigned = false;
+
+		for (int i=0; i<noColumns; ++i)
+		{
+			// Insert element if nonzero.
+			if (a_matrix(i, j) != 0)
+			{
+				tempMatrixEntries.push_back(a_matrix(i, j));
+				tempColumnNos    .push_back(i);
+
+				if (!rowStartAssigned)
+				{
+					this->rowStarts[j] = tempMatrixEntries.size();
+					rowStartAssigned = true;
+				}
+			}
+		}
+
+		// If the row start still hasn't been assigned.
+		if (!rowStartAssigned)
+			rowStarts[j] = tempMatrixEntries.size();
+	}
+
+	this->rowStarts[noRows] = tempColumnsNos.size();
+
+	this->matrixEntries = tempMatrixEntries;
+	this->columnNos = tempColumnNos;
 }
 
 /******************************************************************************
@@ -129,6 +149,106 @@ const T& Matrix_sparse<T>::item(const int &a_x, const int &a_y) const
 	}
 
 	return items[get_index(a_x, a_y)];
+}
+
+/******************************************************************************
+ * __operator+__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_sparse<T> Matrix_sparse<T>::operator+(const Matrix<T> &a_RHS)
+{
+	// Creates new matrix and calculates elements appropriately.
+	Matrix_sparse<T> tempMatrix((*this));
+	
+	tempMatrix += a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator-__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_sparse<T> Matrix_sparse<T>::operator-(const Matrix<T> &a_RHS)
+{
+	// Creates new matrix and calculates elements appropriately.
+	Matrix_sparse<T> tempMatrix((*this));
+	
+	tempMatrix -= a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator*__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_sparse<T> Matrix_sparse<T>::operator*(const Matrix<T> &a_RHS)
+{
+		// Matching dimensions.
+	if (noRows != a_RHS.get_noColumns())
+	{
+		std::cerr << "Matrix dimensions do not match (cannot multiply "
+			<< noColumns
+			<< "x"
+			<< noRows
+			<< " by "
+			<< a_RHS.get_noColumns()
+			<< "x"
+			<< a_RHS.get_noRows()
+			<< ").";
+
+		return *this;
+	}
+
+	int newRows = a_RHS.get_noRows();
+	int newColumns = noColumns;
+
+	Matrix_sparse<T> tempMatrix(newColumns, newRows, 0);
+
+	// Creates new matrix and calculates elements appropriately.
+	for (int i=0; i<newColumns; ++i)
+		for (int j=0; j<newRows; ++j)
+			for (int k=0; k<noRows; ++k)
+				tempMatrix(i, j) += item(i, k) * a_RHS(k, j);
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator*__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_sparse<T> Matrix_sparse<T>::operator*(const T &a_RHS)
+{
+	Matrix_sparse<T> tempMatrix(*this);
+
+	tempMatrix *= a_RHS;
+
+	return tempMatrix;
+}
+
+/******************************************************************************
+ * __operator/__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+Matrix_sparse<T> Matrix_sparse<T>::operator/(const T &a_RHS)
+{
+	Matrix_sparse<T> tempMatrix(*this);
+
+	tempMatrix /= a_RHS;
+
+	return tempMatrix;
 }
 
 #endif

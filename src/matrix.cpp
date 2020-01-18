@@ -191,17 +191,17 @@ Matrix<T>& Matrix<T>::operator*=(const T &a_RHS)
  * @details 	
  ******************************************************************************/
 template<class T>
-std::vector<T> Matrix<T>::operator*(const std::vector<T> &a_RHS)
+std::vector<T> Matrix<T>::operator*(const std::vector<T> &a_RHS) const
 {
-	if (noColumns != a_RHS.size())
+	if (get_noColumns() != a_RHS.size())
 	{
 		std::cerr << "Error: Matrix-vector dimensions do not match." << std::endl;
 		return a_RHS;
 	}
 
-	std::vector<T> tempVector(noColumns, 0);
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	std::vector<T> tempVector(get_noColumns(), 0);
+	for (int i=0; i<get_noColumns(); ++i)
+		for (int j=0; j<get_noRows(); ++j)
 			tempVector[i] += item(i, j) * a_RHS[j];
 
 	return tempVector;

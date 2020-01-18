@@ -6,7 +6,7 @@
  ******************************************************************************/
 #include "common.hpp"
 #include "element.hpp"
-#include "linearSystems.cpp"
+#include "linearSystems.hpp"
 #include "mesh.hpp"
 #include "quadrature.hpp"
 #include "solution.hpp"
@@ -123,7 +123,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	thomasInvert(n, A1, A2, A3, F, this->solution);
+	linearSystems::thomasInvert(n, A1, A2, A3, F, this->solution);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;

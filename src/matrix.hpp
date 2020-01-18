@@ -46,7 +46,7 @@ class Matrix
 		Matrix<T>& operator/=(const T &a_RHS);
 
 		// Matrix-vector operations.
-		std::vector<T> operator*(const std::vector<T> &a_RHS);
+		std::vector<T> operator*(const std::vector<T> &a_RHS) const;
 };
 
 #include "matrix.cpp"

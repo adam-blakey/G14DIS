@@ -7,6 +7,7 @@
 #ifndef CLASS_SRC_MATRIX_FULL
 #define CLASS_SRC_MATRIX_FULL
 
+#include "common.hpp"
 #include "matrix.hpp"
 #include "matrix_full.hpp"
 #include <cmath>
@@ -193,7 +194,7 @@ Matrix_full<T> Matrix_full<T>::operator*(const Matrix<T> &a_RHS)
 	// Creates new matrix and calculates elements appropriately.
 	for (int i=0; i<newColumns; ++i)
 		for (int j=0; j<newRows; ++j)
-			for (int k=0; k<this->noRows; ++k)
+			for (int k=0; k<this->get_noRows(); ++k)
 				tempMatrix(i, j) += item(i, k) * a_RHS(k, j);
 
 	return tempMatrix;
@@ -286,10 +287,88 @@ T l2Norm(const std::vector<T> &a_vec)
 }
 
 /******************************************************************************
+ * __innerProduct__
+ * 
+ * @details 	Calculates the inner product of two vectors.
+ *
+ * @param[in]  a_vec1  First vector.
+ * @param[in]  a_vec2  Second vector.
+ *
+ * @tparam     General type.
+ *
+ * @return     Returns the sum of the product of individual vector components.
+ ******************************************************************************/
+template<class T>
+T innerProduct(const std::vector<T> &a_vec1, const std::vector<T> &a_vec2)
+{
+	T result = 0;
+
+	for (int i=0; i<a_vec1.size(); ++i)
+		result += a_vec1[i] * a_vec2[i];
+
+	return result;
+}
+
+/******************************************************************************
+ * __linearCombination__
+ * 
+ * @details 	Calculates a linear combination of two vectors.
+ *
+ * @param[in]  a_vec1  First vector.
+ * @param[in]  a_vec2  Second vector.
+ *
+ * @tparam     General type.
+ *
+ * @return     Returns the linear combination.
+ ******************************************************************************/
+template<class T>
+std::vector<T> linearCombination(const T &a_constant1, const std::vector<T> &a_vec1, const T &a_constant2, const std::vector<T> &a_vec2)
+{
+	std::vector<T> result(a_vec1.size());
+
+	for (int i=0; i<result.size(); ++i)
+		result[i] = a_constant1*a_vec1[i] + a_constant2*a_vec2[i];
+
+	return result;
+}
+
+/******************************************************************************
  * STANDALONE CONJUGATE GRADIENT -- IS THIS THE BEST PLACE FOR IT?!?!?!
 ******************************************************************************/
 template<class T>
-std::vector<T> ConjugateGradient(/*const*/ Matrix<T> &a_matrix, const std::vector<T> &a_vector)
+std::vector<T> ConjugateGradient(const Matrix<T> &A, const std::vector<T> &b)
+{
+	const double NEARZERO = 1e-10;
+	const double TOLERANCE = 1e-10;
+
+   	int n = A.get_noRows();
+	std::vector<T> X(n, 0);
+
+	std::vector<T> R = b;
+	std::vector<T> P = R;
+	int k = 0;
+
+	while (k < n)
+	{
+	  std::vector<T> Rold = R;
+	  std::vector<T> AP = A*P;
+
+	  double alpha = innerProduct(R, R)/ std::max(innerProduct(P, AP), NEARZERO);
+	  X = linearCombination(1.0, X, alpha, P);            // Next estimate of solution
+	  R = linearCombination(1.0, R, -alpha, AP);          // Residual 
+
+	  if (l2Norm(R) < TOLERANCE) break;             // Convergence test
+
+	  double beta = innerProduct(R, R) / std::max(innerProduct(Rold, Rold), NEARZERO);
+	  P = linearCombination(1.0, R, beta, P);             // Next gradient
+
+	  ++k;
+	}
+
+	return X;
+}
+/*template<class T>
+std::vector<T> ConjugateGradient(const Matrix<T> &a_matrix, const std::vector<T> &a_vector)
 {
 	// Tolerance.
 	const int TOL = 1e-10;
@@ -323,6 +402,6 @@ std::vector<T> ConjugateGradient(/*const*/ Matrix<T> &a_matrix, const std::vecto
 	}
 
 	return y_m;
-}
+}*/
 
 #endif

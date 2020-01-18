@@ -17,33 +17,35 @@
  * @param[in] n 			Gives the degree of the polynomial.
  * @param[in] x 			The point at which to evaluate the polynomial.
  ******************************************************************************/
-
-double thomasInvert(const int n, const double a[], const double b[], const double c[], const double d[], double solution[])
+namespace linearSystems
 {
-	assert(n >= 2);
-
-	double* c_, * d_;
-	c_ = new double[n-1];
-	d_ = new double[n];
-
-	c_[0] = c[0]/b[0];
-	for (int i=1; i<n-1; ++i)
+	double thomasInvert(const int n, const double a[], const double b[], const double c[], const double d[], double solution[])
 	{
-		c_[i] = c[i]/(b[i] - c_[i-1]*a[i-1]);
-	}
+		assert(n >= 2);
 
-	d_[0] = d[0]/b[0];
-	for (int i=1; i<n; ++i)
-	{
-		d_[i] = (d[i] - d_[i-1]*a[i-1])/(b[i] - c_[i-1]*a[i-1]);
-	}
+		double* c_, * d_;
+		c_ = new double[n-1];
+		d_ = new double[n];
 
-	solution[n-1] = d_[n-1];
-	for (int i=n-2; i>=0; --i)
-	{
-		solution[i] = d_[i] - c_[i]*solution[i+1];
-	}
+		c_[0] = c[0]/b[0];
+		for (int i=1; i<n-1; ++i)
+		{
+			c_[i] = c[i]/(b[i] - c_[i-1]*a[i-1]);
+		}
 
-	delete[] d_;
-	delete[] c_;
+		d_[0] = d[0]/b[0];
+		for (int i=1; i<n; ++i)
+		{
+			d_[i] = (d[i] - d_[i-1]*a[i-1])/(b[i] - c_[i-1]*a[i-1]);
+		}
+
+		solution[n-1] = d_[n-1];
+		for (int i=n-2; i>=0; --i)
+		{
+			solution[i] = d_[i] - c_[i]*solution[i+1];
+		}
+
+		delete[] d_;
+		delete[] c_;
+	}
 }

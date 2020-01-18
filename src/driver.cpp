@@ -25,7 +25,7 @@ double exact(double x)
 
 int main()
 {
-	Mesh*     myMesh     = new Mesh(12);
+	Mesh*     myMesh     = new Mesh(3);
 	Solution* mySolution = new Solution(myMesh);
 
 	mySolution->Solve(one, one, zero);

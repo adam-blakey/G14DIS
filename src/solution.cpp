@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 /******************************************************************************
  * __Solution__
@@ -56,15 +57,10 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 
 	int n = this->noDOFs;
 
-	double* A1 = new double[n-1];
-	double* A2 = new double[n];
-	double* A3 = new double[n-1];
-	double* F  = new double[n];
-
-	common::setToZero(n-1, A1);
-	common::setToZero(n,   A2);
-	common::setToZero(n-1, A3);
-	common::setToZero(n,   F);
+	std::vector<double> A1(n-1, 0);
+	std::vector<double> A2(n,   0);
+	std::vector<double> A3(n-1, 0);
+	std::vector<double> F (n,   0);
 
 	for (int elementCounter=0; elementCounter<=n-2; ++elementCounter)
 	{
@@ -94,8 +90,8 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 		std::cout << A1[i] << std::endl;
 	std::cout << std::endl;*/
 
-	double* F_ = new double[n]; 
-	double* u0 = new double[n]; 
+	std::vector<double> F_(n);
+	std::vector<double> u0(n, 0);
 	
 	A2[0] = 0;
 	A3[0] = 0;
@@ -105,17 +101,14 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 0;
 	F[n-1] = 0;
 
-	common::setToZero(n, u0);
 	u0[0]   = A;
 	u0[n-1] = B;
 	
-	common::tridiagonalVectorMultiplication(n, A1, A2, A3, u0, F_); 
+	common::tridiagonalVectorMultiplication(A1, A2, A3, u0, F_);
 	for (int i=0; i<n; ++i)
 	{
 		F[i] -= F_[i];
 	}
-
-	delete[] u0;
 
 	A1[0] = 0;
 	A2[0] = 1;
@@ -123,14 +116,10 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	linearSystems::thomasInvert(n, A1, A2, A3, F, this->solution);
+	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
-
-	delete[] A3;
-	delete[] A2;
-	delete[] A1;
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)

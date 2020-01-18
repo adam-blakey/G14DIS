@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include <cassert>
+#include <vector>
 
 /******************************************************************************
  * thomasInvert
@@ -19,8 +20,10 @@
  ******************************************************************************/
 namespace linearSystems
 {
-	double thomasInvert(const int n, const double a[], const double b[], const double c[], const double d[], double solution[])
+	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, double solution[])
 	{
+		int n = b.size();
+
 		assert(n >= 2);
 
 		double* c_, * d_;

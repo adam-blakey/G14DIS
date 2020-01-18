@@ -166,8 +166,10 @@ namespace common
 	 * @param[in] x 		The vector to multiply by.
 	 * @param[out] solution The result of the operation.
 	 ******************************************************************************/
-	void tridiagonalVectorMultiplication(const int &n, const double* const &a, const double* const &b, const double* const &c, const double* const &x, double* const &solution)
+	void tridiagonalVectorMultiplication(const std::vector<double> &a, const std::vector<double> &b, const std::vector<double> &c, const std::vector<double> &x, std::vector<double> &solution)
 	{
+		int n = b.size();
+		
 		for (int i=0; i<n; ++i)
 		{
 			if (i==0)

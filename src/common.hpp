@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <functional>
+#include <vector>
 
 typedef std::function<double(double)> f_double;
 
@@ -22,7 +23,7 @@ namespace common
 	f_double multiplyFunction(const f_double &f, const f_double &g);	
 	double   referenceL2Norm(const int &n, const f_double &u);
 	f_double transformFunction(const f_double &f, const double &xj, const double &xjp1);
-	void     tridiagonalVectorMultiplication(const int &n, const double* const &a, const double* const &b, const double* const &c, const double* const &x, double* const &solution);
+	void     tridiagonalVectorMultiplication(const std::vector<double> &a, const std::vector<double> &b, const std::vector<double> &c, const std::vector<double> &x, std::vector<double> &solution);
 	void     setToZero(const int &n, double* const array);
 }
 

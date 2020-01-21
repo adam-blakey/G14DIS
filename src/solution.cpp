@@ -278,3 +278,8 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 
 	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
 }
+
+f_double Solution::get_solutionInterpolant() const
+{
+	//int n = this->
+}

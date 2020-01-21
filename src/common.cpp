@@ -5,6 +5,7 @@
  * @date       2019/11/11
  ******************************************************************************/
 #include "common.hpp"
+#include "quadrature.hpp"
 #include <cmath>
 #include <functional>
 
@@ -131,30 +132,6 @@ namespace common
 	}
 
 	/******************************************************************************
-	 * __referenceL2Norm__
-	 * 
-	 * @details 	Returns the L2 norm on the reference element.
-	 * 
-	 * @param[in] f 		First function
-	 * @param[in] g 		Second function.
-	 * @return     			A function that is `h(x) = f(x) + g(x)`.
-	 ******************************************************************************/
-	double referenceL2Norm(const int &n, const f_double &u)
-	{
-		double norm = 0;
-		double h = double(2)/(n-1);
-		double node;
-
-		for (int i=0; i<n; ++i)
-		{
-			node = -1 + i*h;
-			norm += pow(u(node), 2)*h;
-		}
-
-		return sqrt(norm);
-	}
-
-	/******************************************************************************
 	 * __tridiagonalVectorMultiplication__
 	 * 
 	 * @details 	Calculates the product `Ax`.
@@ -179,5 +156,20 @@ namespace common
 			else
 				solution[i] = a[i-1]*x[i-1] + b[i]*x[i] + c[i]*x[i+1];
 		}
+	}
+	/******************************************************************************
+	 * __L2Norm__
+	 * 
+	 * @details     Calculates the L2 norm of the function.
+	 *
+	 * @param[in]  a_f 	An input function.
+	 *
+	 * @return     The value of the L2 norm on the domain [-1, 1].
+	 ******************************************************************************/
+	double L2Norm(const f_double &a_f)
+	{
+		quadrature::gaussLegendreQuadrature(a_f, 8);
+
+		return 0;
 	}
 }

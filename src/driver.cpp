@@ -20,12 +20,12 @@ double one(double x)
 
 double exact(double x)
 {
-	return double(1)/2 * (1 - pow(x, 2));
+	return double(1)/2 * (pow(x, 2) - 1);
 }
 
 int main()
 {
-	Mesh*     myMesh     = new Mesh(3);
+	Mesh*     myMesh     = new Mesh(12);
 	Solution* mySolution = new Solution(myMesh);
 
 	mySolution->Solve(one, one, zero);

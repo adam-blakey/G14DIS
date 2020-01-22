@@ -13,6 +13,7 @@
 class Solution
 {
 	private:
+		int noElements;
 		std::vector<double> boundaryConditions;
 		std::vector<double> polynomialDegrees;
 		Mesh* mesh;
@@ -21,7 +22,6 @@ class Solution
 		// DOF STORAGE
 
 	public:
-		int noDOFs; // TEMP
 		std::vector<double> solution; // TEMP
 		Solution(Mesh* const &a_mesh);
 		~Solution();

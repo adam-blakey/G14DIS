@@ -22,6 +22,7 @@ class Mesh
 		~Mesh();
 
 		int get_dimProblem();
+		int get_noElements();
 		int get_noNodes();
 		// Also store 'faces', with many 'face's.
 };

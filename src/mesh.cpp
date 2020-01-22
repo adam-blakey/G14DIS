@@ -43,6 +43,16 @@ int Mesh::get_dimProblem()
 }
 
 /******************************************************************************
+ * __get_noElements__
+ * 
+ * @details 	Returns the value of the private variable 'noElements'.
+ ******************************************************************************/
+int Mesh::get_noElements()
+{
+	return this->noElements;
+}
+
+/******************************************************************************
  * __get_noNodes__
  * 
  * @details 	Returns the value of the private variable 'noNodes'.

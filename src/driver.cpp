@@ -32,7 +32,7 @@ int main()
 
 	std::cout << "AFTER wow" << std::endl;
 
-	/*std::cout << "Approximate:" << std::endl;
+	std::cout << "Approximate:" << std::endl;
 	for (int i=0; i<mySolution->solution.size(); ++i)
 		std::cout << mySolution->solution[i] << std::endl;
 
@@ -41,7 +41,7 @@ int main()
 	{
 		double x = -1 + i*double(2)/(mySolution->solution.size()-1);
 		std::cout << exact(x) << std::endl;
-	}*/
+	}
 
 	delete mySolution;
 	delete myMesh;

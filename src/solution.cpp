@@ -24,7 +24,7 @@
  ******************************************************************************/
 Solution::Solution(Mesh* const &a_mesh)
 {
-	this->noDOFs 			= a_mesh->get_dimProblem();
+	this->noElements		= a_mesh->get_noElements();
 	this->solution 			.resize(a_mesh->get_noNodes());
 	this->polynomialDegrees .resize(a_mesh->get_noNodes());
 	this->boundaryConditions.resize(2);
@@ -53,7 +53,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	double A = 0;
 	double B = 0;
 
-	int n = this->noDOFs;
+	int n = this->noElements + 1;
 
 	std::vector<double> A1(n-1, 0);
 	std::vector<double> A2(n,   0);
@@ -74,7 +74,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
 				if (j<i)
-					A1[i] += this->a(currentElement, i, j, elementCounter, p, q);
+					A1[j] += this->a(currentElement, i, j, elementCounter, p, q);
 				else if (j==i)
 					A2[i] += this->a(currentElement, i, j, elementCounter, p, q);
 				else
@@ -128,7 +128,11 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
 
-	std::cout << "BEFORE wow" << std::endl;
+	std::cout << "A1: " << A1.size() << std::endl;
+	std::cout << "A2: " << A2.size() << std::endl;
+	std::cout << "A3: " << A3.size() << std::endl;
+	std::cout << "F: " << F.size() << std::endl;
+	std::cout << "solution: " <<solution.size() << std::endl;
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)

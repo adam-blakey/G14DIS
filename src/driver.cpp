@@ -41,9 +41,13 @@ int main()
 	for (int i=0; i<mySolution->solution.size(); ++i)
 	{
 		std::cout << mySolution->solution[i] << std::endl;
-		//double x = -1 + i*double(2)/(100);
-		//double x = -1 + i*double(2)/(12*100);
-		//std::cout << mySolution->get_solutionInterpolant()(x) << std::endl;
+	}
+
+	std::cout << "Approximate Interpolant:" << std::endl;
+	for (int i=0; i<=100; ++i)
+	{
+		double x = -1 + i*double(2)/(100);
+		std::cout << mySolution->get_solutionInterpolant()(x) << std::endl;
 	}
 
 	std::cout << "Exact:" << std::endl;

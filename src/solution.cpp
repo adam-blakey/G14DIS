@@ -293,7 +293,7 @@ f_double Solution::get_solutionInterpolant() const
 		bool foundRange = false;
 		double node1, node2;
 
-		for (i=0; i<n && !foundRange; ++i)
+		for (i=0; i<n && !foundRange;)
 		{
 			node1 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[0];
 			node2 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[1];
@@ -303,6 +303,10 @@ f_double Solution::get_solutionInterpolant() const
 			if (node1<=x && x<=node2)
 			{
 				foundRange = true;
+			}
+			else
+			{
+				++i;
 			}
 		}
 

@@ -27,7 +27,7 @@ class Solution
 		~Solution();
 		//double getElementSolutionValues();
 		void Solve(f_double f, f_double p, f_double q);
-		//f_double get_solutionInterpolant() const;
+		f_double get_solutionInterpolant() const;
 		
 };
 

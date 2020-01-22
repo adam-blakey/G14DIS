@@ -18,6 +18,11 @@ double one(double x)
 	return 1;
 }
 
+double m_one(double x)
+{
+	return -1;
+}
+
 double exact(double x)
 {
 	return double(1)/2 * (pow(x, 2) - 1);
@@ -28,13 +33,18 @@ int main()
 	Mesh*     myMesh     = new Mesh(12);
 	Solution* mySolution = new Solution(myMesh);
 
-	mySolution->Solve(one, one, zero);
+	mySolution->Solve(m_one, one, zero);
 
 	std::cout << "AFTER wow" << std::endl;
 
 	std::cout << "Approximate:" << std::endl;
 	for (int i=0; i<mySolution->solution.size(); ++i)
+	{
 		std::cout << mySolution->solution[i] << std::endl;
+		//double x = -1 + i*double(2)/(100);
+		//double x = -1 + i*double(2)/(12*100);
+		//std::cout << mySolution->get_solutionInterpolant()(x) << std::endl;
+	}
 
 	std::cout << "Exact:" << std::endl;
 	for (int i=0; i<mySolution->solution.size(); ++i)

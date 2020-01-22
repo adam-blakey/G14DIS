@@ -7,6 +7,8 @@
  ******************************************************************************/
 #include "element.hpp"
 #include "common.hpp"
+#include "matrix.hpp"
+#include "matrix_full.hpp"
 #include "quadrature.hpp"
 #include <cassert>
 #include <functional>
@@ -26,14 +28,11 @@
  * @param[in] a_noNodes 			Number of nodes in this element.
  * @param[in] a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates)
+void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates)
 {
 	this->elementNo = a_elementNo;
 	this->noNodes = a_noNodes;
-	this->nodeCoordinates = new double[a_noNodes];
-
-	for (int i=0; i<this->noNodes; ++i)
-		this->nodeCoordinates[i] = a_nodeCoordinates[i];
+	this->nodeCoordinates = a_nodeCoordinates;
 }
 
 /******************************************************************************
@@ -61,7 +60,7 @@ Element::Element(const Element &a_element)
  * @param a_noNodes 			Number of nodes in this element.
  * @param a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-Element::Element(const int &a_elementNo, const int &a_noNodes, const double* a_nodeCoordinates)
+Element::Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates)
 {
 	init_Element(a_elementNo, a_noNodes, a_nodeCoordinates);
 }
@@ -73,7 +72,7 @@ Element::Element(const int &a_elementNo, const int &a_noNodes, const double* a_n
  ******************************************************************************/
 Element::~Element()
 {
-	delete[] this->nodeCoordinates;
+	//
 }
 
 /******************************************************************************
@@ -225,7 +224,7 @@ int Element::get_noNodes() const
  * 
  * @return  	The value of nodeCoordinates.
  ******************************************************************************/
-double* Element::get_nodeCoordinates() const
+std::vector<double> Element::get_nodeCoordinates() const
 {
 	return this->nodeCoordinates;
 }
@@ -245,9 +244,9 @@ Elements::Elements(const int &a_noElements)
 {
 	// Sets member variable values.
 	this->noElements         = a_noElements;
-	this->connectivityMatrix = common::allocateMatrix(a_noElements, 2);
+	this->connectivityMatrix = new Matrix_full<double>(2, a_noElements);
 	this->elements   	     = new Element*[a_noElements];
-	this->boundaryElements   = new double  [a_noElements];
+	this->boundaryElements   .resize(a_noElements);
 
 	// *******************
 	// Connectivity array.
@@ -255,8 +254,8 @@ Elements::Elements(const int &a_noElements)
 	// Loops over each element.
 	for (int i=0; i<a_noElements; ++i)
 	{
-		this->connectivityMatrix[i][0] = i-1;
-		this->connectivityMatrix[i][1] = i+1;
+		(*(this->connectivityMatrix))(0, i) = i-1;
+		(*(this->connectivityMatrix))(1, i) = i+1;
 	}
 
 	// *********
@@ -264,7 +263,7 @@ Elements::Elements(const int &a_noElements)
 	// *********
 	// Auxiliary variables for defining individual elements.
 	double h = double(2)/(a_noElements);
-	double* nodeCoordinates = new double[2];
+	std::vector<double> nodeCoordinates(2);
 
 	// Loops over the creation of each element.
 	for (int i=0; i<a_noElements; ++i)
@@ -279,12 +278,9 @@ Elements::Elements(const int &a_noElements)
 	// Boundary elements.
 	// ******************
 	// Sets boundary elements.
-	common::setToZero(noElements, this->boundaryElements);
+	std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
 	this->boundaryElements[0]              = 1;
 	this->boundaryElements[a_noElements-1] = 1;
-
-	// Cleans up.
-	delete[] nodeCoordinates;
 }
 
 /******************************************************************************
@@ -294,9 +290,8 @@ Elements::Elements(const int &a_noElements)
  ******************************************************************************/
 Elements::~Elements()
 {
-	common::deallocateMatrix(this->noElements, this->connectivityMatrix);
 	delete[] this->elements;
-	delete[] this->boundaryElements;
+	delete this->connectivityMatrix;
 }
 
 /******************************************************************************

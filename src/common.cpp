@@ -12,20 +12,6 @@
 namespace common
 {
 	/******************************************************************************
-	 * __setToZero__
-	 * 
-	 * @details 	This sets all n elements of the double array to zero.
-	 * 
-	 * @param[in] n 		The number of elements in the array.
-	 * @param[in] array 	A pointer to the first element of the array.
-	 ******************************************************************************/
-	void setToZero(const int &n, double* const array)
-	{
-		for (int i=0; i<n; ++i)
-			array[i] = 0;
-	}
-
-	/******************************************************************************
 	 * __copyArray__
 	 * 
 	 * @details 	Does a deep copy on an array.
@@ -38,40 +24,6 @@ namespace common
 	{
 		for (int i=0; i<n; ++i)
 			array2[i] = array1[i];
-	}
-
-	/******************************************************************************
-	 * __allocateMatrix__
-	 * 
-	 * @details 	Allocates a matrix given the number of rows and columns.
-	 * 
-	 * @param[in] noRows 	Number of rows.
-	 * @param[in] noCols 	Number of columns.
-	 * @return  			A double double-pointer.
-	 ******************************************************************************/
-	double** allocateMatrix(const int &noRows, const int &noCols)
-	{
-		double** matrix = new double*[noRows];
-		for (int i=0; i<noRows; ++i)
-			matrix[i] = new double[noCols];
-
-		return matrix;
-	}
-
-	/******************************************************************************
-	 * __deallocateMatrix__
-	 * 
-	 * @details 	Deallocates a matrix, given the number of rows in that matrix.
-	 * 
-	 * @param[in] noRows 	Number of rows.
-	 * @param[out] matrix 	Matrix to deallocate.
-	 ******************************************************************************/
-	void deallocateMatrix(const int &noRows, double** &matrix)
-	{
-		for (int i=0; i<noRows; ++i)
-			delete[] matrix[i];
-
-		delete[] matrix;
 	}
 
 	/******************************************************************************

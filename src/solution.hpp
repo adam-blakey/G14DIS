@@ -8,14 +8,13 @@
 #define CLASS_SOLUTION
 
 #include "common.hpp"
+#include <vector>
 
 class Solution
 {
 	private:
-		
-		double* boundaryConditions;
-		
-		double* polynomialDegrees;
+		std::vector<double> boundaryConditions;
+		std::vector<double> polynomialDegrees;
 		Mesh* mesh;
 		double a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q);
 		double l(Element* currentElement,               const int &j, const int &node1Index, f_double f);
@@ -23,12 +22,12 @@ class Solution
 
 	public:
 		int noDOFs; // TEMP
-		double* solution; // TEMP
+		std::vector<double> solution; // TEMP
 		Solution(Mesh* const &a_mesh);
 		~Solution();
 		//double getElementSolutionValues();
 		void Solve(f_double f, f_double p, f_double q);
-		f_double get_solutionInterpolant() const;
+		//f_double get_solutionInterpolant() const;
 		
 };
 

@@ -35,7 +35,7 @@ Matrix_full<T>::Matrix_full(const int &a_noColumns, const int &a_noRows)
 {
 	this->noColumns = a_noColumns;
 	this->noRows = a_noRows;
-	items.reserve(this->noRows * this->noColumns);
+	items.resize(this->noRows * this->noColumns);
 }
 
 /******************************************************************************

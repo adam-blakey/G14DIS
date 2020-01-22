@@ -19,7 +19,7 @@ class Matrix
 		int noRows;
 
 		// Resizing.
-		virtual void resize(const int &a_noNonZeros) = 0;
+		virtual void resize(const int &a_noNonZeros) = 0; // Missing resize for number of rows and columns.
 
 		// Gets an individual item.
 		virtual T&       item(const int &a_x, const int &a_y) = 0;

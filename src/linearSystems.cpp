@@ -10,6 +10,8 @@
 #include <cassert>
 #include <vector>
 
+#include <iostream>
+
 /******************************************************************************
  * thomasInvert
  * 
@@ -20,15 +22,14 @@
  ******************************************************************************/
 namespace linearSystems
 {
-	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, double solution[])
+	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, std::vector<double> &solution)
 	{
 		int n = b.size();
 
 		assert(n >= 2);
 
-		double* c_, * d_;
-		c_ = new double[n-1];
-		d_ = new double[n];
+		std::vector<double> c_(n-1);
+		std::vector<double> d_(n);
 
 		c_[0] = c[0]/b[0];
 		for (int i=1; i<n-1; ++i)
@@ -47,8 +48,5 @@ namespace linearSystems
 		{
 			solution[i] = d_[i] - c_[i]*solution[i+1];
 		}
-
-		delete[] d_;
-		delete[] c_;
 	}
 }

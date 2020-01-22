@@ -25,9 +25,9 @@
 Solution::Solution(Mesh* const &a_mesh)
 {
 	this->noDOFs 			= a_mesh->get_dimProblem();
-	this->solution 			= new double[a_mesh->get_noNodes()];
-	this->polynomialDegrees = new double[a_mesh->get_noNodes()];
-	this->boundaryConditions= new double[2];
+	this->solution 			.resize(a_mesh->get_noNodes());
+	this->polynomialDegrees .resize(a_mesh->get_noNodes());
+	this->boundaryConditions.resize(2);
 	this->mesh 				= a_mesh;
 
 	for (int i=0; i<a_mesh->get_noNodes(); ++i)
@@ -39,9 +39,7 @@ Solution::Solution(Mesh* const &a_mesh)
  ******************************************************************************/
 Solution::~Solution()
 {
-	delete[] this->solution;
-	delete[] this->polynomialDegrees;
-	delete[] this->boundaryConditions;
+	//
 }
 
 /******************************************************************************
@@ -129,6 +127,8 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
+
+	std::cout << "BEFORE wow" << std::endl;
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
@@ -279,7 +279,8 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
 }
 
-f_double Solution::get_solutionInterpolant() const
+/*f_double Solution::get_solutionInterpolant() const
 {
 	//int n = this->
-}
+	return cos;
+}*/

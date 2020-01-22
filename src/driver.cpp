@@ -30,23 +30,24 @@ int main()
 
 	mySolution->Solve(one, one, zero);
 
-	std::cout << "Approximate:" << std::endl;
-	for (int i=0; i<mySolution->noDOFs; ++i)
+	std::cout << "AFTER wow" << std::endl;
+
+	/*std::cout << "Approximate:" << std::endl;
+	for (int i=0; i<mySolution->solution.size(); ++i)
 		std::cout << mySolution->solution[i] << std::endl;
 
 	std::cout << "Exact:" << std::endl;
-	for (int i=0; i<mySolution->noDOFs; ++i)
+	for (int i=0; i<mySolution->solution.size(); ++i)
 	{
-		double x = -1 + i*double(2)/(mySolution->noDOFs-1);
+		double x = -1 + i*double(2)/(mySolution->solution.size()-1);
 		std::cout << exact(x) << std::endl;
-	}
-
+	}*/
 
 	delete mySolution;
 	delete myMesh;
 }
 
-int main2()
+int main1()
 {	
 	std::cout << "Hello" << std::endl;
 
@@ -64,10 +65,10 @@ int main2()
 	return 0;
 }
 
-int main1()
+int main2()
 {
 	int nodes = 2;
-	double* nodeCoords = new double[2];
+	std::vector<double> nodeCoords(2);
 	nodeCoords[0] = 4;
 	nodeCoords[1] = 7;
 

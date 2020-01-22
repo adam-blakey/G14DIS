@@ -15,7 +15,7 @@ typedef std::function<double(double)> f_double;
 
 namespace linearSystems
 {
-	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, double solution[]);
+	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, std::vector<double> &solution);
 }
 
 #endif

@@ -120,8 +120,26 @@ namespace common
 	 ******************************************************************************/
 	double L2Norm(const f_double &a_f)
 	{
-		quadrature::gaussLegendreQuadrature(a_f, 8);
+		f_double f2 = common::multiplyFunction(a_f, a_f);
 
-		return 0;
+		return sqrt(quadrature::gaussLegendreQuadrature(f2, 8));
+	}
+
+	/******************************************************************************
+	 * __L2NormDifference__
+	 * 
+	 * @details     Calculates the L2 norm of the difference between two functions.
+	 *
+	 * @param[in]  a_f 	An input function 1.
+	 * @param[in]  a_g  An input function 2.
+	 *
+	 * @return     The value of the L2 norm on the domain [-1, 1].
+	 ******************************************************************************/
+	double L2NormDifference(const f_double &a_f, const f_double &a_g)
+	{
+		f_double gm    = common::constantMultiplyFunction(-1, a_g);
+		f_double diff  = common::addFunction(a_f, gm);
+
+		return L2Norm(diff);
 	}
 }

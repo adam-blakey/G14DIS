@@ -30,38 +30,43 @@ double exact(double x)
 
 int main()
 {
-	Mesh*     myMesh     = new Mesh(12);
+	double currentNorm, previousNorm = 0;
+
+	for (int N=2; N<=pow(2, 8); N*=2)
+	{
+		Mesh*     myMesh     = new Mesh(N);
+		Solution* mySolution = new Solution(myMesh);
+
+		mySolution->Solve(m_one, one, zero);
+
+		currentNorm = common::L2NormDifference(mySolution->get_solutionInterpolant(), exact);
+
+		std::cout << previousNorm/currentNorm << std::endl;
+		previousNorm = currentNorm;
+
+		delete mySolution;
+		delete myMesh;
+	}
+}
+
+int main1()
+{
+	Mesh*     myMesh     = new Mesh(5);
 	Solution* mySolution = new Solution(myMesh);
 
 	mySolution->Solve(m_one, one, zero);
 
-	std::cout << "AFTER wow" << std::endl;
-
-	std::cout << "Approximate:" << std::endl;
-	for (int i=0; i<mySolution->solution.size(); ++i)
+	for (int i=0; i<myMesh->get_noNodes(); ++i)
 	{
-		std::cout << mySolution->solution[i] << std::endl;
-	}
-
-	std::cout << "Approximate Interpolant:" << std::endl;
-	for (int i=0; i<=100; ++i)
-	{
-		double x = -1 + i*double(2)/(100);
-		std::cout << mySolution->get_solutionInterpolant()(x) << std::endl;
-	}
-
-	std::cout << "Exact:" << std::endl;
-	for (int i=0; i<mySolution->solution.size(); ++i)
-	{
-		double x = -1 + i*double(2)/(mySolution->solution.size()-1);
-		std::cout << exact(x) << std::endl;
+		double x = -1 + i*double(2)/myMesh->get_noElements();
+		std::cout << mySolution->get_solutionInterpolant()(x) << "  " << exact(x) << std::endl;
 	}
 
 	delete mySolution;
 	delete myMesh;
 }
 
-int main1()
+int main2()
 {	
 	std::cout << "Hello" << std::endl;
 
@@ -79,7 +84,7 @@ int main1()
 	return 0;
 }
 
-int main2()
+int main3()
 {
 	int nodes = 2;
 	std::vector<double> nodeCoords(2);

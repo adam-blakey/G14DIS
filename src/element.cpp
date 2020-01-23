@@ -178,7 +178,7 @@ f_double Element::basisFunctions_(const int &a_i)
 		case 0: return [](double x) -> double
 				{
 					if (-1 <= x && x <= 1)
-						return double(1)/2;
+						return -double(1)/2;
 					else
 						return 0;
 				};
@@ -186,7 +186,7 @@ f_double Element::basisFunctions_(const int &a_i)
 		case 1: return [](double x) -> double
 				{
 					if (-1 <= x && x <= 1)
-						return -double(1)/2;
+						return double(1)/2;
 					else
 						return 0;
 				};

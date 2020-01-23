@@ -109,7 +109,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	std::cout << "A1:" << std:: endl;
+	/*std::cout << "A1:" << std:: endl;
 	for (int i=0; i<n-1; ++i)
 		std::cout << "  " << A1[i] << std::endl;
 	std::cout << "A2:" << std:: endl;
@@ -121,18 +121,18 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	std::cout << "F:" << std:: endl;
 	for (int i=0; i<n; ++i)
 		std::cout << "  " << F[i] << std::endl;
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 
 	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
 
-	std::cout << "A1: " << A1.size() << std::endl;
+	/*std::cout << "A1: " << A1.size() << std::endl;
 	std::cout << "A2: " << A2.size() << std::endl;
 	std::cout << "A3: " << A3.size() << std::endl;
 	std::cout << "F: " << F.size() << std::endl;
-	std::cout << "solution: " <<solution.size() << std::endl;
+	std::cout << "solution: " <<solution.size() << std::endl;*/
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
@@ -142,11 +142,28 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 	double node2 = currentElement->get_nodeCoordinates()[1];
 	f_double integrand;
 
+	/*if (j == node1Index)
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							common::transformFunction(currentElement->basisFunctions(1), node1, node2),
+							f
+						)
+					);
+	else
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							common::transformFunction(currentElement->basisFunctions(0), node1, node2),
+							f
+						)
+					);*/
+
 	if (j == node1Index)
 		integrand = common::constantMultiplyFunction(
 						h,
 						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(1), node1, node2),
+							currentElement->basisFunctions(1),
 							f
 						)
 					);
@@ -154,27 +171,12 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 		integrand = common::constantMultiplyFunction(
 						h,
 						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(0), node1, node2),
+							currentElement->basisFunctions(0),
 							f
 						)
 					);
 
-	/*if (j == node1Index)
-		integrand =
-						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(1), node1, node2),
-							f
-						
-					);
-	else
-		integrand = 
-						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-							f
-						
-					);*/
-
-	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
+	return quadrature::gaussLegendreQuadrature(integrand, 8);
 }
 
 double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
@@ -243,8 +245,8 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 							common::multiplyFunction(
 								common::constantMultiplyFunction(h, q),
 								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
+									currentElement->basisFunctions(0),
+									currentElement->basisFunctions(1)
 									)
 								)
 							);
@@ -257,8 +259,8 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 							common::multiplyFunction(
 								common::constantMultiplyFunction(h, q),
 								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2)
+									currentElement->basisFunctions(0),
+									currentElement->basisFunctions(1)
 									)
 								)
 							);
@@ -273,14 +275,14 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 							common::multiplyFunction(
 								common::constantMultiplyFunction(h, q),
 								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
+									currentElement->basisFunctions(0),
+									currentElement->basisFunctions(1)
 									)
 								)
 							);
 	}
 
-	return quadrature::gaussLegendreQuadrature(integrand, 8)*h;
+	return quadrature::gaussLegendreQuadrature(integrand, 8);
 }
 
 f_double Solution::get_solutionInterpolant() const

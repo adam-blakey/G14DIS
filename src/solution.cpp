@@ -333,3 +333,52 @@ f_double Solution::get_solutionInterpolant() const
 		}
 	};
 }
+
+f_double Solution::get_solutionInterpolant_() const
+{
+	return [=](double x) -> double
+	{
+		int n = this->noElements;
+
+		int i;
+		bool foundRange = false;
+		double node1, node2;
+
+		for (i=0; i<n && !foundRange;)
+		{
+			node1 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[0];
+			node2 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[1];
+
+			//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
+
+			if (node1<=x && x<=node2)
+			{
+				foundRange = true;
+			}
+			else
+			{
+				++i;
+			}
+		}
+
+		//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
+		//std::cout << "i: " << i << std::endl;
+		//std::cout << "x^: " << 2*(x-node1)/(node2 - node1) - 1 << std::endl;
+		//std::cout << "(" << this->solution[i] << ", " << this->solution[i+1] << ")" << std::endl;
+
+		if (foundRange)
+		{
+			f_double f1 = common::constantMultiplyFunction(this->solution[i],   (*(this->mesh->elements))[i]->basisFunctions_(0));
+			f_double f2 = common::constantMultiplyFunction(this->solution[i+1], (*(this->mesh->elements))[i]->basisFunctions_(1));
+			/*f_double f1 = common::constantMultiplyFunction(1,   (*(this->mesh->elements))[i]->basisFunctions(0));
+			f_double f2 = common::constantMultiplyFunction(0, (*(this->mesh->elements))[i]->basisFunctions(1));*/
+
+			return common::addFunction(f1, f2)(2*(x-node1)/(node2-node1) - 1);
+			//return common::addFunction(f1, f2)(x);
+		}
+		else
+		{
+			return 0;
+		}
+	};
+}

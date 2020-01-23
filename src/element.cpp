@@ -242,45 +242,101 @@ std::vector<double> Element::get_nodeCoordinates() const
  ******************************************************************************/
 Elements::Elements(const int &a_noElements)
 {
-	// Sets member variable values.
-	this->noElements         = a_noElements;
-	this->connectivityMatrix = new Matrix_full<double>(2, a_noElements);
-	this->elements   	     = new Element*[a_noElements];
-	this->boundaryElements   .resize(a_noElements);
-
-	// *******************
-	// Connectivity array.
-	// *******************
-	// Loops over each element.
-	for (int i=0; i<a_noElements; ++i)
+	if (a_noElements > 0)
 	{
-		(*(this->connectivityMatrix))(0, i) = i-1;
-		(*(this->connectivityMatrix))(1, i) = i+1;
-	}
+		// Sets member variable values.
+		this->noElements         = a_noElements;
+		this->connectivityMatrix = new Matrix_full<double>(2, a_noElements);
+		this->elements   	     = new Element*[a_noElements];
+		this->boundaryElements   .resize(a_noElements);
 
-	// *********
-	// Elements.
-	// *********
-	// Auxiliary variables for defining individual elements.
-	double h = double(2)/(a_noElements);
-	std::vector<double> nodeCoordinates(2);
+		// *******************
+		// Connectivity array.
+		// *******************
+		// Loops over each element.
+		for (int i=0; i<a_noElements; ++i)
+		{
+			(*(this->connectivityMatrix))(0, i) = i-1;
+			(*(this->connectivityMatrix))(1, i) = i+1;
+		}
 
-	// Loops over the creation of each element.
-	for (int i=0; i<a_noElements; ++i)
+		// *********
+		// Elements.
+		// *********
+		// Auxiliary variables for defining individual elements.
+		double h = double(2)/(a_noElements);
+		std::vector<double> nodeCoordinates(2);
+
+		// Loops over the creation of each element.
+		for (int i=0; i<a_noElements; ++i)
+		{
+			nodeCoordinates[0] = -1 +  i   *h;
+			nodeCoordinates[1] = -1 + (i+1)*h;
+
+			this->elements[i] = new Element(i, 2, nodeCoordinates);
+		}
+
+		// ******************
+		// Boundary elements.
+		// ******************
+		// Sets boundary elements.
+		std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
+		this->boundaryElements[0]              = 1;
+		this->boundaryElements[a_noElements-1] = 1;
+	}	
+	else
 	{
-		nodeCoordinates[0] = -1 +  i   *h;
-		nodeCoordinates[1] = -1 + (i+1)*h;
+		// This is a way of getting a pre-set set of elements.
+		// Sets member variable values.
+		this->noElements         = abs(a_noElements);
+		this->connectivityMatrix = new Matrix_full<double>(2, abs(a_noElements));
+		this->elements   	     = new Element*[abs(a_noElements)];
+		this->boundaryElements   .resize(abs(a_noElements));
 
-		this->elements[i] = new Element(i, 2, nodeCoordinates);
+		// *******************
+		// Connectivity array.
+		// *******************
+		// Loops over each element.
+		for (int i=0; i<a_noElements; ++i)
+		{
+			(*(this->connectivityMatrix))(0, i) = i-1;
+			(*(this->connectivityMatrix))(1, i) = i+1;
+		}
+
+		// *********
+		// Elements.
+		// *********
+		// Auxiliary variables for defining individual elements.
+		int n1 = ceil(2*double(abs(a_noElements))/3); // Elements in first domain.
+		int n2 = abs(a_noElements) - n1; // Elements in second domain.
+		double h1 = double(1)/n1;
+		double h2 = double(1)/n2;
+		std::vector<double> nodeCoordinates(2);
+
+		// Loops over the creation of each element.
+		for (int i=0; i<n1; ++i)
+		{
+			nodeCoordinates[0] = -1 +  i   *h1;
+			nodeCoordinates[1] = -1 + (i+1)*h1;
+
+			this->elements[i] = new Element(i, 2, nodeCoordinates);
+		}
+		for (int i=0; i<n2; ++i)
+		{
+			nodeCoordinates[0] = -1 + n1*h1 +  i   *h2;
+			nodeCoordinates[1] = -1 + n1*h1 + (i+1)*h2;
+
+			this->elements[n1 + i] = new Element(i, 2, nodeCoordinates);
+		}
+
+		// ******************
+		// Boundary elements.
+		// ******************
+		// Sets boundary elements.
+		std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
+		this->boundaryElements[0]              = 1;
+		this->boundaryElements[a_noElements-1] = 1;
 	}
-
-	// ******************
-	// Boundary elements.
-	// ******************
-	// Sets boundary elements.
-	std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
-	this->boundaryElements[0]              = 1;
-	this->boundaryElements[a_noElements-1] = 1;
 }
 
 /******************************************************************************
@@ -305,4 +361,16 @@ Elements::~Elements()
 Element* Elements::operator[](const int &a_i)
 {
 	return this->elements[a_i];
+}
+
+/******************************************************************************
+ * __get_noElements__
+ * 
+ * @details     Gets the value of the member variable 'noElements'.
+ *
+ * @return     The number of elements.
+ ******************************************************************************/
+int Elements::get_noElements() const
+{
+	return this->noElements;
 }

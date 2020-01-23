@@ -20,6 +20,23 @@ Mesh::Mesh(const int &a_noElements)
 	this->noNodes    = a_noElements+1;
 	this->dimProblem = a_noElements+1;
 	this->elements = new Elements(a_noElements);
+	this->ownsElements = true;
+}
+
+/******************************************************************************
+ * __Mesh__
+ * 
+ * @details 	The Mesh constructor, taking 1 argument for the elements.
+ * 
+ * @param[in] a_elements 		The elements to create with the mesh.
+ ******************************************************************************/
+Mesh::Mesh(Elements* const &a_elements)
+{
+	this->noElements = a_elements->get_noElements();
+	this->noNodes    = a_elements->get_noElements()+1;
+	this->dimProblem = a_elements->get_noElements()+1;
+	this->elements = a_elements;
+	this->ownsElements = false;
 }
 
 /******************************************************************************
@@ -29,7 +46,10 @@ Mesh::Mesh(const int &a_noElements)
  ******************************************************************************/
 Mesh::~Mesh()
 {
-	delete this->elements;
+	if (this->ownsElements)
+	{
+		delete this->elements;
+	}
 }
 
 /******************************************************************************

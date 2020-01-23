@@ -15,10 +15,12 @@ class Mesh
 		int noElements;
 		int noNodes;
 		int dimProblem;
+		bool ownsElements;
 
 	public:
 		Elements* elements;
 		Mesh(const int &a_noElements);
+		Mesh(Elements* const &a_elements);
 		~Mesh();
 
 		int get_dimProblem();

@@ -8,6 +8,7 @@
 #ifndef CLASS_ELEMENT
 #define CLASS_ELEMENT
 
+#include "common.hpp"
 #include "matrix.hpp"
 #include "matrix_full.hpp"
 #include <functional>
@@ -28,14 +29,15 @@ class Element
 		~Element();
 		Element& operator= (const Element &a_element);
 		double mapLocalToGlobal(const double &a_xi);
-		double Jacobian() const;
-		double quadrature(std::function<double(double)> a_f);
-		std::function<double(double)> basisFunctions (const int &a_i);
-		std::function<double(double)> basisFunctions_(const int &a_i);
+		double get_Jacobian() const;
+		double quadrature(f_double a_f);
+		f_double basisFunctions (const int &a_i);
+		f_double basisFunctions_(const int &a_i);
 
 		int get_elementNo() const;
 		int get_noNodes() const;
 		std::vector<double> get_nodeCoordinates() const;
+		void get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const;
 };
 
 class Elements
@@ -50,6 +52,7 @@ class Elements
 		Elements(const int &a_noElements);
 		~Elements();
 		Element* operator[](const int &a_i);
+		int get_noElements() const;
 };
 
 #endif

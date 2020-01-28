@@ -122,6 +122,7 @@ namespace common
 	{
 		f_double f2 = common::multiplyFunction(a_f, a_f);
 
+		// bad Adam
 		return sqrt(quadrature::gaussLegendreQuadrature(f2, 8));
 	}
 

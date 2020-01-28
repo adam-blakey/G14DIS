@@ -99,17 +99,17 @@ Element& Element::operator=(const Element &a_element)
  ******************************************************************************/
 double Element::mapLocalToGlobal(const double &a_xi)
 {
-	return nodeCoordinates[0] + (a_xi + 1)*Jacobian();
+	return nodeCoordinates[0] + (a_xi + 1)*get_Jacobian();
 }
 
 /******************************************************************************
- * __Jacobian__
+ * __get_Jacobian__
  * 
  * @details 	Calculates the Jacobian of the transformation.
  * 
  * @return 		The Jacobian.
  ******************************************************************************/
-double Element::Jacobian() const
+double Element::get_Jacobian() const
 {
 	return (nodeCoordinates[1] - nodeCoordinates[0])/2;
 }
@@ -130,7 +130,7 @@ double Element::quadrature(f_double a_f)
 
 	f_double fTransform = common::transformFunction(a_f, node1, node2);
 
-	return quadrature::gaussLegendreQuadrature(fTransform, 8)*Jacobian();
+	return quadrature::gaussLegendreQuadrature(fTransform, 8)*get_Jacobian();
 }
 
 /******************************************************************************
@@ -227,6 +227,20 @@ int Element::get_noNodes() const
 std::vector<double> Element::get_nodeCoordinates() const
 {
 	return this->nodeCoordinates;
+}
+
+void Element::get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const
+{
+	int n = 8;
+
+	a_coordinates.resize(n);
+	a_weights    .resize(n);
+
+	for (int i=0; i<n; ++i)
+	{
+		a_coordinates[i] = quadrature::get_gaussLegendrePoint (n, i);
+		a_coordinates[i] = quadrature::get_gaussLegendreWeight(n, i);
+	}
 }
 
 // ****************************************************************************

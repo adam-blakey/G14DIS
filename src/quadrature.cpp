@@ -9,9 +9,17 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
+#include <map>
 
 namespace quadrature
 {
+	// Cached storage.
+	namespace
+	{
+		std::map<std::pair<int, int>, double> integrationPoints;
+		std::map<std::pair<int, int>, double> weights;
+	}
+
 	/******************************************************************************
 	 * legendrePolynomial
 	 * 
@@ -187,5 +195,26 @@ namespace quadrature
 		answer += fValues[n-1]/2;
 
 		return h/(n-1) * answer;
+	}
+
+	double get_gaussLegendrePoint(const int &a_n, const int &a_i)
+	{
+		if (integrationPoints.find(std::make_pair(a_n, a_i)) == integrationPoints.end())
+		{
+			integrationPoints[std::make_pair(a_n, a_i)] = legendrePolynomialRoot(a_n, a_i);
+		}
+
+		return integrationPoints[std::make_pair(a_n, a_i)];
+	}
+
+	double get_gaussLegendreWeight(const int &a_n, const int &a_i)
+	{
+		if (weights.find(std::make_pair(a_n, a_i)) == weights.end())
+		{
+			double x = get_gaussLegendrePoint(a_n, a_i);
+			weights[std::make_pair(a_n, a_i)] = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(a_n)(x), 2));
+		}
+
+		return weights[std::make_pair(a_n, a_i)];
 	}
 }

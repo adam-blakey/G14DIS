@@ -34,6 +34,12 @@ Solution::Solution(Mesh* const &a_mesh)
 		this->polynomialDegrees[i] = 1;
 }
 
+Solution::Solution(Mesh* const &a_mesh, f_double const &a_exact)
+: Solution(a_mesh)
+{
+	this->exact_u = a_exact;
+}
+
 /******************************************************************************
  * __~Solution__
  ******************************************************************************/
@@ -137,7 +143,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
 {
-	double h = currentElement->Jacobian();
+	double h = currentElement->get_Jacobian();
 	double node1 = currentElement->get_nodeCoordinates()[0];
 	double node2 = currentElement->get_nodeCoordinates()[1];
 	f_double integrand;
@@ -181,7 +187,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 
 double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
 {
-	double h = currentElement->Jacobian();
+	double h = currentElement->get_Jacobian();
 	double node1 = currentElement->get_nodeCoordinates()[0];
 	double node2 = currentElement->get_nodeCoordinates()[1];
 	f_double integrand;
@@ -381,4 +387,57 @@ f_double Solution::get_solutionInterpolant_() const
 			return 0;
 		}
 	};
+}
+
+double Solution::get_L2Norm() const
+{
+	int n = this->mesh->get_noElements();
+
+	double norm = 0;
+
+	for (int i=0; i<n; ++i)
+	{
+		// Gets the current element.
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		// Retrieves quadrature information.
+		std::vector<double> coordinates;
+		std::vector<double> weights;
+		currentElement->get_elementQuadrature(coordinates, weights);
+
+		for (int j=0; j<coordinates.size(); ++i)
+		{
+			// Actual and approximate solution at coordinates.
+			double uh = compute_uh(i, coordinates[j]);
+			double u = compute_u(currentElement->mapLocalToGlobal(coordinates[j]));
+
+			double Jacobian = currentElement->get_Jacobian();
+			//Matrix_full JacobiMatrix = currentElement->get_Jacobi();
+
+			norm += pow(u - uh, 2)*weights[j]*Jacobian; // Add on H1 when you get to it...
+		}
+	}
+
+	return sqrt(norm);
+}
+
+double Solution::compute_uh(const int &a_i, const double &a_xi) const
+{
+	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions(0));
+	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions(1));
+
+	return common::addFunction(f1, f2)(a_xi);
+}
+
+double Solution::compute_uh_(const int &a_i, const double &a_xi) const
+{
+	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions_(0));
+	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions_(1));
+
+	return common::addFunction(f1, f2)(a_xi);
+}
+
+double Solution::compute_u(const double &a_x) const
+{
+	return this->exact_u(a_x);
 }

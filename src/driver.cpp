@@ -39,14 +39,14 @@ int main()
 
 	for (int N=6; N<=pow(6, 8); N*=2)
 	{
-		Elements* myElements = new Elements(-N);
+		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);
-		Solution* mySolution = new Solution(myMesh);
+		Solution* mySolution = new Solution(myMesh, exact);
 
 		mySolution->Solve(m_one, one, zero);
 
 		double L2 = common::L2NormDifference(mySolution->get_solutionInterpolant(), exact);
-		double H1 = 0;//common::L2NormDifference(mySolution->get_solutionInterpolant_(), exact_);
+		double H1 = common::L2NormDifference(mySolution->get_solutionInterpolant_(), exact_);
 
 		currentNorm = sqrt(pow(L2, 2) + pow(H1, 2));
 
@@ -136,7 +136,7 @@ int main2()
 	Element* myElement = (*(myMesh->elements))[0];
 
 	std::cout << myElement->quadrature(cos) << std::endl;
-	std::cout << myElement->Jacobian() << std::endl;
+	std::cout << myElement->get_Jacobian() << std::endl;
 
 	delete &myElements;
 
@@ -156,7 +156,7 @@ int main3()
 
 	std::cout << myElement->quadrature(cos) << std::endl;
 	std::cout << myElement->mapLocalToGlobal(-1) << std::endl;
-	std::cout << myElement->Jacobian() << std::endl;
+	std::cout << myElement->get_Jacobian() << std::endl;
 
 	delete myElement;
 

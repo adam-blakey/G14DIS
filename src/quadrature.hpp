@@ -21,6 +21,9 @@ namespace quadrature
 	double   legendrePolynomialRoot(const int n, const int i);
 	void     legendrePolynomialRoots(const int n, double roots[]);
 	double   trapeziumRule(const int n, const double fValues[], const double h);
+
+	double get_gaussLegendrePoint(const int &a_n, const int &a_i);
+	double get_gaussLegendreWeight(const int &a_n, const int &a_i);
 }
 
 #endif

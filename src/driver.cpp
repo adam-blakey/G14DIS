@@ -23,17 +23,22 @@ double m_one(double x)
 	return -1;
 }
 
+double pi2sin(double x)
+{
+	return pow(M_PI, 2) * sin(M_PI * x);
+}
+
 double exact(double x)
 {
-	return double(1)/2 * (pow(x, 2) - 1);
+	return sin(M_PI * x);
 }
 
 double exact_(double x)
 {
-	return x;
+	return M_PI * cos(M_PI * x);
 }
 
-int main()
+int main5()
 {
 	double currentNorm, previousNorm = 0;
 
@@ -43,39 +48,42 @@ int main()
 		Mesh*     myMesh     = new Mesh(myElements);
 		Solution* mySolution = new Solution(myMesh, exact);
 
-		mySolution->Solve(m_one, one, zero);
+		mySolution->Solve(pi2sin, one, zero);
 
-		double L2 = common::L2NormDifference(mySolution->get_solutionInterpolant(), exact);
-		double H1 = common::L2NormDifference(mySolution->get_solutionInterpolant_(), exact_);
+		//double L2 = common::L2NormDifference(mySolution->get_solutionInterpolant(), exact);
+		//double H1 = common::L2NormDifference(mySolution->get_solutionInterpolant_(), exact_);
 
-		currentNorm = sqrt(pow(L2, 2) + pow(H1, 2));
+		currentNorm = mySolution->get_L2Norm();
 
 		std::cout << previousNorm/currentNorm << std::endl;
 		previousNorm = currentNorm;
 
 		delete mySolution;
 		delete myMesh;
-		//delete myElements; MEMORY LEAK
+		delete myElements;
 	}
 
 	return 0;
 }
 
-int main5()
+int main()
 {
-	Elements* myElements = new Elements(-10);
+	//Elements* myElements = new Elements(-10);
+	Elements* myElements = new Elements(6);
 	Mesh*     myMesh     = new Mesh(myElements);
-	Solution* mySolution = new Solution(myMesh);
+	Solution* mySolution = new Solution(myMesh, exact);
 
-	mySolution->Solve(m_one, one, zero);
+	mySolution->Solve(pi2sin, one, zero);
 
-	for (int i=0; i<25; ++i)
+	/*for (int i=0; i<25; ++i)
 	{
 		double x = -1 + i*double(2)/25;
 		std::cout << mySolution->get_solutionInterpolant()(x) << "  " << exact(x) << std::endl;
 		std::cout << mySolution->get_solutionInterpolant_()(x) << "  " << exact_(x) << std::endl;
 		std::cout << std::endl;
-	}
+	}*/
+
+	mySolution->outputToFile();
 
 	delete mySolution;
 	delete myMesh;

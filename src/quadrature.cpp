@@ -11,6 +11,8 @@
 #include <functional>
 #include <map>
 
+#include <iostream>
+
 namespace quadrature
 {
 	// Cached storage.
@@ -211,8 +213,8 @@ namespace quadrature
 	{
 		if (weights.find(std::make_pair(a_n, a_i)) == weights.end())
 		{
-			double x = get_gaussLegendrePoint(a_n, a_i);
-			weights[std::make_pair(a_n, a_i)] = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(a_n)(x), 2));
+			double xi = get_gaussLegendrePoint(a_n, a_i);
+			weights[std::make_pair(a_n, a_i)] = double(2) / ((1 - pow(xi, 2))*pow(legendrePolynomialDerivative(a_n)(xi), 2));
 		}
 
 		return weights[std::make_pair(a_n, a_i)];

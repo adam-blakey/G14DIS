@@ -239,7 +239,7 @@ void Element::get_elementQuadrature(std::vector<double> &a_coordinates, std::vec
 	for (int i=0; i<n; ++i)
 	{
 		a_coordinates[i] = quadrature::get_gaussLegendrePoint (n, i);
-		a_coordinates[i] = quadrature::get_gaussLegendreWeight(n, i);
+		a_weights    [i] = quadrature::get_gaussLegendreWeight(n, i);
 	}
 }
 

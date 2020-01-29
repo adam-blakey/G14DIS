@@ -35,6 +35,7 @@ class Solution
 		double compute_uh(const int &a_i, const double &a_xi) const;
 		double compute_uh_(const int &a_i, const double &a_xi) const;
 		double compute_u(const double &a_x) const;
+		void outputToFile() const;
 };
 
 #endif

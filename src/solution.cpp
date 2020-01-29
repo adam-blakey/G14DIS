@@ -11,7 +11,10 @@
 #include "quadrature.hpp"
 #include "solution.hpp"
 
+#include <cassert>
 #include <cmath>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -152,23 +155,6 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 		integrand = common::constantMultiplyFunction(
 						h,
 						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(1), node1, node2),
-							f
-						)
-					);
-	else
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
-							common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-							f
-						)
-					);*/
-
-	if (j == node1Index)
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
 							currentElement->basisFunctions(1),
 							f
 						)
@@ -182,7 +168,9 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 						)
 					);
 
-	return quadrature::gaussLegendreQuadrature(integrand, 8);
+	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
+
+	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
 }
 
 double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
@@ -203,54 +191,6 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 							common::multiplyFunction(
 								common::constantMultiplyFunction(h, q),
 								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
-									)
-								)
-							);
-		else 
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(0))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2)
-									)
-								)
-							);
-	}
-	else
-	{
-		integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(1))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									common::transformFunction(currentElement->basisFunctions(0), node1, node2),
-									common::transformFunction(currentElement->basisFunctions(1), node1, node2)
-									)
-								)
-							);
-	}*/
-
-	if (i==j)
-	{
-		if (i==node1Index)
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(1), currentElement->basisFunctions_(1))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
 									currentElement->basisFunctions(0),
 									currentElement->basisFunctions(1)
 									)
@@ -288,7 +228,9 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 							);
 	}
 
-	return quadrature::gaussLegendreQuadrature(integrand, 8);
+	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
+
+	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
 }
 
 f_double Solution::get_solutionInterpolant() const
@@ -405,14 +347,16 @@ double Solution::get_L2Norm() const
 		std::vector<double> weights;
 		currentElement->get_elementQuadrature(coordinates, weights);
 
-		for (int j=0; j<coordinates.size(); ++i)
+		for (int j=0; j<coordinates.size(); ++j)
 		{
 			// Actual and approximate solution at coordinates.
-			double uh = compute_uh(i, coordinates[j]);
+			double uh = compute_uh(j, coordinates[j]);
 			double u = compute_u(currentElement->mapLocalToGlobal(coordinates[j]));
 
 			double Jacobian = currentElement->get_Jacobian();
 			//Matrix_full JacobiMatrix = currentElement->get_Jacobi();
+
+			//std::cout << "weight: " << weights[j] << std::endl;
 
 			norm += pow(u - uh, 2)*weights[j]*Jacobian; // Add on H1 when you get to it...
 		}
@@ -440,4 +384,33 @@ double Solution::compute_uh_(const int &a_i, const double &a_xi) const
 double Solution::compute_u(const double &a_x) const
 {
 	return this->exact_u(a_x);
+}
+
+void Solution::outputToFile() const
+{
+	std::ofstream outputFile;
+	outputFile.open("output.dat");
+	assert(outputFile.is_open());
+
+	int n = this->mesh->get_noElements();
+
+	for (int i=0; i<n; ++i)
+	{
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		outputFile
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[0]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[i]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(currentElement->get_nodeCoordinates()[0])
+		<< std::endl;
+	}
+
+	Element* lastElement = (*(this->mesh->elements))[n-1];
+	outputFile
+		<< std::setw(26) << std::setprecision(16) << std::scientific << lastElement->get_nodeCoordinates()[1]
+		<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[n]
+		<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(lastElement->get_nodeCoordinates()[1])
+	<< std::endl;
+
+	outputFile.close();
 }

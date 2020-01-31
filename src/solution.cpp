@@ -118,7 +118,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	/*std::cout << "A1:" << std:: endl;
+	std::cout << "A1:" << std:: endl;
 	for (int i=0; i<n-1; ++i)
 		std::cout << "  " << A1[i] << std::endl;
 	std::cout << "A2:" << std:: endl;
@@ -130,7 +130,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	std::cout << "F:" << std:: endl;
 	for (int i=0; i<n; ++i)
 		std::cout << "  " << F[i] << std::endl;
-	std::cout << std::endl;*/
+	std::cout << std::endl;
 
 	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
 
@@ -147,9 +147,6 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
 {
 	double h = currentElement->get_Jacobian();
-	double node1 = currentElement->get_nodeCoordinates()[0];
-	double node2 = currentElement->get_nodeCoordinates()[1];
-	f_double integrand;
 
 	/*if (j == node1Index)
 		integrand = common::constantMultiplyFunction(
@@ -171,14 +168,55 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
 
 	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
+
+	double integral = 0;
+	
+	std::vector<double> coordinates;
+	std::vector<double> weights;
+	currentElement->get_elementQuadrature(coordinates, weights);
+
+	double node1 = currentElement->get_nodeCoordinates()[0];
+	double node2 = currentElement->get_nodeCoordinates()[1];
+
+	f_double integrand;
+
+	/*if (j == node1Index)
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							currentElement->basisFunctions(1),
+							common::transformFunction(f, node1, node2)
+						)
+					);
+	else
+		integrand = common::constantMultiplyFunction(
+						h,
+						common::multiplyFunction(
+							currentElement->basisFunctions(0),
+							common::transformFunction(f, node1, node2) // NEED TO TRANSLATE SOMEHOW... BUT IS THIS THE BEST WAY?!
+						)
+					);*/
+
+	// NEED TO DO SAME WITH STIFFNESS MATRIX!!!!
+
+	for (int j=0; j<coordinates.size(); ++j)
+	{
+		double b_value;
+		if (j == node1Index)
+			b_value = currentElement->basisFunctions(1)(coordinates[j]);
+		else
+			b_value = currentElement->basisFunctions(0)(coordinates[j]);
+
+		double f_value = f(currentElement->mapLocalToGlobal(coordinates[j]));
+		integral += b_value*f_value*weights[j]*h;
+	}
+
+	return integral;
 }
 
 double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
 {
 	double h = currentElement->get_Jacobian();
-	double node1 = currentElement->get_nodeCoordinates()[0];
-	double node2 = currentElement->get_nodeCoordinates()[1];
-	f_double integrand;
 
 	/*if (i==j)
 	{
@@ -231,6 +269,69 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
 
 	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
+
+	double integral = 0;
+	
+	std::vector<double> coordinates;
+	std::vector<double> weights;
+	currentElement->get_elementQuadrature(coordinates, weights);
+
+	f_double integrand;
+
+	if (i==j)
+	{
+		if (i==node1Index)
+			integrand = common::addFunction(
+							common::multiplyFunction(
+								common::constantMultiplyFunction(double(1)/h, p),
+								common::multiplyFunction(currentElement->basisFunctions_(1), currentElement->basisFunctions_(1))
+							),
+							common::multiplyFunction(
+								common::constantMultiplyFunction(h, q),
+								common::multiplyFunction(
+									currentElement->basisFunctions(0),
+									currentElement->basisFunctions(1)
+									)
+								)
+							);
+		else 
+			integrand = common::addFunction(
+							common::multiplyFunction(
+								common::constantMultiplyFunction(double(1)/h, p),
+								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(0))
+							),
+							common::multiplyFunction(
+								common::constantMultiplyFunction(h, q),
+								common::multiplyFunction(
+									currentElement->basisFunctions(0),
+									currentElement->basisFunctions(1)
+									)
+								)
+							);
+	}
+	else
+	{
+		integrand = common::addFunction(
+						common::multiplyFunction(
+							common::constantMultiplyFunction(double(1)/h, p),
+							common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(1))
+						),
+						common::multiplyFunction(
+							common::constantMultiplyFunction(h, q),
+							common::multiplyFunction(
+								currentElement->basisFunctions(0),
+								currentElement->basisFunctions(1)
+								)
+							)
+						);
+	}
+
+	for (int j=0; j<coordinates.size(); ++j)
+	{
+		integral += integrand(coordinates[j])*weights[j]*h;
+	}
+
+	return integral;
 }
 
 f_double Solution::get_solutionInterpolant() const

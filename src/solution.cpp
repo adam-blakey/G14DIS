@@ -69,7 +69,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	std::vector<double> A3(n-1, 0);
 	std::vector<double> F (n,   0);
 
-	for (int elementCounter=0; elementCounter<=n-2; ++elementCounter)
+	for (int elementCounter=0; elementCounter<this->noElements; ++elementCounter)
 	{
 		Element* currentElement = (*(this->mesh->elements))[elementCounter];
 
@@ -118,6 +118,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
+	/*std::cout << std::endl;
 	std::cout << "A1:" << std:: endl;
 	for (int i=0; i<n-1; ++i)
 		std::cout << "  " << A1[i] << std::endl;
@@ -129,8 +130,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 		std::cout << "  " << A3[i] << std::endl;
 	std::cout << "F:" << std:: endl;
 	for (int i=0; i<n; ++i)
-		std::cout << "  " << F[i] << std::endl;
-	std::cout << std::endl;
+		std::cout << "  " << F[i] << std::endl;*/
 
 	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
 
@@ -142,6 +142,16 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	std::cout << "A3: " << A3.size() << std::endl;
 	std::cout << "F: " << F.size() << std::endl;
 	std::cout << "solution: " <<solution.size() << std::endl;*/
+
+	/*std::cout << "sol:" << std:: endl;
+	for (int i=0; i<n; ++i)
+		std::cout << "  " << solution[i] << std::endl;
+	std::cout << "exact:" << std:: endl;
+	for (int i=0; i<n; ++i)
+	{
+		double x = -1 + i*double(2)/(n-1);
+		std::cout << "  " << exact_u(x) << std::endl;
+	}*/
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
@@ -180,35 +190,16 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 
 	f_double integrand;
 
-	/*if (j == node1Index)
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
-							currentElement->basisFunctions(1),
-							common::transformFunction(f, node1, node2)
-						)
-					);
-	else
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
-							currentElement->basisFunctions(0),
-							common::transformFunction(f, node1, node2) // NEED TO TRANSLATE SOMEHOW... BUT IS THIS THE BEST WAY?!
-						)
-					);*/
-
-	// NEED TO DO SAME WITH STIFFNESS MATRIX!!!!
-
-	for (int j=0; j<coordinates.size(); ++j)
+	for (int k=0; k<coordinates.size(); ++k)
 	{
 		double b_value;
 		if (j == node1Index)
-			b_value = currentElement->basisFunctions(1)(coordinates[j]);
+			b_value = currentElement->basisFunctions(1)(coordinates[k]);
 		else
-			b_value = currentElement->basisFunctions(0)(coordinates[j]);
+			b_value = currentElement->basisFunctions(0)(coordinates[k]);
 
-		double f_value = f(currentElement->mapLocalToGlobal(coordinates[j]));
-		integral += b_value*f_value*weights[j]*h;
+		double f_value = f(currentElement->mapLocalToGlobal(coordinates[k]));
+		integral += b_value*f_value*weights[k]*h;
 	}
 
 	return integral;
@@ -276,7 +267,7 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 	std::vector<double> weights;
 	currentElement->get_elementQuadrature(coordinates, weights);
 
-	f_double integrand;
+	/*f_double integrand;
 
 	if (i==j)
 	{
@@ -324,14 +315,86 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 								)
 							)
 						);
+	}*/
+
+	for (int k=0; k<coordinates.size(); ++k)
+	{
+		double b_value;
+		if (i==j)
+		{
+			if (i==node1Index)
+			{
+				b_value = currentElement->basisFunctions_(1)(coordinates[k])/h
+						* currentElement->basisFunctions_(1)(coordinates[k])/h;
+			}
+			else
+			{
+				b_value = currentElement->basisFunctions_(0)(coordinates[k])/h
+						* currentElement->basisFunctions_(0)(coordinates[k])/h;
+			}
+		}
+		else
+		{
+			b_value = currentElement->basisFunctions_(0)(coordinates[k])/h
+					* currentElement->basisFunctions_(1)(coordinates[k])/h;
+		}
+
+		double p_value = p(currentElement->mapLocalToGlobal(coordinates[k]));
+
+		integral += p_value*b_value*weights[k]*h;
+		//std::cout << integral << std::endl;
+	}
+	//std::cout << std::endl;
+
+	for (int k=0; k<coordinates.size(); ++k)
+	{
+		double b_value;
+		if (i==j)
+		{
+			if (i==node1Index)
+			{
+				b_value = currentElement->basisFunctions(1)(coordinates[k])
+						* currentElement->basisFunctions(1)(coordinates[k]);
+			}
+			else
+			{
+				b_value = currentElement->basisFunctions(0)(coordinates[k])
+						* currentElement->basisFunctions(0)(coordinates[k]);
+			}
+		}
+		else
+		{
+			b_value = currentElement->basisFunctions(0)(coordinates[k])
+					* currentElement->basisFunctions(1)(coordinates[k]);
+		}
+
+		double q_value = q(currentElement->mapLocalToGlobal(coordinates[k]));
+
+		integral += q_value*b_value*weights[k]*h;
 	}
 
-	for (int j=0; j<coordinates.size(); ++j)
-	{
-		integral += integrand(coordinates[j])*weights[j]*h;
-	}
+	//std::cout << integral << std::endl;
 
 	return integral;
+
+
+	//return quadrature::gaussLegendreQuadrature(integrand, 8);
+
+
+
+	// for (int j=0; j<coordinates.size(); ++j)
+	// {
+	// 	double b_value;
+	// 	if (j == node1Index)
+	// 		b_value = currentElement->basisFunctions(1)(coordinates[j]);
+	// 	else
+	// 		b_value = currentElement->basisFunctions(0)(coordinates[j]);
+
+	// 	double f_value = f(currentElement->mapLocalToGlobal(coordinates[j]));
+	// 	integral += b_value*f_value*weights[j]*h;
+	// }
+
+	// return integral;
 }
 
 f_double Solution::get_solutionInterpolant() const

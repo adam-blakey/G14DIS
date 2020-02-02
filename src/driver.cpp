@@ -69,7 +69,7 @@ int main5()
 int main()
 {
 	//Elements* myElements = new Elements(-10);
-	Elements* myElements = new Elements(6);
+	Elements* myElements = new Elements(8);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, exact);
 

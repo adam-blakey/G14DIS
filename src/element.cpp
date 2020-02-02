@@ -311,7 +311,7 @@ Elements::Elements(const int &a_noElements)
 		// Connectivity array.
 		// *******************
 		// Loops over each element.
-		for (int i=0; i<a_noElements; ++i)
+		for (int i=0; i<abs(a_noElements); ++i)
 		{
 			(*(this->connectivityMatrix))(0, i) = i-1;
 			(*(this->connectivityMatrix))(1, i) = i+1;
@@ -349,7 +349,7 @@ Elements::Elements(const int &a_noElements)
 		// Sets boundary elements.
 		std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
 		this->boundaryElements[0]              = 1;
-		this->boundaryElements[a_noElements-1] = 1;
+		this->boundaryElements[abs(a_noElements)-1] = 1;
 	}
 }
 

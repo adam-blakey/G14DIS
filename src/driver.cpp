@@ -38,11 +38,11 @@ double exact_(double x)
 	return M_PI * cos(M_PI * x);
 }
 
-int main5()
+int main()
 {
 	double currentNorm, previousNorm = 0;
 
-	for (int N=6; N<=pow(6, 8); N*=2)
+	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
 		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);
@@ -55,7 +55,10 @@ int main5()
 
 		currentNorm = mySolution->get_L2Norm();
 
+		std::cout << currentNorm << std::endl;
 		std::cout << previousNorm/currentNorm << std::endl;
+		std::cout << std::endl;
+
 		previousNorm = currentNorm;
 
 		delete mySolution;
@@ -66,10 +69,10 @@ int main5()
 	return 0;
 }
 
-int main()
+int main5()
 {
 	//Elements* myElements = new Elements(-10);
-	Elements* myElements = new Elements(8);
+	Elements* myElements = new Elements(3);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, exact);
 
@@ -82,6 +85,8 @@ int main()
 		std::cout << mySolution->get_solutionInterpolant_()(x) << "  " << exact_(x) << std::endl;
 		std::cout << std::endl;
 	}*/
+
+	std::cout << mySolution->get_L2Norm() << std::endl;
 
 	mySolution->outputToFile();
 

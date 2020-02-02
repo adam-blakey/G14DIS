@@ -62,7 +62,7 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	double A = 0;
 	double B = 0;
 
-	int n = this->noElements + 1;
+	int n = this->noElements + 1; // Number of nodes.
 
 	std::vector<double> A1(n-1, 0);
 	std::vector<double> A2(n,   0);
@@ -151,55 +151,34 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	{
 		double x = -1 + i*double(2)/(n-1);
 		std::cout << "  " << exact_u(x) << std::endl;
+	}
+	std::cout << "error:" << std:: endl;
+	for (int i=0; i<n; ++i)
+	{
+		double x = -1 + i*double(2)/(n-1);
+		std::cout << "  " << exact_u(x) - solution[i] << std::endl;
 	}*/
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
 {
-	double h = currentElement->get_Jacobian();
-
-	/*if (j == node1Index)
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
-							currentElement->basisFunctions(1),
-							f
-						)
-					);
-	else
-		integrand = common::constantMultiplyFunction(
-						h,
-						common::multiplyFunction(
-							currentElement->basisFunctions(0),
-							f
-						)
-					);
-
-	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
-
-	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
-
+	double J = currentElement->get_Jacobian();
 	double integral = 0;
 	
 	std::vector<double> coordinates;
 	std::vector<double> weights;
 	currentElement->get_elementQuadrature(coordinates, weights);
 
-	double node1 = currentElement->get_nodeCoordinates()[0];
-	double node2 = currentElement->get_nodeCoordinates()[1];
-
-	f_double integrand;
-
 	for (int k=0; k<coordinates.size(); ++k)
 	{
 		double b_value;
 		if (j == node1Index)
-			b_value = currentElement->basisFunctions(1)(coordinates[k]);
-		else
 			b_value = currentElement->basisFunctions(0)(coordinates[k]);
+		else
+			b_value = currentElement->basisFunctions(1)(coordinates[k]);
 
 		double f_value = f(currentElement->mapLocalToGlobal(coordinates[k]));
-		integral += b_value*f_value*weights[k]*h;
+		integral += b_value*f_value*weights[k]*J;
 	}
 
 	return integral;
@@ -207,115 +186,12 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 
 double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
 {
-	double h = currentElement->get_Jacobian();
-
-	/*if (i==j)
-	{
-		if (i==node1Index)
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(1), currentElement->basisFunctions_(1))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									currentElement->basisFunctions(0),
-									currentElement->basisFunctions(1)
-									)
-								)
-							);
-		else 
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(0))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									currentElement->basisFunctions(0),
-									currentElement->basisFunctions(1)
-									)
-								)
-							);
-	}
-	else
-	{
-		integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(1))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									currentElement->basisFunctions(0),
-									currentElement->basisFunctions(1)
-									)
-								)
-							);
-	}
-
-	return quadrature::gaussLegendreQuadrature(integrand, 8);*/
-
-	// YOU NEED TO UPDATE THE QUADRATURE CALCULATION TO REFLECT HOW IT IS DONE IN THE L2 NORM CALUCLATION
-
+	double J = currentElement->get_Jacobian();
 	double integral = 0;
 	
 	std::vector<double> coordinates;
 	std::vector<double> weights;
 	currentElement->get_elementQuadrature(coordinates, weights);
-
-	/*f_double integrand;
-
-	if (i==j)
-	{
-		if (i==node1Index)
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(1), currentElement->basisFunctions_(1))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									currentElement->basisFunctions(0),
-									currentElement->basisFunctions(1)
-									)
-								)
-							);
-		else 
-			integrand = common::addFunction(
-							common::multiplyFunction(
-								common::constantMultiplyFunction(double(1)/h, p),
-								common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(0))
-							),
-							common::multiplyFunction(
-								common::constantMultiplyFunction(h, q),
-								common::multiplyFunction(
-									currentElement->basisFunctions(0),
-									currentElement->basisFunctions(1)
-									)
-								)
-							);
-	}
-	else
-	{
-		integrand = common::addFunction(
-						common::multiplyFunction(
-							common::constantMultiplyFunction(double(1)/h, p),
-							common::multiplyFunction(currentElement->basisFunctions_(0), currentElement->basisFunctions_(1))
-						),
-						common::multiplyFunction(
-							common::constantMultiplyFunction(h, q),
-							common::multiplyFunction(
-								currentElement->basisFunctions(0),
-								currentElement->basisFunctions(1)
-								)
-							)
-						);
-	}*/
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
@@ -324,27 +200,25 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 		{
 			if (i==node1Index)
 			{
-				b_value = currentElement->basisFunctions_(1)(coordinates[k])/h
-						* currentElement->basisFunctions_(1)(coordinates[k])/h;
+				b_value = currentElement->basisFunctions_(0)(coordinates[k])
+						* currentElement->basisFunctions_(0)(coordinates[k]);
 			}
 			else
 			{
-				b_value = currentElement->basisFunctions_(0)(coordinates[k])/h
-						* currentElement->basisFunctions_(0)(coordinates[k])/h;
+				b_value = currentElement->basisFunctions_(1)(coordinates[k])
+						* currentElement->basisFunctions_(1)(coordinates[k]);
 			}
 		}
 		else
 		{
-			b_value = currentElement->basisFunctions_(0)(coordinates[k])/h
-					* currentElement->basisFunctions_(1)(coordinates[k])/h;
+			b_value = currentElement->basisFunctions_(0)(coordinates[k])
+					* currentElement->basisFunctions_(1)(coordinates[k]);
 		}
 
 		double p_value = p(currentElement->mapLocalToGlobal(coordinates[k]));
 
-		integral += p_value*b_value*weights[k]*h;
-		//std::cout << integral << std::endl;
+		integral += p_value*b_value*weights[k]/J;
 	}
-	//std::cout << std::endl;
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
@@ -370,31 +244,10 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 
 		double q_value = q(currentElement->mapLocalToGlobal(coordinates[k]));
 
-		integral += q_value*b_value*weights[k]*h;
+		integral += q_value*b_value*weights[k]*J;
 	}
 
-	//std::cout << integral << std::endl;
-
 	return integral;
-
-
-	//return quadrature::gaussLegendreQuadrature(integrand, 8);
-
-
-
-	// for (int j=0; j<coordinates.size(); ++j)
-	// {
-	// 	double b_value;
-	// 	if (j == node1Index)
-	// 		b_value = currentElement->basisFunctions(1)(coordinates[j]);
-	// 	else
-	// 		b_value = currentElement->basisFunctions(0)(coordinates[j]);
-
-	// 	double f_value = f(currentElement->mapLocalToGlobal(coordinates[j]));
-	// 	integral += b_value*f_value*weights[j]*h;
-	// }
-
-	// return integral;
 }
 
 f_double Solution::get_solutionInterpolant() const
@@ -514,7 +367,7 @@ double Solution::get_L2Norm() const
 		for (int j=0; j<coordinates.size(); ++j)
 		{
 			// Actual and approximate solution at coordinates.
-			double uh = compute_uh(j, coordinates[j]);
+			double uh = compute_uh(i, coordinates[j]);
 			double u = compute_u(currentElement->mapLocalToGlobal(coordinates[j]));
 
 			double Jacobian = currentElement->get_Jacobian();

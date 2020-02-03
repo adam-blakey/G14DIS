@@ -43,6 +43,13 @@ Solution::Solution(Mesh* const &a_mesh, f_double const &a_exact)
 	this->exact_u = a_exact;
 }
 
+Solution::Solution(Mesh* const &a_mesh, f_double const &a_exact, f_double const &a_exact_1)
+: Solution(a_mesh)
+{
+	this->exact_u   = a_exact;
+	this->exact_u_1 = a_exact_1;
+}
+
 /******************************************************************************
  * __~Solution__
  ******************************************************************************/
@@ -382,6 +389,41 @@ double Solution::get_L2Norm() const
 	return sqrt(norm);
 }
 
+double Solution::get_H1Norm() const
+{
+	int n = this->mesh->get_noElements();
+
+	double norm = 0;
+
+	for (int i=0; i<n; ++i)
+	{
+		// Gets the current element.
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		// Retrieves quadrature information.
+		std::vector<double> coordinates;
+		std::vector<double> weights;
+		currentElement->get_elementQuadrature(coordinates, weights);
+
+		for (int j=0; j<coordinates.size(); ++j)
+		{
+			// Actual and approximate solution at coordinates.
+			double uh   = compute_uh  (i, coordinates[j]);
+			double uh_1 = compute_uh_1(i, coordinates[j]);
+			double u    = compute_u   (currentElement->mapLocalToGlobal(coordinates[j]));
+			double u_1  = compute_u_1 (currentElement->mapLocalToGlobal(coordinates[j]));
+
+			double Jacobian = currentElement->get_Jacobian();
+			//Matrix_full JacobiMatrixIT = currentElement->get_Jacobi()->get_InverseTranspose();
+
+			norm += pow(u   - uh  , 2)*weights[j]*Jacobian
+				 +  pow(u_1 - uh_1, 2)*weights[j]*Jacobian;
+		}
+	}
+
+	return sqrt(norm);
+}
+
 double Solution::compute_uh(const int &a_i, const double &a_xi) const
 {
 	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions(0));
@@ -390,17 +432,24 @@ double Solution::compute_uh(const int &a_i, const double &a_xi) const
 	return common::addFunction(f1, f2)(a_xi);
 }
 
-double Solution::compute_uh_(const int &a_i, const double &a_xi) const
+double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 {
+	double J = (*(this->mesh->elements))[a_i]->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
+
 	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions_(0));
 	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions_(1));
 
-	return common::addFunction(f1, f2)(a_xi);
+	return common::addFunction(f1, f2)(a_xi) / J;
 }
 
 double Solution::compute_u(const double &a_x) const
 {
 	return this->exact_u(a_x);
+}
+
+double Solution::compute_u_1(const double &a_x) const
+{
+	return this->exact_u_1(a_x);
 }
 
 void Solution::outputToFile() const

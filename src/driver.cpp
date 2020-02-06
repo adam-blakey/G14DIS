@@ -38,6 +38,11 @@ double exact_(double x)
 	return M_PI * cos(M_PI * x);
 }
 
+int main()
+{
+	return 0;
+}
+
 int main5()
 {
 	double currentNormH1, previousNormH1 = 0;
@@ -72,7 +77,7 @@ int main5()
 	return 0;
 }
 
-int main()
+int main6()
 {
 	//Elements* myElements = new Elements(-10);
 	Elements* myElements = new Elements(-7);

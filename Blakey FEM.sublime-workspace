@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"current",
+				"currentElement-"
+			],
+			[
 				"output",
 				"outputFile"
 			],
@@ -510,46 +514,25 @@
 			[
 				"row",
 				"rows_per_page"
-			],
-			[
-				"new",
-				"new_password"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "src/driver.cpp",
-			"settings":
-			{
-				"buffer_size": 3530,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/driver_plotter.py",
-			"settings":
-			{
-				"buffer_size": 365,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/output.dat",
-			"settings":
-			{
-				"buffer_size": 553,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/solution.cpp",
 			"settings":
 			{
-				"buffer_size": 14406,
+				"buffer_size": 13693,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/driver.cpp",
+			"settings":
+			{
+				"buffer_size": 3614,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1312,7 +1295,7 @@
 		[
 			[
 				"Package Control: ",
-				"Package Control: Install Package"
+				"Package Control: Remove Package"
 			],
 			[
 				"remove pa",
@@ -1400,18 +1383,21 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_value.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_norm.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/output.dat",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/CW3/Q4/plotter.py",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix.hpp",
@@ -1524,10 +1510,7 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/README.md",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/docs/Doxyfile",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/conf.py",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/test.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/index.rst",
-		"/C/Users/Adam/src/cakephpsphinx/setup.py",
-		"/C/Users/Adam/src/cakephpsphinx/cakephpsphinx/config/all.py"
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/test.cpp"
 	],
 	"find":
 	{
@@ -1557,6 +1540,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			";\n",
+			"b_value",
+			"basis_functions",
+			"basis_functions_",
+			"weights",
 			"f_double ",
 			"integrand",
 			"norm",
@@ -1679,12 +1667,7 @@
 			"1",
 			"element2",
 			"element1",
-			"double",
-			"Mesh",
-			"10",
-			"73",
-			"5",
-			"polynomialDegrees"
+			"double"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1707,137 +1690,73 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/driver.cpp",
+					"file": "src/solution.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3530,
+						"buffer_size": 13693,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1641,
-								1641
+								4434,
+								4434
 							]
 						],
 						"settings":
 						{
-							"SL.235.region_keys":
+							"SL.77.region_keys":
 							[
 							],
-							"SL.28.region_keys":
-							[
-							],
-							"function_name_status_row": 83,
+							"function_name_status_row": 161,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/driver_plotter.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 365,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								365,
-								365
-							]
-						],
-						"settings":
-						{
-							"SL.51.region_keys":
-							[
-							],
-							"function_name_status_row": 16,
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1962.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "src/output.dat",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 553,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								553,
-								553
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 7,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/solution.cpp",
+					"buffer": 1,
+					"file": "src/driver.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14406,
+						"buffer_size": 3614,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8624,
-								8624
+								590,
+								590
 							]
 						],
 						"settings":
 						{
-							"SL.27.region_keys":
+							"SL.33.region_keys":
 							[
 							],
-							"function_name_status_row": 310,
+							"function_name_status_row": 48,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3220.0,
+						"translation.y": 195.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1914,7 +1833,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Adam\\Blakey Cloud\\Documents\\Education\\University of Nottingham\\Year 4\\G14DIS\\G14DIS Report\\G14DIS Report.sublime-project"
+				"C:\\Users\\Adam\\Blakey Cloud\\Documents\\Education\\University of Nottingham\\Year 4\\G14DIS\\Blakey FEM\\Blakey FEM.sublime-project"
 			]
 		],
 		"width": 380.0

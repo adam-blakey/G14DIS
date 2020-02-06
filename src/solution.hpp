@@ -31,6 +31,8 @@ class Solution
 		double compute_uh_1(const int &a_i, const double &a_xi) const;
 		double compute_u(const double &a_x) const;
 		double compute_u_1(const double &a_x) const;
+		double compute_errorIndicator(const double &a_i) const;
+		double compute_residual() const;
 
 		// DOF STORAGE
 
@@ -46,7 +48,7 @@ class Solution
 		// Solver.
 		void Solve(f_double f, f_double p, f_double q);
 
-		// Getters.
+		// Getters. [maybe change to computers??]
 		f_double get_solutionInterpolant() const;
 		f_double get_solutionInterpolant_() const;
 		double get_L2Norm() const;

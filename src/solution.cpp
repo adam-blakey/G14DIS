@@ -480,3 +480,11 @@ void Solution::outputToFile() const
 
 	outputFile.close();
 }
+
+double Solution::compute_errorIndicator(const double &a_i) const
+{
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+	int P = this->polynomialDegrees[a_i];
+	
+	return double(1)/(P*(P+1)); // Add more!!!
+}

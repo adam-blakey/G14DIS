@@ -23,7 +23,7 @@ class Solution
 		f_double exact_u_1;
 
 		// Computes stiffness and load vector terms.
-		double a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q);
+		double a(Element* currentElement, const int &i, const int &j, const int &node1Index, double epsilon, f_double c);
 		double l(Element* currentElement,               const int &j, const int &node1Index, f_double f);
 
 		// Computers.
@@ -46,7 +46,7 @@ class Solution
 		~Solution();
 
 		// Solver.
-		void Solve(f_double f, f_double p, f_double q);
+		void Solve(f_double f, double epsilon, f_double c);
 
 		// Getters. [maybe change to computers??]
 		f_double get_solutionInterpolant() const;

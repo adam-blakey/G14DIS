@@ -64,7 +64,7 @@ Solution::~Solution()
  * @details 	Uses the stored data to calculate and populate the value in
  * 					local variable 'solution'.
  ******************************************************************************/
-void Solution::Solve(f_double f, f_double p, f_double q)
+void Solution::Solve(f_double f, double epsilon, f_double c)
 {
 	double A = 0;
 	double B = 0;
@@ -90,11 +90,11 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
 				if (j<i)
-					A1[j] += this->a(currentElement, i, j, elementCounter, p, q);
+					A1[j] += this->a(currentElement, i, j, elementCounter, epsilon, c);
 				else if (j==i)
-					A2[i] += this->a(currentElement, i, j, elementCounter, p, q);
+					A2[i] += this->a(currentElement, i, j, elementCounter, epsilon, c);
 				else
-					A3[i] += this->a(currentElement, i, j, elementCounter, p, q);
+					A3[i] += this->a(currentElement, i, j, elementCounter, epsilon, c);
 			}
 		}
 	}
@@ -125,46 +125,10 @@ void Solution::Solve(f_double f, f_double p, f_double q)
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	/*std::cout << std::endl;
-	std::cout << "A1:" << std:: endl;
-	for (int i=0; i<n-1; ++i)
-		std::cout << "  " << A1[i] << std::endl;
-	std::cout << "A2:" << std:: endl;
-	for (int i=0; i<n; ++i)
-		std::cout << "  " << A2[i] << std::endl;
-	std::cout << "A3:" << std:: endl;
-	for (int i=0; i<n-1; ++i)
-		std::cout << "  " << A3[i] << std::endl;
-	std::cout << "F:" << std:: endl;
-	for (int i=0; i<n; ++i)
-		std::cout << "  " << F[i] << std::endl;*/
-
 	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
-
-	/*std::cout << "A1: " << A1.size() << std::endl;
-	std::cout << "A2: " << A2.size() << std::endl;
-	std::cout << "A3: " << A3.size() << std::endl;
-	std::cout << "F: " << F.size() << std::endl;
-	std::cout << "solution: " <<solution.size() << std::endl;*/
-
-	/*std::cout << "sol:" << std:: endl;
-	for (int i=0; i<n; ++i)
-		std::cout << "  " << solution[i] << std::endl;
-	std::cout << "exact:" << std:: endl;
-	for (int i=0; i<n; ++i)
-	{
-		double x = -1 + i*double(2)/(n-1);
-		std::cout << "  " << exact_u(x) << std::endl;
-	}
-	std::cout << "error:" << std:: endl;
-	for (int i=0; i<n; ++i)
-	{
-		double x = -1 + i*double(2)/(n-1);
-		std::cout << "  " << exact_u(x) - solution[i] << std::endl;
-	}*/
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
@@ -191,7 +155,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 	return integral;
 }
 
-double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, f_double p, f_double q)
+double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, double epsilon, f_double c)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -222,9 +186,7 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 					* currentElement->basisFunctions_(1)(coordinates[k]);
 		}
 
-		double p_value = p(currentElement->mapLocalToGlobal(coordinates[k]));
-
-		integral += p_value*b_value*weights[k]/J;
+		integral += epsilon*b_value*weights[k]/J;
 	}
 
 	for (int k=0; k<coordinates.size(); ++k)
@@ -249,9 +211,9 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 					* currentElement->basisFunctions(1)(coordinates[k]);
 		}
 
-		double q_value = q(currentElement->mapLocalToGlobal(coordinates[k]));
+		double c_value = c(currentElement->mapLocalToGlobal(coordinates[k]));
 
-		integral += q_value*b_value*weights[k]*J;
+		integral += c_value*b_value*weights[k]*J;
 	}
 
 	return integral;

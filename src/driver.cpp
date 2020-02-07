@@ -38,12 +38,12 @@ double exact_(double x)
 	return M_PI * cos(M_PI * x);
 }
 
-int main()
+int main5()
 {
 	return 0;
 }
 
-int main5()
+int main()
 {
 	double currentNormH1, previousNormH1 = 0;
 	double currentNormL2, previousNormL2 = 0;
@@ -54,7 +54,7 @@ int main5()
 		Mesh*     myMesh     = new Mesh(myElements);
 		Solution* mySolution = new Solution(myMesh, exact, exact_);
 
-		mySolution->Solve(pi2sin, one, zero);
+		mySolution->Solve(pi2sin, 1, zero);
 		mySolution->outputToFile();
 
 		currentNormL2 = mySolution->get_L2Norm();
@@ -84,7 +84,7 @@ int main6()
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, exact, exact_);
 
-	mySolution->Solve(pi2sin, one, zero);
+	mySolution->Solve(pi2sin, 1, zero);
 
 	std::cout << mySolution->get_L2Norm() << std::endl;
 	std::cout << mySolution->get_H1Norm() << std::endl;
@@ -107,7 +107,7 @@ int main4()
 		Mesh*     myMesh     = new Mesh(N);
 		Solution* mySolution = new Solution(myMesh);
 
-		mySolution->Solve(m_one, one, zero);
+		mySolution->Solve(m_one, 1, zero);
 
 		double L2 = common::L2NormDifference(mySolution->get_solutionInterpolant(), exact);
 		double H1 = common::L2NormDifference(mySolution->get_solutionInterpolant_(), exact_);
@@ -127,7 +127,7 @@ int main1()
 	Mesh*     myMesh     = new Mesh(5);
 	Solution* mySolution = new Solution(myMesh);
 
-	mySolution->Solve(m_one, one, zero);
+	mySolution->Solve(m_one, 1, zero);
 
 	for (int i=0; i<myMesh->get_noNodes(); ++i)
 	{

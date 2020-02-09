@@ -45,8 +45,10 @@ int main5()
 
 int main()
 {
-	double currentNormH1, previousNormH1 = 0;
 	double currentNormL2, previousNormL2 = 0;
+	double currentNormH1, previousNormH1 = 0;
+	double currentNormE , previousNormE  = 0;
+	double currentErrorI, previousErrorI = 0;
 
 	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
@@ -59,15 +61,23 @@ int main()
 
 		currentNormL2 = mySolution->get_L2Norm();
 		currentNormH1 = mySolution->get_H1Norm();
+		currentNormE  = mySolution->get_energyNorm(pi2sin, 1, zero);
+		currentErrorI = mySolution->get_globalErrorIndicator(pi2sin, 1, zero);
 
 		std::cout << "L2: " << currentNormL2 << std::endl;
 		std::cout << "H1: " << currentNormH1 << std::endl;
+		std::cout << "En: " << currentNormE  << std::endl;
+		std::cout << "In: " << currentErrorI << std::endl;
 		std::cout << "L2 rate: " << previousNormL2/currentNormL2 << std::endl;
 		std::cout << "H1 rate: " << previousNormH1/currentNormH1 << std::endl;
+		std::cout << "En rate: " << previousNormE /currentNormE  << std::endl;
+		std::cout << "In rate: " << previousErrorI/currentErrorI << std::endl;
 		std::cout << std::endl;
 
 		previousNormL2 = currentNormL2;
 		previousNormH1 = currentNormH1;
+		previousNormE  = currentNormE;
+		previousErrorI = currentErrorI;
 
 		delete mySolution;
 		delete myMesh;

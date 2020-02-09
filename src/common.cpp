@@ -12,21 +12,6 @@
 namespace common
 {
 	/******************************************************************************
-	 * __copyArray__
-	 * 
-	 * @details 	Does a deep copy on an array.
-	 * 
-	 * @param[in] n 		The number of elements in the arrays.
-	 * @param[in] array1 	The source array.
-	 * @param[in] array2 	The destination array.
-	 ******************************************************************************/
-	void copyArray(const int &n, const double* const &array1, double* const &array2)
-	{
-		for (int i=0; i<n; ++i)
-			array2[i] = array1[i];
-	}
-
-	/******************************************************************************
 	 * __transformFunction__
 	 * 
 	 * @details 	Transforms the given function to the reference element.
@@ -36,9 +21,9 @@ namespace common
 	 * @param[in] xjp1 		The right side of the element.
 	 * @return     			A function that is transformed to the reference element using the left and right side of a 1D element.
 	 ******************************************************************************/
-	f_double transformFunction(const f_double &f, const double &xj, const double &xjp1)
+	f_double transformFunction(const f_double &a_f, const double &a_xj, const double &a_xjp1)
 	{
-		return [=](double x)->double{ return f((x+1)*(xjp1-xj)/2 + xj); };
+		return [=](double x)->double{ return a_f((x+1)*(a_xjp1-a_xj)/2 + a_xj); };
 	}
 
 	/******************************************************************************
@@ -50,9 +35,9 @@ namespace common
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) + g(x)`.
 	 ******************************************************************************/
-	f_double addFunction(const f_double &f, const f_double &g)
+	f_double addFunction(const f_double &a_f, const f_double &a_g)
 	{
-		return [=](double x)->double{ return f(x) + g(x); };
+		return [=](double x)->double{ return a_f(x) + a_g(x); };
 	}
 
 	/******************************************************************************
@@ -64,9 +49,9 @@ namespace common
 	 * @param[in] g 		Second function.
 	 * @return     			A function that is `h(x) = f(x) * g(x)`.
 	 ******************************************************************************/
-	f_double multiplyFunction(const f_double &f, const f_double &g)
+	f_double multiplyFunction(const f_double &a_f, const f_double &a_g)
 	{
-		return [=](double x)->double{ return f(x) * g(x); };
+		return [=](double x)->double{ return a_f(x) * a_g(x); };
 	}
 
 	/******************************************************************************
@@ -78,9 +63,9 @@ namespace common
 	 * @param[in] f 		The function.
 	 * @return     			A function that is `h(x) = a * f(x)`.
 	 ******************************************************************************/
-	f_double constantMultiplyFunction(const double &a, const f_double &f)
+	f_double constantMultiplyFunction(const double &a_a, const f_double &a_f)
 	{
-		return [=](double x)->double{ return a * f(x); };
+		return [=](double x)->double{ return a_a * a_f(x); };
 	}
 
 	/******************************************************************************
@@ -95,18 +80,18 @@ namespace common
 	 * @param[in] x 		The vector to multiply by.
 	 * @param[out] solution The result of the operation.
 	 ******************************************************************************/
-	void tridiagonalVectorMultiplication(const std::vector<double> &a, const std::vector<double> &b, const std::vector<double> &c, const std::vector<double> &x, std::vector<double> &solution)
+	void tridiagonalVectorMultiplication(const std::vector<double> &a_a, const std::vector<double> &a_b, const std::vector<double> &a_c, const std::vector<double> &a_x, std::vector<double> &a_solution)
 	{
-		int n = b.size();
+		int n = a_b.size();
 		
 		for (int i=0; i<n; ++i)
 		{
 			if (i==0)
-				solution[i] = b[0]*x[0] + c[0]*x[1];
+				a_solution[i] = a_b[0]*a_x[0] + a_c[0]*a_x[1];
 			else if (i==n-1)
-				solution[i] = a[n-2]*x[n-2] + b[n-1]*x[n-1];
+				a_solution[i] = a_a[n-2]*a_x[n-2] + a_b[n-1]*a_x[n-1];
 			else
-				solution[i] = a[i-1]*x[i-1] + b[i]*x[i] + c[i]*x[i+1];
+				a_solution[i] = a_a[i-1]*a_x[i-1] + a_b[i]*a_x[i] + a_c[i]*a_x[i+1];
 		}
 	}
 	/******************************************************************************

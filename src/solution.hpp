@@ -31,8 +31,8 @@ class Solution
 		double compute_uh_1(const int &a_i, const double &a_xi) const;
 		double compute_u(const double &a_x) const;
 		double compute_u_1(const double &a_x) const;
-		double compute_errorIndicator(const double &a_i) const;
-		double compute_residual() const;
+		double compute_errorIndicator(const double &a_i, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const;
+		double compute_residual(const double &a_uh, const double &a_x, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const;
 
 		// DOF STORAGE
 
@@ -53,6 +53,8 @@ class Solution
 		f_double get_solutionInterpolant_() const;
 		double get_L2Norm() const;
 		double get_H1Norm() const;
+		double get_energyNorm(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const;
+		double get_globalErrorIndicator(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const;
 
 		// Outputters.
 		void outputToFile() const;

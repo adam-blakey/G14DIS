@@ -386,6 +386,41 @@ double Solution::get_H1Norm() const
 	return sqrt(norm);
 }
 
+double Solution::get_energyNorm(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+{
+	int n = this->mesh->get_noElements();
+	double sqrt_epsilon = sqrt(a_epsilon);
+
+	double norm = 0;
+
+	for (int i=0; i<n; ++i)
+	{
+		// Gets the current element.
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		// Retrieves quadrature information.
+		std::vector<double> coordinates;
+		std::vector<double> weights;
+		currentElement->get_elementQuadrature(coordinates, weights);
+
+		for (int j=0; j<coordinates.size(); ++j)
+		{
+			// Actual and approximate solution at coordinates.
+			double uh   = compute_uh  (i, coordinates[j]);
+			double uh_1 = compute_uh_1(i, coordinates[j]);
+			double u    = compute_u   (currentElement->mapLocalToGlobal(coordinates[j]));
+			double u_1  = compute_u_1 (currentElement->mapLocalToGlobal(coordinates[j]));
+
+			double Jacobian = currentElement->get_Jacobian();
+
+			norm += pow(sqrt_epsilon*(u_1 - uh_1), 2)*weights[j]*Jacobian
+				 +  pow(sqrt(a_c(coordinates[j]))*(u - uh), 2)*weights[j]*Jacobian;
+		}
+	}
+
+	return sqrt(norm);
+}
+
 double Solution::compute_uh(const int &a_i, const double &a_xi) const
 {
 	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions(0));
@@ -443,10 +478,49 @@ void Solution::outputToFile() const
 	outputFile.close();
 }
 
-double Solution::compute_errorIndicator(const double &a_i) const
+double Solution::get_globalErrorIndicator(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
 {
+	double errorIndicator = 0;
+
+	for (int i=0; i<this->noElements; ++i)
+		errorIndicator += compute_errorIndicator(i, a_f, a_epsilon, a_c);
+
+	return sqrt(errorIndicator);
+}
+
+double Solution::compute_errorIndicator(const double &a_i, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+{
+	// Gets element and its properties.
 	Element* currentElement = (*(this->mesh->elements))[a_i];
 	int P = this->polynomialDegrees[a_i];
+	double leftNode  = currentElement->get_nodeCoordinates()[0];
+	double rightNode = currentElement->get_nodeCoordinates()[1];
+	double Jacobian  = currentElement->get_Jacobian();
+
+	// Calculates L2 norm on element with weight and residual.
+	double norm_2 = 0;
+	std::vector<double> quadratureCoordinates;
+	std::vector<double> quadratureWeights;
+	currentElement->get_elementQuadrature(quadratureCoordinates, quadratureWeights);
+
+	// Loops over quadrature coordinates and weights.
+	for (int j=0; j<quadratureCoordinates.size(); ++j)
+	{
+		double uh = compute_uh(a_i, quadratureCoordinates[j]);
+		double residual = compute_residual(uh, quadratureCoordinates[j], a_f, a_epsilon, a_c);
+
+		double x = currentElement->mapLocalToGlobal(quadratureCoordinates[j]);
+		double weight = (rightNode - x)*(x - leftNode);
+
+		norm_2 += pow(sqrt(weight)*residual, 2)*quadratureWeights[j]*Jacobian;
+	}
 	
-	return double(1)/(P*(P+1)); // Add more!!!
+	return double(1)/(P*(P+1)*a_epsilon) * norm_2;
+}
+
+double Solution::compute_residual(const double &a_uh, const double &a_x, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+{
+	double a_uh_2 = 0;
+
+	return a_f(a_x) + a_epsilon*a_uh_2 - a_c(a_x)*a_uh;
 }

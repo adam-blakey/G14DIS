@@ -19,24 +19,25 @@ class Matrix_sparse: public Matrix<T>
 		Matrix_sparse();
 
 		// Storage.
-		std::vector<T> matrixEntries;
-		std::vector<T> columnNos;
-		std::vector<T> rowStarts;
+		std::vector<T>   matrixEntries;
+		std::vector<int> columnNos;
+		std::vector<int> rowStarts;
+		int              noColumns;
 
 		// Resizing.
 		void resize(const int &a_noNonZeros);
+		void resize(const int &a_noNonZeros, const int &a_noRows);
+		void resize(const int &a_noNonZeros, const int &a_noRows, const int &a_noColumns);
 
 		// Index calculation.
-		//int get_index(const int &x, const int &y) const;
+		int get_index(const int &a_x, const int &a_y) const;
 
 		// Gets an individual item.
-		T&       item(const int &a_x, const int &a_y);
-		const T& item(const int &a_x, const int &a_y) const;
+		const T item(const int &a_x, const int &a_y) const;
 
 	public:
 		// Constructors.
-		Matrix_sparse(const int &a_N, const int &a_noNonZero);
-		Matrix_sparse(const int &a_noColumns, const int &a_noRows, const int &a_noNonZero);
+		Matrix_sparse(const int &a_noNonZero, const int &a_noRows, const int &a_noColumns);
 		Matrix_sparse(const Matrix<T> &a_matrix);
 
 		// Matrix-Matrix operations.
@@ -47,8 +48,16 @@ class Matrix_sparse: public Matrix<T>
 		// Matrix-scalar operations.
 		Matrix_sparse<T> operator*(const T &a_RHS);
 		Matrix_sparse<T> operator/(const T &a_RHS);
+
+		// Getters.
+		int get_noNonZero() const;
+		int get_noRows() const;
+		int get_noColumns() const;
+
+		// Adds an item.
+		void add(const int &a_x, const int &a_y, const T &a_value);
 };
 
-#include "matrix_full.cpp"
+#include "matrix_sparse.cpp"
 
 #endif

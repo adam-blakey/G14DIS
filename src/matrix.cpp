@@ -12,28 +12,6 @@
 #include <iostream>
 
 /******************************************************************************
- * __get_noRows__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-int Matrix<T>::get_noRows() const
-{
-	return this->noRows;
-}
-
-/******************************************************************************
- * __get_noColumns__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-int Matrix<T>::get_noColumns() const
-{
-	return this->noColumns;
-}
-
-/******************************************************************************
  * __get_diagonal__
  * 
  * @details 	
@@ -41,7 +19,7 @@ int Matrix<T>::get_noColumns() const
 template<class T>
 std::vector<T> Matrix<T>::get_diagonal() const
 {
-	int diagonalLength = noColumns<noRows?noColumns:noRows;
+	int diagonalLength = this->get_noColumns()<this->get_noRows()?this->get_noColumns():this->get_noRows();
 	std::vector<T> diagonal(diagonalLength, 0);
 
 	for (int i=0; i<diagonalLength; ++i)
@@ -56,18 +34,7 @@ std::vector<T> Matrix<T>::get_diagonal() const
  * @details 	
  ******************************************************************************/
 template<class T>
-T& Matrix<T>::operator()(const int &a_x, const int &a_y)
-{
-	return item(a_x, a_y);
-}
-
-/******************************************************************************
- * __operator()__
- * 
- * @details 	
- ******************************************************************************/
-template<class T>
-const T& Matrix<T>::operator()(const int &a_x, const int &a_y) const
+const T Matrix<T>::operator()(const int &a_x, const int &a_y) const
 {
 	return item(a_x, a_y);
 }
@@ -86,10 +53,10 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T> &a_RHS)
 	this->noRows = a_RHS.get_noRows();
 	this->noColumns = a_RHS.get_noColumns();
 
-	this->resize(noRows * noColumns);
+	this->resize(this->get_noRows() * this->get_noColumns());
 
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
 			item(i, j) = a_RHS(i, j);
 
 	return *this;
@@ -104,15 +71,15 @@ template<class T>
 Matrix<T>& Matrix<T>::operator+=(const Matrix<T> &a_RHS)
 {
 	// Dimensions must be the same.
-	if (noRows != a_RHS.get_noRows() || noColumns != a_RHS.get_noColumns())
+	if (this->get_noRows() != a_RHS.get_noRows() || this->get_noColumns() != a_RHS.get_noColumns())
 	{
 		std::cerr << "Matrix dimensions do not match.";
 		return *this;
 	}
 
 	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
 			item(i, j) += a_RHS(i, j); // I think it's a problem with this LHS -- I don't think you can write to it...
 
 	return *this;
@@ -127,15 +94,15 @@ template<class T>
 Matrix<T>& Matrix<T>::operator-=(const Matrix<T> &a_RHS)
 {
 	// Dimensions must be the same.
-	if (noRows != a_RHS.get_noRows() || noColumns != a_RHS.get_noColumns())
+	if (this->get_noRows() != a_RHS.get_noRows() || this->get_noColumns() != a_RHS.get_noColumns())
 	{
 		std::cerr << "Matrix dimensions do not match.";
 		return *this;
 	}
 
 	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
 			item(i, j) -= a_RHS(i, j); // I think it's a problem with this LHS -- I don't think you can write to it...
 
 	return *this;
@@ -150,18 +117,18 @@ template<class T>
 Matrix<T>& Matrix<T>::operator*=(const Matrix<T> &a_RHS)
 {
 	// Matching dimensions.
-	if (noRows != a_RHS.get_noColumns() || noRows != a_RHS.get_noRows())
+	if (this->get_noRows() != a_RHS.get_noColumns() || this->get_noRows() != a_RHS.get_noRows())
 	{
 		std::cerr << "Error: Matrix dimensions do not match." << std::endl;
 		return *this;
 	}
 
-	Matrix<T> tempMatrix(noColumns, noRows, 0);
+	Matrix<T> tempMatrix(this->get_noColumns(), this->get_noRows(), 0);
 
 	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
-			for (int k=0; k<noRows; ++k)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
+			for (int k=0; k<this->get_noRows(); ++k)
 				tempMatrix(i, j) += item(i, k) * a_RHS(k, j);
 
 	*this = tempMatrix;
@@ -178,8 +145,8 @@ template<class T>
 Matrix<T>& Matrix<T>::operator*=(const T &a_RHS)
 {
 	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
 			item(i, j) *= a_RHS;
 
 	return *this;
@@ -217,8 +184,8 @@ template<class T>
 Matrix<T>& Matrix<T>::operator/=(const T &a_RHS)
 {
 	// Creates new matrix and calculates elements appropriately.
-	for (int i=0; i<noColumns; ++i)
-		for (int j=0; j<noRows; ++j)
+	for (int i=0; i<this->get_noColumns(); ++i)
+		for (int j=0; j<this->get_noRows(); ++j)
 			item(i, j) /= a_RHS;
 
 	return *this;

@@ -25,7 +25,7 @@
  * 
  * @param[in] a_mesh 		The mesh the solution is defined on.
  ******************************************************************************/
-Solution::Solution(Mesh* const &a_mesh)
+Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_epsilon, f_double const &a_c) // Something bad happens when you call this directly...
 {
 	this->noElements		= a_mesh->get_noElements();
 	this->solution 			.resize(a_mesh->get_noNodes());
@@ -35,16 +35,20 @@ Solution::Solution(Mesh* const &a_mesh)
 
 	for (int i=0; i<a_mesh->get_noNodes(); ++i)
 		this->polynomialDegrees[i] = 1;
+
+	this->f       = a_f; 
+	this->epsilon = a_epsilon;
+	this->c       = a_c;
 }
 
-Solution::Solution(Mesh* const &a_mesh, f_double const &a_exact)
-: Solution(a_mesh)
+Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_epsilon, f_double const &a_c, f_double const &a_exact)
+: Solution(a_mesh, a_f, a_epsilon, a_c)
 {
 	this->exact_u = a_exact;
 }
 
-Solution::Solution(Mesh* const &a_mesh, f_double const &a_exact, f_double const &a_exact_1)
-: Solution(a_mesh)
+Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_epsilon, f_double const &a_c, f_double const &a_exact, f_double const &a_exact_1)
+: Solution(a_mesh, a_f, a_epsilon, a_c)
 {
 	this->exact_u   = a_exact;
 	this->exact_u_1 = a_exact_1;
@@ -64,7 +68,7 @@ Solution::~Solution()
  * @details 	Uses the stored data to calculate and populate the value in
  * 					local variable 'solution'.
  ******************************************************************************/
-void Solution::Solve(f_double f, double epsilon, f_double c)
+void Solution::Solve()
 {
 	double A = 0;
 	double B = 0;
@@ -85,16 +89,16 @@ void Solution::Solve(f_double f, double epsilon, f_double c)
 
 		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
-			F[j] += this->l(currentElement, j, elementCounter, f);
+			F[j] += this->l(currentElement, j, elementCounter);
 
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
 				if (j<i)
-					A1[j] += this->a(currentElement, i, j, elementCounter, epsilon, c);
+					A1[j] += this->a(currentElement, i, j, elementCounter);
 				else if (j==i)
-					A2[i] += this->a(currentElement, i, j, elementCounter, epsilon, c);
+					A2[i] += this->a(currentElement, i, j, elementCounter);
 				else
-					A3[i] += this->a(currentElement, i, j, elementCounter, epsilon, c);
+					A3[i] += this->a(currentElement, i, j, elementCounter);
 			}
 		}
 	}
@@ -131,7 +135,38 @@ void Solution::Solve(f_double f, double epsilon, f_double c)
 	this->solution[n-1] = B;
 }
 
-double Solution::l(Element* currentElement, const int &j, const int &node1Index, f_double f)
+/******************************************************************************
+ * __Solve__
+ * 
+ * @details 	Uses the stored data to calculate and populate the value in
+ * 					local variable 'solution'.
+ ******************************************************************************/
+void Solution::Solve(const double &a_tolerance, const int &a_maxNoElements)
+{
+	int noElements = this->mesh->get_noElements();
+	assert(noElements <= a_maxNoElements);
+
+	// Temporarily use another mesh.
+	Mesh* oldMesh = this->mesh; // There's probably a better way.
+	this->Solve();
+
+	// Variables for the algorithm.
+	bool checksRequired = true;
+	std::vector<bool> localChecks(noElements, true);
+
+	while (checksRequired && noElements <= a_maxNoElements)
+	{
+		for (int i=0; i<this->mesh->get_noElements(); ++i)
+		{
+
+		}
+	}
+
+	// Put the old mesh back.
+	this->mesh = oldMesh;
+}
+
+double Solution::l(Element* currentElement, const int &j, const int &node1Index)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -148,14 +183,14 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index,
 		else
 			b_value = currentElement->basisFunctions(1)(coordinates[k]);
 
-		double f_value = f(currentElement->mapLocalToGlobal(coordinates[k]));
+		double f_value = this->f(currentElement->mapLocalToGlobal(coordinates[k]));
 		integral += b_value*f_value*weights[k]*J;
 	}
 
 	return integral;
 }
 
-double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index, double epsilon, f_double c)
+double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -186,7 +221,7 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 					* currentElement->basisFunctions_(1)(coordinates[k]);
 		}
 
-		integral += epsilon*b_value*weights[k]/J;
+		integral += this->epsilon*b_value*weights[k]/J;
 	}
 
 	for (int k=0; k<coordinates.size(); ++k)
@@ -211,7 +246,7 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 					* currentElement->basisFunctions(1)(coordinates[k]);
 		}
 
-		double c_value = c(currentElement->mapLocalToGlobal(coordinates[k]));
+		double c_value = this->c(currentElement->mapLocalToGlobal(coordinates[k]));
 
 		integral += c_value*b_value*weights[k]*J;
 	}
@@ -386,10 +421,10 @@ double Solution::get_H1Norm() const
 	return sqrt(norm);
 }
 
-double Solution::get_energyNorm(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+double Solution::get_energyNorm() const
 {
 	int n = this->mesh->get_noElements();
-	double sqrt_epsilon = sqrt(a_epsilon);
+	double sqrt_epsilon = sqrt(this->epsilon);
 
 	double norm = 0;
 
@@ -414,7 +449,7 @@ double Solution::get_energyNorm(f_double const &a_f, const double &a_epsilon, f_
 			double Jacobian = currentElement->get_Jacobian();
 
 			norm += pow(sqrt_epsilon*(u_1 - uh_1), 2)*weights[j]*Jacobian
-				 +  pow(sqrt(a_c(coordinates[j]))*(u - uh), 2)*weights[j]*Jacobian;
+				 +  pow(sqrt(this->c(coordinates[j]))*(u - uh), 2)*weights[j]*Jacobian;
 		}
 	}
 
@@ -478,17 +513,17 @@ void Solution::outputToFile() const
 	outputFile.close();
 }
 
-double Solution::get_globalErrorIndicator(f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+double Solution::get_globalErrorIndicator() const
 {
 	double errorIndicator = 0;
 
 	for (int i=0; i<this->noElements; ++i)
-		errorIndicator += compute_errorIndicator(i, a_f, a_epsilon, a_c);
+		errorIndicator += compute_errorIndicator(i);
 
 	return sqrt(errorIndicator);
 }
 
-double Solution::compute_errorIndicator(const double &a_i, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+double Solution::compute_errorIndicator(const double &a_i) const
 {
 	// Gets element and its properties.
 	Element* currentElement = (*(this->mesh->elements))[a_i];
@@ -507,7 +542,7 @@ double Solution::compute_errorIndicator(const double &a_i, f_double const &a_f, 
 	for (int j=0; j<quadratureCoordinates.size(); ++j)
 	{
 		double uh = compute_uh(a_i, quadratureCoordinates[j]);
-		double residual = compute_residual(uh, quadratureCoordinates[j], a_f, a_epsilon, a_c);
+		double residual = compute_residual(uh, quadratureCoordinates[j]);
 
 		double x = currentElement->mapLocalToGlobal(quadratureCoordinates[j]);
 		double weight = (rightNode - x)*(x - leftNode);
@@ -515,12 +550,12 @@ double Solution::compute_errorIndicator(const double &a_i, f_double const &a_f, 
 		norm_2 += pow(sqrt(weight)*residual, 2)*quadratureWeights[j]*Jacobian;
 	}
 	
-	return double(1)/(P*(P+1)*a_epsilon) * norm_2;
+	return double(1)/(P*(P+1)*this->epsilon) * norm_2;
 }
 
-double Solution::compute_residual(const double &a_uh, const double &a_x, f_double const &a_f, const double &a_epsilon, f_double const &a_c) const
+double Solution::compute_residual(const double &a_uh, const double &a_x) const
 {
 	double a_uh_2 = 0;
 
-	return a_f(a_x) + a_epsilon*a_uh_2 - a_c(a_x)*a_uh;
+	return this->f(a_x) + this->epsilon*a_uh_2 - this->c(a_x)*a_uh;
 }

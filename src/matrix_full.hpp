@@ -20,6 +20,8 @@ class Matrix_full: public Matrix<T>
 
 		// Storage.
 		std::vector<T> items;
+		int noColumns;
+		int noRows;
 
 		// Resizing.
 		void resize(const int &a_noNonZeros);
@@ -28,8 +30,7 @@ class Matrix_full: public Matrix<T>
 		int get_index(const int &x, const int &y) const;
 
 		// Gets an individual item.
-		T&       item(const int &a_x, const int &a_y);
-		const T& item(const int &a_x, const int &a_y) const;
+		const T item(const int &a_x, const int &a_y) const;
 
 	public:
 		// Constructors.
@@ -46,6 +47,10 @@ class Matrix_full: public Matrix<T>
 		// Matrix-scalar operations.
 		Matrix_full<T> operator*(const T &a_RHS);
 		Matrix_full<T> operator/(const T &a_RHS);
+
+		// Getters.
+		int get_noRows() const;
+		int get_noColumns() const;
 };
 
 #include "matrix_full.cpp"

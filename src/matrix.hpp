@@ -14,26 +14,20 @@ template<class T>
 class Matrix
 {
 	protected:
-		// Storage.
-		int noColumns;
-		int noRows;
-
 		// Resizing.
 		virtual void resize(const int &a_noNonZeros) = 0; // Missing resize for number of rows and columns.
 
 		// Gets an individual item.
-		virtual T&       item(const int &a_x, const int &a_y) = 0;
-		virtual const T& item(const int &a_x, const int &a_y) const = 0;
+		virtual const T item(const int &a_x, const int &a_y) const = 0;
 
 	public:
 		// Getters.
-		int            get_noRows() const;
-		int            get_noColumns() const;
+		virtual int    get_noRows() const = 0;
+		virtual int    get_noColumns() const = 0;
 		std::vector<T> get_diagonal() const;
 
 		// Indexing.
-		T&       operator()(const int &a_x, const int &a_y);
-		const T& operator()(const int &a_x, const int &a_y) const;
+		const T operator()(const int &a_x, const int &a_y) const;
 
 		// Matrix-Matrix operations.
 		Matrix<T>& operator= (const Matrix<T> &a_RHS);

@@ -63,7 +63,7 @@ class Solution
 		double get_globalErrorIndicator() const;
 
 		// Outputters.
-		void outputToFile() const;
+		void outputToFile(const std::string a_filename = "./output.dat") const;
 };
 
 #endif

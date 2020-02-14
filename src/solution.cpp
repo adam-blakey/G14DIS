@@ -484,10 +484,10 @@ double Solution::compute_u_1(const double &a_x) const
 	return this->exact_u_1(a_x);
 }
 
-void Solution::outputToFile() const
+void Solution::outputToFile(const std::string a_filename) const
 {
 	std::ofstream outputFile;
-	outputFile.open("output.dat");
+	outputFile.open(a_filename);
 	assert(outputFile.is_open());
 
 	int n = this->mesh->get_noElements();

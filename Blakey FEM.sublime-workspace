@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"colum",
+				"columnNos"
+			],
+			[
+				"matrix",
+				"matrixEntries"
+			],
+			[
+				"errorIndac",
+				"errorIndicator_sqrt"
+			],
+			[
+				"errorInda",
+				"errorIndicator"
+			],
+			[
+				"quadt",
+				"quadratureWeights"
+			],
+			[
 				"current",
 				"currentElement-"
 			],
@@ -130,10 +150,6 @@
 			[
 				"aM",
 				"aMatrix"
-			],
-			[
-				"matrix",
-				"matrixProduct"
 			],
 			[
 				"matri",
@@ -498,32 +514,79 @@
 			[
 				"error",
 				"error_message"
-			],
-			[
-				"user",
-				"user_event_query"
-			],
-			[
-				"end",
-				"end_timestamp"
-			],
-			[
-				"start",
-				"start_timestamp"
-			],
-			[
-				"row",
-				"rows_per_page"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "src/common.cpp",
+			"file": "src/delete_me.cpp",
 			"settings":
 			{
-				"buffer_size": 4854,
+				"buffer_size": 835,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/driver.cpp",
+			"settings":
+			{
+				"buffer_size": 4806,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/driver_linux.cpp",
+			"settings":
+			{
+				"buffer_size": 1755,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/solution.cpp",
+			"settings":
+			{
+				"buffer_size": 16179,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/matrix_sparse.cpp",
+			"settings":
+			{
+				"buffer_size": 9949,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/element.cpp",
+			"settings":
+			{
+				"buffer_size": 11909,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/matrix_full.hpp",
+			"settings":
+			{
+				"buffer_size": 1441,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/matrix_full.cpp",
+			"settings":
+			{
+				"buffer_size": 11560,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1374,23 +1437,26 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver_plotter.py",
+		"/C/Users/Adam/Downloads/ContactFrom_v10/a7a4dcdb6914becaa2185ffda1ee42fe.dat",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.hpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_sparse.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_value.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_norm.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/output.dat",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/CW3/Q4/plotter.py",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/srcOld/common.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/G14DIS Report/main.tex",
@@ -1498,14 +1564,11 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Difference-Equations.tex",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Binet.tex",
 		"/C/Users/Adam/Desktop/status.html",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/README.md",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/docs/Doxyfile",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/conf.py",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/testC++/test.cpp"
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/README.md"
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -1531,6 +1594,26 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"str(",
+			"'",
+			"noElements",
+			"// This needs to change...",
+			"template<>",
+			"static_cast<T>(0)",
+			"matrixEntries[0]",
+			"get_norows",
+			"vector<T>",
+			"i-1",
+			"mat1(",
+			"get_noNonZero",
+			"resize",
+			"L2",
+			"H1",
+			"NormH1",
+			"NormL2",
+			"coordinates",
+			"\t\n",
+			"current",
 			"p",
 			";\n",
 			"b_value",
@@ -1638,27 +1721,7 @@
 			"j",
 			"mesh",
 			"/******************************************************************************",
-			"double*",
-			"Element",
-			"Solution::",
-			"Mesh",
-			"f_double",
-			"std::function<double(double)>",
-			"elementNo",
-			"\n\t",
-			"*/",
-			"/**",
-			"*/",
-			"/**",
-			"javadoc",
-			"Array",
-			"getB",
-			"function<double(double)>",
-			"tempElements",
-			"void",
-			"1",
-			"element2",
-			"element1"
+			"double*"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1681,40 +1744,256 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/common.cpp",
+					"file": "src/delete_me.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4854,
+						"buffer_size": 835,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3679,
-								3679
+								258,
+								258
 							]
 						],
 						"settings":
 						{
-							"SL.195.region_keys":
+							"SL.372.region_keys":
 							[
 							],
-							"function_name_status_row": 93,
+							"function_name_status_row": 13,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 880.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/driver.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4806,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2710,
+								2710
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 126,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1014.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/driver_linux.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1755,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1087,
+								1087
+							]
+						],
+						"settings":
+						{
+							"SL.465.region_keys":
+							[
+							],
+							"function_name_status_row": 67,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/solution.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13838,
+								13838
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 493,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6041.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/matrix_sparse.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9949,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7670,
+								7670
+							]
+						],
+						"settings":
+						{
+							"SL.452.region_keys":
+							[
+							],
+							"function_name_status_row": 283,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3640.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/element.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11909,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8943,
+								8943
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 289,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3631.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/matrix_full.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1441,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								496,
+								496
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 19,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/matrix_full.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11560,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3093,
+								3093
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 102,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 975.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1722,7 +2001,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 29.0
 	},
 	"input":
 	{
@@ -1771,7 +2050,7 @@
 	"project": "Blakey FEM.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 54.0
 	},
 	"save_all_on_build": true,
 	"select_file":

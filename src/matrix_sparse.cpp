@@ -321,7 +321,7 @@ int Matrix_sparse<T>::get_noColumns() const
  * @details 	
  ******************************************************************************/
 template<class T>
-void Matrix_sparse<T>::add(const int &a_x, const int &a_y, const T &a_value)
+void Matrix_sparse<T>::add(const int &a_x, const int &a_y, const T &a_value) // There's a bug somewhere in here...
 {
 	// If the element already exists, then we just overwrite it.
 	if (this->get_index(a_x, a_y) != -1)

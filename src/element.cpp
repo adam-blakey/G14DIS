@@ -270,8 +270,8 @@ Elements::Elements(const int &a_noElements)
 		// Loops over each element.
 		for (int i=0; i<a_noElements; ++i)
 		{
-			(*(this->connectivityMatrix))(0, i) = i-1;
-			(*(this->connectivityMatrix))(1, i) = i+1;
+			//(*(this->connectivityMatrix))(0, i) = i-1;
+			//(*(this->connectivityMatrix))(1, i) = i+1;
 		}
 
 		// *********
@@ -313,8 +313,8 @@ Elements::Elements(const int &a_noElements)
 		// Loops over each element.
 		for (int i=0; i<abs(a_noElements); ++i)
 		{
-			(*(this->connectivityMatrix))(0, i) = i-1;
-			(*(this->connectivityMatrix))(1, i) = i+1;
+			//(*(this->connectivityMatrix))(0, i) = i-1;
+			//(*(this->connectivityMatrix))(1, i) = i+1;
 		}
 
 		// *********

@@ -38,13 +38,34 @@ double exact_(double x)
 	return M_PI * cos(M_PI * x);
 }
 
-int main()
+double expx2(double x)
+{
+	return exp(-pow(x, 2));
+}
+
+int main7()
 {
 	Elements* myElements = new Elements(10);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
 
 	mySolution->Solve(1e-10, 1e5);
+	mySolution->outputToFile();
+
+	delete mySolution;
+	delete myMesh;
+	delete myElements;
+
+	return 0;
+}
+
+int main6()
+{
+	Elements* myElements = new Elements(16);
+	Mesh*     myMesh     = new Mesh(myElements);
+	Solution* mySolution = new Solution(myMesh, one, 1, expx2, exact, exact_);
+
+	mySolution->Solve();
 	mySolution->outputToFile();
 
 	delete mySolution;
@@ -75,6 +96,7 @@ int main5()
 		currentNormE  = mySolution->get_energyNorm();
 		currentErrorI = mySolution->get_globalErrorIndicator();
 
+		std::cout << "N : " << N << std::endl;
 		std::cout << "L2: " << currentNormL2 << std::endl;
 		std::cout << "H1: " << currentNormH1 << std::endl;
 		std::cout << "En: " << currentNormE  << std::endl;
@@ -98,12 +120,12 @@ int main5()
 	return 0;
 }
 
-int main6()
+int main()
 {
 	//Elements* myElements = new Elements(-10);
-	Elements* myElements = new Elements(-7);
+	Elements* myElements = new Elements(16);
 	Mesh*     myMesh     = new Mesh(myElements);
-	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
+	Solution* mySolution = new Solution(myMesh, one, 0.01, one, exact, exact_);
 
 	mySolution->Solve();
 

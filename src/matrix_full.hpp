@@ -30,7 +30,8 @@ class Matrix_full: public Matrix<T>
 		int get_index(const int &x, const int &y) const;
 
 		// Gets an individual item.
-		const T item(const int &a_x, const int &a_y) const;
+			  T& item(const int &a_x, const int &a_y);
+		const T  item(const int &a_x, const int &a_y) const;
 
 	public:
 		// Constructors.
@@ -51,6 +52,9 @@ class Matrix_full: public Matrix<T>
 		// Getters.
 		int get_noRows() const;
 		int get_noColumns() const;
+		
+		// Setters.
+		void set(const int &a_x, const int &a_y, const T &a_value);
 };
 
 #include "matrix_full.cpp"

@@ -100,6 +100,24 @@ int Matrix_full<T>::get_index(const int &a_x, const int &a_y) const
  * @details 	
  ******************************************************************************/
 template<class T>
+T& Matrix_full<T>::item(const int &a_x, const int &a_y)
+{
+	// Dimensions must be the same.
+	if (a_x >= this->noColumns || a_y >= this->noRows)
+	{
+		std::cerr << "Invalid index.";
+		return items[0];
+	}
+
+	return items[get_index(a_x, a_y)];
+}
+
+/******************************************************************************
+ * __item__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
 const T Matrix_full<T>::item(const int &a_x, const int &a_y) const
 {
 	// Dimensions must be the same.
@@ -232,6 +250,17 @@ template<class T>
 int Matrix_full<T>::get_noColumns() const
 {
 	return this->noColumns;
+}
+
+/******************************************************************************
+ * __set__
+ * 
+ * @details 	
+ ******************************************************************************/
+template<class T>
+void Matrix_full<T>::set(const int &a_x, const int &a_y, const T &a_value)
+{
+	item(a_x, a_y) = a_value;
 }
 
 /******************************************************************************

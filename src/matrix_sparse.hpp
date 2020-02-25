@@ -39,6 +39,7 @@ class Matrix_sparse: public Matrix<T>
 		// Constructors.
 		Matrix_sparse(const int &a_noNonZero, const int &a_noRows, const int &a_noColumns);
 		Matrix_sparse(const Matrix<T> &a_matrix);
+		//add constructor with columnNos and rowStarts already added?
 
 		// Matrix-Matrix operations.
 		Matrix_sparse<T> operator+(const Matrix<T> &a_RHS);
@@ -54,8 +55,8 @@ class Matrix_sparse: public Matrix<T>
 		int get_noRows() const;
 		int get_noColumns() const;
 
-		// Adds an item.
-		void add(const int &a_x, const int &a_y, const T &a_value);
+		// Setting.
+		void set(const int &a_x, const int &a_y, const T &a_value);
 };
 
 #include "matrix_sparse.cpp"

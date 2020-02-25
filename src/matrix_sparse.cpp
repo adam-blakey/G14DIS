@@ -122,13 +122,13 @@ int Matrix_sparse<T>::get_index(const int &a_x, const int &a_y) const
 	int thisRowStart = this->rowStarts[a_y];
 	int nextRowStart = this->rowStarts[a_y+1];
 
-	int index;
-	for (index=thisRowStart; index<nextRowStart && a_x!=this->columnNos[index]; ++index)
+	int index = thisRowStart;
+	while(index<nextRowStart && a_x!=this->columnNos[index])
 	{
-		//
+		++index;
 	}
 
-	if (a_x==this->columnNos[index])
+	if (a_x==this->columnNos[index] && thisRowStart!=nextRowStart)
 		return index;
 	else
 		return -1; // Code for a zero.
@@ -316,31 +316,70 @@ int Matrix_sparse<T>::get_noColumns() const
 }
 
 /******************************************************************************
- * __add__
+ * __set__
  * 
  * @details 	
  ******************************************************************************/
 template<class T>
-void Matrix_sparse<T>::add(const int &a_x, const int &a_y, const T &a_value) // There's a bug somewhere in here...
+void Matrix_sparse<T>::set(const int &a_x, const int &a_y, const T &a_value) // There's a bug somewhere in here...
 {
 	// If the element already exists, then we just overwrite it.
 	if (this->get_index(a_x, a_y) != -1)
 	{
 		this->matrixEntries[this->get_index(a_x, a_y)] = a_value;
 	}
+	//this feels bad...
+	else if ((this->matrixEntries.size() == 1) and (this->matrixEntries[0] == 0))
+	{
+		this->matrixEntries[0] = a_value;
+		this->columnNos[0] = a_x;
+
+		for (int i=a_y+1; i<this->rowStarts.size(); ++i)
+			++this->rowStarts[i];
+	}
 	else
 	{
+		int thisRowStart = this->rowStarts[a_y];
+		int nextRowStart = this->rowStarts[a_y+1];
+
+		int index;
+		bool foundIndex = false;
+
+		for (index=thisRowStart; index<nextRowStart && !foundIndex; ++index)
+			if (columnNos[index] < a_x)
+				foundIndex = true;
+
+		         std::vector<int>::iterator colIt = this->columnNos    .begin() + index;
+		typename std::vector<T>  ::iterator matIt = this->matrixEntries.begin() + index;
+
+
+
+		// Inserts value at correct location.
+		this->columnNos.insert(colIt, a_x);
+		this->matrixEntries.insert(matIt, a_value);
+
+		// Update all following row starts.
+		for (int i=a_y+1; i<this->rowStarts.size(); ++i)
+			++this->rowStarts[i];
+
+		// DOESN'T QUITE WORK
+		// PRINT OUT ALL THREE VECTORS TO DEBUG
+	
+
+
+
 		// this->matrixEntries
 		// this->columnNos
 		// this->rowStarts
 		 
-		int rowEntryIndex     = this->rowStarts[a_y];
+		/*int rowEntryIndex     = this->rowStarts[a_y];
 		int nextRowEntryIndex = this->rowStarts[a_y+1];
-		bool finished = true;
+		bool finished = false;
 
 		for (int i=rowEntryIndex; i<nextRowEntryIndex && ~finished; ++i)
 		{
 			int columnNo = this->columnNos[i];
+			std::cout << "cn" << columnNo << std::endl;
 
 			// We've just gone past the column we want.
 			if (columnNo > a_x)
@@ -356,8 +395,23 @@ void Matrix_sparse<T>::add(const int &a_x, const int &a_y, const T &a_value) // 
 
 				finished = true;
 			}
-		}
+		}*/
 	}
+
+	std::cout << "ROW STARTS" << std::endl;
+	for (int i=0; i<this->rowStarts.size(); ++i)
+		std::cout << rowStarts[i] << " ";
+	std::cout << std::endl << std::endl;
+
+	std::cout << "COLUMN NOS" << std::endl;
+	for (int i=0; i<this->columnNos.size(); ++i)
+		std::cout << columnNos[i] << " ";
+	std::cout << std::endl << std::endl;
+
+	std::cout << "MATRIX ENTRIES" << std::endl;
+	for (int i=0; i<this->matrixEntries.size(); ++i)
+		std::cout << matrixEntries[i] << " ";
+	std::cout << std::endl << std::endl;
 }
 
 

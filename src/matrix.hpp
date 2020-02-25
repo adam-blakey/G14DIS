@@ -29,6 +29,9 @@ class Matrix
 		// Indexing.
 		const T operator()(const int &a_x, const int &a_y) const;
 
+		// Setters.
+		virtual void set(const int &a_x, const int &a_y, const T &a_value) = 0;
+
 		// Matrix-Matrix operations.
 		Matrix<T>& operator= (const Matrix<T> &a_RHS);
 		Matrix<T>& operator+=(const Matrix<T> &a_RHS);

@@ -78,6 +78,7 @@ int main()
 	return 0;
 }
 
+/*
 int main7()
 {
 	Elements* myElements = new Elements(10);
@@ -254,3 +255,4 @@ int main3()
 
 	return 0;
 }
+*/

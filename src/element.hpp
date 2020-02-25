@@ -19,13 +19,14 @@ class Element
 	private:
 		int elementNo;
 		int noNodes;
-		std::vector<double> nodeCoordinates; // Duplicated here -- should be moved to elements.
+		std::vector<int> nodeIndices;
+		const std::vector<double>* nodeCoordinates;
 		// Node coordiantes stored in elements, which a connectiviy array in element to tell you which nodes you're talking about.
-		void init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates);
+		void init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates);
 
 	public:
 		Element(const Element &a_element);
-		Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates);
+		Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates);
 		~Element();
 		Element& operator= (const Element &a_element);
 		double mapLocalToGlobal(const double &a_xi);
@@ -37,6 +38,8 @@ class Element
 		int get_elementNo() const;
 		int get_noNodes() const;
 		std::vector<double> get_nodeCoordinates() const;
+		const std::vector<double>* get_rawNodeCoordinates() const;
+		std::vector<int> get_nodeIndices() const;
 		void get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const;
 };
 
@@ -47,6 +50,7 @@ class Elements
 		Matrix_full<double>* connectivityMatrix;
 		Element** elements;
 		std::vector<double> boundaryElements; // This info (if needed at all) is best attached to an individual element.
+		std::vector<double> nodeCoordinates;
 
 	public:
 		Elements(const int &a_noElements);

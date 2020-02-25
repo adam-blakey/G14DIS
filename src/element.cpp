@@ -28,10 +28,11 @@
  * @param[in] a_noNodes 			Number of nodes in this element.
  * @param[in] a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates)
+void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates)
 {
 	this->elementNo = a_elementNo;
 	this->noNodes = a_noNodes;
+	this->nodeIndices = a_nodeIndices;
 	this->nodeCoordinates = a_nodeCoordinates;
 }
 
@@ -45,7 +46,8 @@ void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const s
 Element::Element(const Element &a_element)
 : Element::Element(	a_element.get_elementNo(),
 					a_element.get_noNodes(),
-					a_element.get_nodeCoordinates()
+					a_element.get_nodeIndices(),
+					a_element.get_rawNodeCoordinates()
 				  )
 {
 	//
@@ -60,9 +62,9 @@ Element::Element(const Element &a_element)
  * @param a_noNodes 			Number of nodes in this element.
  * @param a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-Element::Element(const int &a_elementNo, const int &a_noNodes, const std::vector<double> a_nodeCoordinates)
+Element::Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordiantes)
 {
-	init_Element(a_elementNo, a_noNodes, a_nodeCoordinates);
+	init_Element(a_elementNo, a_noNodes, a_nodeIndices, a_nodeCoordiantes);
 }
 
 /******************************************************************************
@@ -84,7 +86,7 @@ Element::~Element()
  ******************************************************************************/
 Element& Element::operator=(const Element &a_element)
 {
-	init_Element(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeCoordinates());
+	init_Element(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeIndices(), a_element.get_rawNodeCoordinates());
 
 	return *this;
 }
@@ -99,7 +101,7 @@ Element& Element::operator=(const Element &a_element)
  ******************************************************************************/
 double Element::mapLocalToGlobal(const double &a_xi)
 {
-	return nodeCoordinates[0] + (a_xi + 1)*get_Jacobian();
+	return get_nodeCoordinates()[0] + (a_xi + 1)*get_Jacobian();
 }
 
 /******************************************************************************
@@ -111,7 +113,7 @@ double Element::mapLocalToGlobal(const double &a_xi)
  ******************************************************************************/
 double Element::get_Jacobian() const
 {
-	return (nodeCoordinates[1] - nodeCoordinates[0])/2;
+	return (get_nodeCoordinates()[1] - get_nodeCoordinates()[0])/2;
 }
 
 /******************************************************************************
@@ -125,8 +127,8 @@ double Element::get_Jacobian() const
  ******************************************************************************/
 double Element::quadrature(f_double a_f)
 {
-	double node1 = this->nodeCoordinates[0];
-	double node2 = this->nodeCoordinates[1];
+	double node1 = this->get_nodeCoordinates()[0];
+	double node2 = this->get_nodeCoordinates()[1];
 
 	f_double fTransform = common::transformFunction(a_f, node1, node2);
 
@@ -226,7 +228,22 @@ int Element::get_noNodes() const
  ******************************************************************************/
 std::vector<double> Element::get_nodeCoordinates() const
 {
+	std::vector<double> tempVector(2, 0);
+
+	for (int i=0; i<nodeIndices.size(); ++i)
+		tempVector[i] = nodeCoordinates->at(nodeIndices[i]);
+
+	return tempVector;
+}
+
+const std::vector<double>* Element::get_rawNodeCoordinates() const
+{
 	return this->nodeCoordinates;
+}
+
+std::vector<int> Element::get_nodeIndices() const
+{
+	return this->nodeIndices;
 }
 
 void Element::get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const
@@ -277,17 +294,22 @@ Elements::Elements(const int &a_noElements)
 		// *********
 		// Elements.
 		// *********
-		// Auxiliary variables for defining individual elements.
+		// Creates the node coordinates.
 		double h = double(2)/(a_noElements);
-		std::vector<double> nodeCoordinates(2);
+		this->nodeCoordinates.resize(a_noElements+1);
+		for (int i=0; i<=a_noElements; ++i)
+		{
+			this->nodeCoordinates[i] = -1 + i*h;
+		}
 
 		// Loops over the creation of each element.
+		std::vector<int> nodeIndices(2);
 		for (int i=0; i<a_noElements; ++i)
 		{
-			nodeCoordinates[0] = -1 +  i   *h;
-			nodeCoordinates[1] = -1 + (i+1)*h;
+			nodeIndices[0] = i;
+			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeCoordinates);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
 
 		// ******************
@@ -320,27 +342,34 @@ Elements::Elements(const int &a_noElements)
 		// *********
 		// Elements.
 		// *********
-		// Auxiliary variables for defining individual elements.
+		// Creates the node coordinates.
 		int n1 = ceil(2*double(abs(a_noElements))/3); // Elements in first domain.
 		int n2 = abs(a_noElements) - n1; // Elements in second domain.
 		double h1 = double(1)/n1;
 		double h2 = double(1)/n2;
-		std::vector<double> nodeCoordinates(2);
+		this->nodeCoordinates.resize(a_noElements+1);
+
+		for (int i=0; i<n1; ++i)
+			nodeCoordinates[i] = -1 + i*h1;
+
+		for (int i=0; i<=n2; ++i)
+			nodeCoordinates[i] = -1 + i*h2;
 
 		// Loops over the creation of each element.
+		std::vector<int> nodeIndices(2);
 		for (int i=0; i<n1; ++i)
 		{
-			nodeCoordinates[0] = -1 +  i   *h1;
-			nodeCoordinates[1] = -1 + (i+1)*h1;
+			nodeIndices[0] = i;
+			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeCoordinates);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
 		for (int i=0; i<n2; ++i)
 		{
-			nodeCoordinates[0] = -1 + n1*h1 +  i   *h2;
-			nodeCoordinates[1] = -1 + n1*h1 + (i+1)*h2;
+			nodeIndices[0] = n1 + i;
+			nodeIndices[1] = n1 + i + 1;
 
-			this->elements[n1 + i] = new Element(i, 2, nodeCoordinates);
+			this->elements[n1 + i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
 
 		// ******************

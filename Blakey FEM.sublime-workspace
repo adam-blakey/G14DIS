@@ -520,10 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/delete_me.cpp",
+			"file": "src/element.cpp",
 			"settings":
 			{
-				"buffer_size": 835,
+				"buffer_size": 12312,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -532,101 +532,22 @@
 			"file": "src/driver.cpp",
 			"settings":
 			{
-				"buffer_size": 5572,
+				"buffer_size": 5578,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/efficiency.dat",
+			"file": "/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Planetary Motion/Planetary Motion.tex",
 			"settings":
 			{
-				"buffer_size": 671,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/efficiency_plotter.py",
-			"settings":
-			{
-				"buffer_size": 512,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/driver_linux.cpp",
-			"settings":
-			{
-				"buffer_size": 1755,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/solution.cpp",
-			"settings":
-			{
-				"buffer_size": 16179,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/matrix_sparse.cpp",
-			"settings":
-			{
-				"buffer_size": 9949,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/element.cpp",
-			"settings":
-			{
-				"buffer_size": 11909,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/matrix_full.hpp",
-			"settings":
-			{
-				"buffer_size": 1441,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/matrix_sparse.hpp",
-			"settings":
-			{
-				"buffer_size": 1772,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/matrix.hpp",
-			"settings":
-			{
-				"buffer_size": 1299,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/matrix_full.cpp",
-			"settings":
-			{
-				"buffer_size": 11560,
+				"buffer_size": 18503,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
 	],
-	"build_system": "Packages/Python/Python.sublime-build",
+	"build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
 	"build_system_choices":
 	[
 		[
@@ -1068,6 +989,78 @@
 					"Clean"
 				],
 				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Chrome.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Make Adam.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Make Adam.sublime-build",
+					"clean"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"Basic Builder - PdfLaTeX"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
 					"Packages/Python/Python.sublime-build",
 					""
 				],
@@ -1374,7 +1367,7 @@
 			]
 		]
 	],
-	"build_varint": "",
+	"build_varint": "Basic Builder - PdfLaTeX",
 	"command_palette":
 	{
 		"height": 0.0,
@@ -1471,19 +1464,27 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Adam/Downloads/Planetary Motion.tex",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_sparse.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/delete_me.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix.hpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.hpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_sparse.hpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/efficiency.dat",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/efficiency_plotter.py",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver_linux.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.cpp",
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver_plotter.py",
 		"/C/Users/Adam/Downloads/ContactFrom_v10/a7a4dcdb6914becaa2185ffda1ee42fe.dat",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_sparse.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix_full.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/driver.cpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/solution.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_value.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/test_norm.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/output.dat",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/element.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14SCC/CW3/Q4/plotter.py",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/mesh.cpp",
@@ -1491,7 +1492,6 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/common.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/linearSystems.hpp",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/matrix.hpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/srcOld/common.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/G14DIS Report/main.tex",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/common.cpp",
@@ -1591,14 +1591,7 @@
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/CMakeLists.txt",
 		"/C/Users/Adam/AppData/Roaming/Sublime Text 3/Packages/User/sphinx.sublime-build",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Doxygen/xml/index.xml",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/parameters.f90",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/test.f90",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/quadrature.f90",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/Function Passing.txt",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Difference-Equations.tex",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Difference Equations/From Toby/SUMS-Binet.tex",
-		"/C/Users/Adam/Desktop/status.html",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/README.md"
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/parameters.f90"
 	],
 	"find":
 	{
@@ -1609,6 +1602,7 @@
 		"height": 205.0,
 		"where_history":
 		[
+			"<open folders>",
 			"C:\\Users\\Adam\\Blakey Cloud\\Documents\\Education\\University of Nottingham\\Year 4\\G14DIS\\Blakey FEM\\src",
 			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins\\the-events-calendar,C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\themes\\hestia",
 			"C:\\Users\\Adam\\Blakey Cloud\\Blowsoc\\Website\\New\\wp-content\\plugins\\the-events-calendar",
@@ -1628,6 +1622,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rowStarts",
+			"typename",
+			"std::Find",
+			"item",
+			"add",
+			"const",
 			"\"",
 			"setw",
 			"<<",
@@ -1749,13 +1749,7 @@
 			"NAMESPACE",
 			"constantMultiplyFunction",
 			"multiplyFunction(",
-			"MultiplyFunction",
-			"multiplyFunction",
-			"addFunction",
-			"function<double(double)>",
-			"meshCounter",
-			"code",
-			"j"
+			"MultiplyFunction"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1778,40 +1772,40 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/delete_me.cpp",
+					"file": "src/element.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 835,
+						"buffer_size": 12312,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								258,
-								258
+								7330,
+								7330
 							]
 						],
 						"settings":
 						{
-							"SL.372.region_keys":
+							"SL.24.region_keys":
 							[
 							],
-							"function_name_status_row": 13,
+							"function_name_status_row": 230,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2769.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1820,303 +1814,54 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5572,
+						"buffer_size": 5578,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								586,
-								586
+								5578,
+								5578
 							]
 						],
 						"settings":
 						{
-							"SL.67.region_keys":
-							[
-							],
-							"function_name_status_row": 49,
+							"function_name_status_row": 257,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 717.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/efficiency.dat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 671,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								212,
-								212
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 3,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/efficiency_plotter.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 512,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								466,
-								466
-							]
-						],
-						"settings":
-						{
-							"SL.80.region_keys":
-							[
-							],
-							"function_name_status_row": 18,
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/driver_linux.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1755,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1087,
-								1087
-							]
-						],
-						"settings":
-						{
-							"SL.465.region_keys":
-							[
-							],
-							"function_name_status_row": 0,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 390.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/solution.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16179,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5423,
-								5423
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 196,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2204.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/matrix_sparse.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9949,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7670,
-								7670
-							]
-						],
-						"settings":
-						{
-							"SL.452.region_keys":
-							[
-							],
-							"function_name_status_row": 283,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3640.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "src/element.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11909,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8943,
-								8943
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 289,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3631.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/matrix_full.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1441,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								496,
-								496
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 19,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "src/matrix_sparse.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1772,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								658,
-								658
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 26,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2652.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "src/matrix.hpp",
-					"semi_transient": true,
+					"buffer": 2,
+					"file": "/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/SUMS/Planetary Motion/Planetary Motion.tex",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1299,
+						"buffer_size": 18503,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								797,
+								797
 							]
 						],
 						"settings":
 						{
-							"function_name_status_row": 0,
-							"syntax": "Packages/C++/C++.sublime-syntax",
+							"SL.30.region_keys":
+							[
+							],
+							"function_name_status_row": 17,
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -2124,36 +1869,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "src/matrix_full.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11560,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3093,
-								3093
-							]
-						],
-						"settings":
-						{
-							"function_name_status_row": 102,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 975.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -2224,7 +1939,7 @@
 	},
 	"select_project":
 	{
-		"height": 493.6,
+		"height": 500.0,
 		"last_filter": "",
 		"selected_items":
 		[
@@ -2233,7 +1948,7 @@
 				"C:\\Users\\Adam\\Blakey Cloud\\Documents\\Education\\University of Nottingham\\Year 4\\G14DIS\\G14DIS Practice Presentation\\G14DIS Practice Presentation.sublime-project"
 			]
 		],
-		"width": 378.4
+		"width": 380.0
 	},
 	"select_symbol":
 	{

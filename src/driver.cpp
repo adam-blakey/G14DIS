@@ -48,12 +48,14 @@ double expx2(double x)
 
 int main()
 {
-	Elements* myElements = new Elements(16);
+	Elements* myElements = new Elements(200);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
 
-	mySolution->Solve();
+	mySolution->Solve(7*1e-1);
 	mySolution->outputToFile();
+
+	std::cout << "DONE" << std::endl;
 
 	delete mySolution;
 	delete myMesh;

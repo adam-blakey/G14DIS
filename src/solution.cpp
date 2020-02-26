@@ -63,7 +63,7 @@ Solution::~Solution()
  * @details 	Uses the stored data to calculate and populate the value in
  * 					local variable 'solution'.
  ******************************************************************************/
-void Solution::Solve()
+void Solution::Solve(const double &a_cgTolerance)
 {
 	double A = 0;
 	double B = 0;
@@ -124,7 +124,21 @@ void Solution::Solve()
 	A2[n-1] = 1;
 	A3[n-2] = 0;
 
-	linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
+	// Converts to full matrix.
+	Matrix_full<double> matrix(A2.size(), A2.size(), 0);
+	for (int i=0; i<A2.size(); ++i)
+	{
+		if (i!=0)
+			matrix.set(i-1, i, A1[i-1]);
+		
+		if (i!=A2.size()-1)
+			matrix.set(i+1, i, A3[i]);
+		
+		matrix.set(i, i, A2[i]);
+	}
+
+	//linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
+	this->solution = linearSystems::conjugateGradient(matrix, F, a_cgTolerance);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
@@ -136,14 +150,14 @@ void Solution::Solve()
  * @details 	Uses the stored data to calculate and populate the value in
  * 					local variable 'solution'.
  ******************************************************************************/
-void Solution::Solve(const double &a_tolerance, const int &a_maxNoElements)
+void Solution::Solve(const double &a_cgTolerance, const double &a_refTolerance, const int &a_maxNoElements)
 {
 	int noElements = this->mesh->get_noElements();
 	assert(noElements <= a_maxNoElements);
 
 	// Temporarily use another mesh.
 	Mesh* oldMesh = this->mesh; // There's probably a better way.
-	this->Solve();
+	this->Solve(a_cgTolerance);
 
 	// Variables for the algorithm.
 	bool checksRequired = true;

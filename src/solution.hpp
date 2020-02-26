@@ -38,6 +38,9 @@ class Solution
 		double compute_errorIndicator(const double &a_i) const;
 		double compute_residual(const double &a_uh, const double &a_x) const;
 
+		// Getters.
+		std::vector<int> get_higherOrderDoFs() const;
+
 		// DOF STORAGE
 
 	public:
@@ -50,8 +53,8 @@ class Solution
 		~Solution();
 
 		// Solvers.
-		void Solve();
-		void Solve(const double &a_tolerance, const int &a_maxNoElements);
+		void Solve(const double &a_cgTolerance);
+		void Solve(const double &a_cgTolerance, const double &a_refTolerance, const int &a_maxNoElements);
 
 		// Getters. [maybe change to computers??]
 		f_double get_solutionInterpolant() const;

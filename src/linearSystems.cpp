@@ -7,6 +7,7 @@
  * @date       2019/11/4
  ******************************************************************************/
 
+#include "linearSystems.hpp"
 #include <cassert>
 #include <vector>
 
@@ -22,7 +23,7 @@
  ******************************************************************************/
 namespace linearSystems
 {
-	double thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, std::vector<double> &solution)
+	void thomasInvert(const std::vector<double> a, const std::vector<double> b, const std::vector<double> c, const std::vector<double> d, std::vector<double> &solution)
 	{
 		int n = b.size();
 
@@ -49,4 +50,72 @@ namespace linearSystems
 			solution[i] = d_[i] - c_[i]*solution[i+1];
 		}
 	}
+
+	std::vector<double> conjugateGradient(const Matrix<double> &a_M, const std::vector<double> &a_b, const double &a_tolerance)
+	{
+		std::vector<double> x(a_M.get_noColumns(), 0);
+
+		std::vector<double> r = a_b;
+		std::vector<double> p = a_b;
+
+		double r_2 = dotProduct(r, r);
+		double errorNorm = sqrt(r_2);
+
+		int noIterations = 0;
+
+		while(errorNorm > a_tolerance)
+		{
+			std::vector<double> pNew = a_M * p;
+			double alpha = r_2/dotProduct(p, pNew);
+			x += alpha * p;
+			r += -alpha * pNew;
+			double r_2New = dotProduct(r, r);
+			double beta = r_2New/r_2;
+
+			r_2 = r_2New;
+			p = r + beta*p;
+			errorNorm = sqrt(r_2);
+			++noIterations;
+		}
+
+		return x;
+	}
+
+	double dotProduct(const std::vector<double> &a_v1, const std::vector<double> &a_v2)
+	{
+		double result = 0;
+
+		for (int i=0; i<a_v1.size(); ++i)
+			result += a_v1[i] * a_v2[i];
+
+		return result;
+	}
+}
+
+std::vector<double> operator*(const double &a_constant, const std::vector<double> &a_vector)
+{
+	std::vector<double> result(a_vector.size());
+
+	for (int i=0; i<a_vector.size(); ++i)
+		result[i] = a_constant * a_vector[i];
+
+	return result;
+}
+
+std::vector<double>& operator+=(std::vector<double> &a_v1, const std::vector<double> &a_v2)
+{
+	for (int i=0; i<a_v1.size(); ++i)
+		a_v1[i] += a_v2[i];
+
+	return a_v1;
+}
+
+std::vector<double> operator+(const std::vector<double> &a_v1, const std::vector<double> &a_v2)
+{
+	std::vector<double> result(a_v1.size());
+
+	for (int i=0; i<a_v1.size(); ++i)
+		result[i] = a_v1[i] + a_v2[i];
+
+	return result;
 }

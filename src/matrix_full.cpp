@@ -105,7 +105,7 @@ T& Matrix_full<T>::item(const int &a_x, const int &a_y)
 	// Dimensions must be the same.
 	if (a_x >= this->noColumns || a_y >= this->noRows)
 	{
-		std::cerr << "Invalid index.";
+		std::cerr << "Invalid index at (" << a_x << ", " << a_y << ").";
 		return items[0];
 	}
 
@@ -400,6 +400,8 @@ std::vector<T> ConjugateGradient(const Matrix<T> &A, const std::vector<T> &b)
 
 	return X;
 }
+
+
 /*template<class T>
 std::vector<T> ConjugateGradient(const Matrix<T> &a_matrix, const std::vector<T> &a_vector)
 {

@@ -15,7 +15,7 @@ for i in range(0, 1000):
 plt.figure(1)
 
 plt.plot(points,     approximate, 'b-')
-plt.plot(all_points, all_exact,   'g-')
+#plt.plot(all_points, all_exact,   'g-')
 plt.grid(True)
 plt.xlabel("u")
 plt.ylabel("x")

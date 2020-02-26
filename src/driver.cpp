@@ -50,9 +50,9 @@ int main()
 {
 	Elements* myElements = new Elements(200);
 	Mesh*     myMesh     = new Mesh(myElements);
-	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
+	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
 
-	mySolution->Solve(7*1e-1);
+	mySolution->Solve(1e-5);
 	mySolution->outputToFile();
 
 	std::cout << "DONE" << std::endl;

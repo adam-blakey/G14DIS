@@ -174,6 +174,12 @@ std::vector<T> Matrix<T>::operator*(const std::vector<T> &a_RHS) const
 	return tempVector;
 }
 
+template<class T>
+std::vector<T> operator*(const Matrix<T> &a_matrix, const std::vector<T> &a_vector)
+{
+	return a_matrix*a_vector;
+}
+
 
 /******************************************************************************
  * __operator/=__

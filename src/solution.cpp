@@ -7,6 +7,8 @@
 #include "common.hpp"
 #include "element.hpp"
 #include "linearSystems.hpp"
+#include "matrix.hpp"
+#include "matrix_full.hpp"
 #include "mesh.hpp"
 #include "quadrature.hpp"
 #include "solution.hpp"
@@ -70,10 +72,8 @@ void Solution::Solve(const double &a_cgTolerance)
 
 	int n = this->noElements + 1; // Number of nodes.
 
-	std::vector<double> A1(n-1, 0);
-	std::vector<double> A2(n,   0);
-	std::vector<double> A3(n-1, 0);
-	std::vector<double> F (n,   0);
+	Matrix_full<double> stiffnessMatrix(n, n, 0);
+	std::vector<double> loadVector(n, 0);
 
 	for (int elementCounter=0; elementCounter<this->noElements; ++elementCounter)
 	{
@@ -84,16 +84,12 @@ void Solution::Solve(const double &a_cgTolerance)
 
 		for (int j=elementCounter; j<=elementCounter+1; ++j)
 		{
-			F[j] += this->l(currentElement, j, elementCounter);
+			loadVector[j] += this->l(currentElement, j, elementCounter);
 
 			for (int i=elementCounter; i<=elementCounter+1; ++i)
 			{
-				if (j<i)
-					A1[j] += this->a(currentElement, i, j, elementCounter);
-				else if (j==i)
-					A2[i] += this->a(currentElement, i, j, elementCounter);
-				else
-					A3[i] += this->a(currentElement, i, j, elementCounter);
+				double value = stiffnessMatrix(i, j);
+				stiffnessMatrix.set(i, j, value + this->a(currentElement, i, j, elementCounter));
 			}
 		}
 	}
@@ -101,44 +97,28 @@ void Solution::Solve(const double &a_cgTolerance)
 	std::vector<double> F_(n);
 	std::vector<double> u0(n, 0);
 	
-	A2[0] = 0;
-	A3[0] = 0;
-	F[0] = 0;
+	stiffnessMatrix.set(0, 0, 0);
+	stiffnessMatrix.set(0, 1, 0);
+	loadVector[0] = 0;
 
-	A1[n-2] = 0;
-	A2[n-1] = 0;
-	F[n-1] = 0;
+	stiffnessMatrix.set(n-1, n-1, 0);
+	stiffnessMatrix.set(n-1, n-2, 0);
+	loadVector[n-1] = 0;
 
 	u0[0]   = A;
 	u0[n-1] = B;
 	
-	common::tridiagonalVectorMultiplication(A1, A2, A3, u0, F_);
+	F_ = stiffnessMatrix*u0;
 	for (int i=0; i<n; ++i)
-	{
-		F[i] -= F_[i];
-	}
+		loadVector[i] -= F_[i];
 
-	A1[0] = 0;
-	A2[0] = 1;
+	stiffnessMatrix.set(0, 1, 0);
+	stiffnessMatrix.set(0, 0, 1);
 
-	A2[n-1] = 1;
-	A3[n-2] = 0;
+	stiffnessMatrix.set(n-1, n-1, 1);
+	stiffnessMatrix.set(n-1, n-2, 0);
 
-	// Converts to full matrix.
-	Matrix_full<double> matrix(A2.size(), A2.size(), 0);
-	for (int i=0; i<A2.size(); ++i)
-	{
-		if (i!=0)
-			matrix.set(i-1, i, A1[i-1]);
-		
-		if (i!=A2.size()-1)
-			matrix.set(i+1, i, A3[i]);
-		
-		matrix.set(i, i, A2[i]);
-	}
-
-	//linearSystems::thomasInvert(A1, A2, A3, F, this->solution);
-	this->solution = linearSystems::conjugateGradient(matrix, F, a_cgTolerance);
+	this->solution = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;

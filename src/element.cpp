@@ -34,6 +34,7 @@ void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const s
 	this->noNodes = a_noNodes;
 	this->nodeIndices = a_nodeIndices;
 	this->nodeCoordinates = a_nodeCoordinates;
+	this->polynomialDegree = 1;
 }
 
 /******************************************************************************
@@ -269,6 +270,16 @@ void Element::get_elementQuadrature(std::vector<double> &a_coordinates, std::vec
 		a_coordinates[i] = quadrature::get_gaussLegendrePoint (n, i);
 		a_weights    [i] = quadrature::get_gaussLegendreWeight(n, i);
 	}
+}
+
+int Element::get_polynomialDegree() const
+{
+	return this->polynomialDegree;
+}
+
+void Element::set_polynomialDegree(const int &a_p)
+{
+	this->polynomialDegree = a_p;
 }
 
 // ****************************************************************************

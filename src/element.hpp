@@ -19,6 +19,7 @@ class Element
 	private:
 		int elementNo;
 		int noNodes;
+		int polynomialDegree;
 		std::vector<int> nodeIndices;
 		const std::vector<double>* nodeCoordinates;
 		// Node coordiantes stored in elements, which a connectiviy array in element to tell you which nodes you're talking about.
@@ -41,6 +42,8 @@ class Element
 		const std::vector<double>* get_rawNodeCoordinates() const;
 		std::vector<int> get_nodeIndices() const;
 		void get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const;
+		int get_polynomialDegree() const;
+		void set_polynomialDegree(const int &a_p);
 };
 
 class Elements

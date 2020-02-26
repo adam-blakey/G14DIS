@@ -50,9 +50,25 @@ int main()
 {
 	Elements* myElements = new Elements(16);
 	Mesh*     myMesh     = new Mesh(myElements);
-	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
+	Solution* mySolution = new Solution(myMesh, one, 1, pi2sin, exact, exact_);
 
 	mySolution->Solve();
+	mySolution->outputToFile();
+
+	delete mySolution;
+	delete myMesh;
+	delete myElements;
+
+	return 0;
+}
+
+int main2()
+{
+	Elements* myElements = new Elements(10);
+	Mesh*     myMesh     = new Mesh(myElements);
+	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
+
+	mySolution->Solve(1e-10, 1e5);
 	mySolution->outputToFile();
 
 	delete mySolution;

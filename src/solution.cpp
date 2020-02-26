@@ -29,13 +29,8 @@ Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_eps
 {
 	this->noElements		= a_mesh->get_noElements();
 	this->solution 			.resize(a_mesh->get_noNodes());
-	this->polynomialDegrees .resize(a_mesh->get_noNodes());
 	this->boundaryConditions.resize(2);
 	this->mesh 				= a_mesh;
-
-	for (int i=0; i<a_mesh->get_noNodes(); ++i)
-		this->polynomialDegrees[i] = 1;
-
 	this->f       = a_f; 
 	this->epsilon = a_epsilon;
 	this->c       = a_c;
@@ -527,7 +522,7 @@ double Solution::compute_errorIndicator(const double &a_i) const
 {
 	// Gets element and its properties.
 	Element* currentElement = (*(this->mesh->elements))[a_i];
-	int P = this->polynomialDegrees[a_i];
+	int P = currentElement->get_polynomialDegree();
 	double leftNode  = currentElement->get_nodeCoordinates()[0];
 	double rightNode = currentElement->get_nodeCoordinates()[1];
 	double Jacobian  = currentElement->get_Jacobian();
@@ -558,4 +553,18 @@ double Solution::compute_residual(const double &a_uh, const double &a_x) const
 	double a_uh_2 = 0;
 
 	return this->f(a_x) + this->epsilon*a_uh_2 - this->c(a_x)*a_uh;
+}
+
+std::vector<int> Solution::get_higherOrderDoFs() const
+{
+	std::vector<int> DoFStarts(noElements+1, noElements+2);
+
+	for (int i=0; i<noElements; ++i)
+	{
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		DoFStarts[i] += currentElement->get_polynomialDegree() - 1;
+	}
+
+	return DoFStarts;
 }

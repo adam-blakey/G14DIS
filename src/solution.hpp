@@ -17,7 +17,6 @@ class Solution
 		int noElements;
 		std::vector<double> solution;
 		std::vector<double> boundaryConditions;
-		std::vector<double> polynomialDegrees;
 		Mesh* mesh;
 		f_double exact_u;
 		f_double exact_u_1;

@@ -16,8 +16,10 @@ plt.figure(1)
 
 plt.plot(points,     approximate, 'b-')
 plt.plot(all_points, all_exact,   'g-')
+#plt.plot(points,     exact,       'r-')
 plt.grid(True)
 plt.xlabel("u")
 plt.ylabel("x")
 
 plt.show()
+#plt.figure(1).savefig("test.pdf")

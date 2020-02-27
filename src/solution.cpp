@@ -72,6 +72,8 @@ void Solution::Solve(const double &a_cgTolerance)
 
 	int n = this->noElements + 1; // Number of nodes.
 
+	Elements* elements = this->mesh->elements;
+
 	Matrix_full<double> stiffnessMatrix(n, n, 0);
 	std::vector<double> loadVector(n, 0);
 
@@ -82,12 +84,15 @@ void Solution::Solve(const double &a_cgTolerance)
 		double elementLeft  = currentElement->get_nodeCoordinates()[0];
 		double elementRight = currentElement->get_nodeCoordinates()[1];
 
-		for (int j=elementCounter; j<=elementCounter+1; ++j)
+		std::vector<int> elementConnectivity = elements->get_elementConnectivity(elementCounter);
+		for (int a=0; a<elementConnectivity.size(); ++a)
 		{
+			int j = elementConnectivity[a];
 			loadVector[j] += this->l(currentElement, j, elementCounter);
 
-			for (int i=elementCounter; i<=elementCounter+1; ++i)
+			for (int b=0; b<elementConnectivity.size(); ++b)
 			{
+				int i = elementConnectivity[b];
 				double value = stiffnessMatrix(i, j);
 				stiffnessMatrix.set(i, j, value + this->a(currentElement, i, j, elementCounter));
 			}

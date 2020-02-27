@@ -50,7 +50,7 @@ class Elements
 {
 	private:
 		int noElements;
-		Matrix_full<double>* connectivityMatrix;
+		std::vector<std::vector<int>> elementConnectivity;
 		Element** elements;
 		std::vector<double> boundaryElements; // This info (if needed at all) is best attached to an individual element.
 		std::vector<double> nodeCoordinates;
@@ -60,6 +60,7 @@ class Elements
 		~Elements();
 		Element* operator[](const int &a_i);
 		int get_noElements() const;
+		std::vector<int> get_elementConnectivity(const int &a_i) const;
 };
 
 #endif

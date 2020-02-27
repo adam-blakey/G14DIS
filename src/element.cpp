@@ -298,19 +298,19 @@ Elements::Elements(const int &a_noElements)
 	if (a_noElements > 0)
 	{
 		// Sets member variable values.
-		this->noElements         = a_noElements;
-		this->connectivityMatrix = new Matrix_full<double>(2, a_noElements);
-		this->elements   	     = new Element*[a_noElements];
-		this->boundaryElements   .resize(a_noElements);
+		this->noElements          = a_noElements;
+		this->elementConnectivity .resize(a_noElements);
+		this->elements   	      = new Element*[a_noElements];
+		this->boundaryElements    .resize(a_noElements);
 
-		// *******************
-		// Connectivity array.
-		// *******************
-		// Loops over each element.
+		// *********************
+		// Element connectivity.
+		// *********************
 		for (int i=0; i<a_noElements; ++i)
 		{
-			//(*(this->connectivityMatrix))(0, i) = i-1;
-			//(*(this->connectivityMatrix))(1, i) = i+1;
+			this->elementConnectivity[i].resize(2);
+			this->elementConnectivity[i][0] = i;
+			this->elementConnectivity[i][1] = i+1;
 		}
 
 		// *********
@@ -347,18 +347,18 @@ Elements::Elements(const int &a_noElements)
 		// This is a way of getting a pre-set set of elements.
 		// Sets member variable values.
 		this->noElements         = abs(a_noElements);
-		this->connectivityMatrix = new Matrix_full<double>(2, abs(a_noElements));
+		this->elementConnectivity .resize(a_noElements);
 		this->elements   	     = new Element*[abs(a_noElements)];
 		this->boundaryElements   .resize(abs(a_noElements));
 
-		// *******************
-		// Connectivity array.
-		// *******************
-		// Loops over each element.
+		// *********************
+		// Element connectivity.
+		// *********************
 		for (int i=0; i<abs(a_noElements); ++i)
 		{
-			//(*(this->connectivityMatrix))(0, i) = i-1;
-			//(*(this->connectivityMatrix))(1, i) = i+1;
+			this->elementConnectivity[i].resize(2);
+			this->elementConnectivity[i][0] = i;
+			this->elementConnectivity[i][1] = i+1;
 		}
 
 		// *********
@@ -412,7 +412,6 @@ Elements::Elements(const int &a_noElements)
 Elements::~Elements()
 {
 	delete[] this->elements;
-	delete this->connectivityMatrix;
 }
 
 /******************************************************************************
@@ -438,4 +437,9 @@ Element* Elements::operator[](const int &a_i)
 int Elements::get_noElements() const
 {
 	return this->noElements;
+}
+
+std::vector<int> Elements::get_elementConnectivity(const int &a_i) const
+{
+	return this->elementConnectivity[a_i];
 }

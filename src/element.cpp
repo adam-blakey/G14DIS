@@ -295,28 +295,28 @@ void Element::set_polynomialDegree(const int &a_p)
  ******************************************************************************/
 Elements::Elements(const int &a_noElements)
 {
+	// Sets member variable values.
+	this->noElements          = abs(a_noElements);
+	this->elementConnectivity .resize(abs(a_noElements));
+	this->elements   	      = new Element*[abs(a_noElements)];
+	this->boundaryElements    .resize(abs(a_noElements));
+	this->startDoFs           .resize(abs(a_noElements)+1);
+
+	// *********************
+	// Element connectivity.
+	// *********************
+	for (int i=0; i<abs(a_noElements); ++i)
+	{
+		this->elementConnectivity[i].resize(2);
+		this->elementConnectivity[i][0] = i;
+		this->elementConnectivity[i][1] = i+1;
+	}
+
+	// *********
+	// Elements.
+	// *********
 	if (a_noElements > 0)
 	{
-		// Sets member variable values.
-		this->noElements          = a_noElements;
-		this->elementConnectivity .resize(a_noElements);
-		this->elements   	      = new Element*[a_noElements];
-		this->boundaryElements    .resize(a_noElements);
-		this->startDoFs           .resize(a_noElements+1);
-
-		// *********************
-		// Element connectivity.
-		// *********************
-		for (int i=0; i<a_noElements; ++i)
-		{
-			this->elementConnectivity[i].resize(2);
-			this->elementConnectivity[i][0] = i;
-			this->elementConnectivity[i][1] = i+1;
-		}
-
-		// *********
-		// Elements.
-		// *********
 		// Creates the node coordinates.
 		double h = double(2)/(a_noElements);
 		this->nodeCoordinates.resize(a_noElements+1);
@@ -334,48 +334,9 @@ Elements::Elements(const int &a_noElements)
 
 			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
-
-		// *********************
-		// Degrees of freedom.
-		// *********************
-		this->startDoFs[0] = a_noElements + 2;
-		for (int i=0; i<a_noElements; ++i)
-		{
-			Element* currentElement = this->elements[i];
-			this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
-		}
-
-		// ******************
-		// Boundary elements.
-		// ******************
-		// Sets boundary elements.
-		std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
-		this->boundaryElements[0]              = 1;
-		this->boundaryElements[a_noElements-1] = 1;
 	}	
 	else
 	{
-		// This is a way of getting a pre-set set of elements.
-		// Sets member variable values.
-		this->noElements          = abs(a_noElements);
-		this->elementConnectivity .resize(abs(a_noElements));
-		this->elements   	      = new Element*[abs(a_noElements)];
-		this->boundaryElements    .resize(abs(a_noElements));
-		this->startDoFs           .resize(abs(a_noElements)+1);
-
-		// *********************
-		// Element connectivity.
-		// *********************
-		for (int i=0; i<abs(a_noElements); ++i)
-		{
-			this->elementConnectivity[i].resize(2);
-			this->elementConnectivity[i][0] = i;
-			this->elementConnectivity[i][1] = i+1;
-		}
-
-		// *********
-		// Elements.
-		// *********
 		// Creates the node coordinates.
 		int n1 = ceil(2*double(abs(a_noElements))/3); // Elements in first domain.
 		int n2 = abs(a_noElements) - n1; // Elements in second domain.
@@ -387,7 +348,7 @@ Elements::Elements(const int &a_noElements)
 			nodeCoordinates[i] = -1 + i*h1;
 
 		for (int i=0; i<=n2; ++i)
-			nodeCoordinates[i] = -1 + i*h2;
+			nodeCoordinates[n1+i] = -1 + h1*n1 + i*h2;
 
 		// Loops over the creation of each element.
 		std::vector<int> nodeIndices(2);
@@ -405,25 +366,25 @@ Elements::Elements(const int &a_noElements)
 
 			this->elements[n1 + i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
-
-		// *********************
-		// Degrees of freedom.
-		// *********************
-		this->startDoFs[0] = abs(a_noElements) + 2;
-		for (int i=0; i<abs(a_noElements); ++i)
-		{
-			Element* currentElement = this->elements[i];
-			this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
-		}
-
-		// ******************
-		// Boundary elements.
-		// ******************
-		// Sets boundary elements.
-		std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
-		this->boundaryElements[0]              = 1;
-		this->boundaryElements[abs(a_noElements)-1] = 1;
 	}
+
+	// *********************
+	// Degrees of freedom.
+	// *********************
+	this->startDoFs[0] = abs(a_noElements) + 2;
+	for (int i=0; i<abs(a_noElements); ++i)
+	{
+		Element* currentElement = this->elements[i];
+		this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
+	}
+
+	// ******************
+	// Boundary elements.
+	// ******************
+	// Sets boundary elements.
+	std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
+	this->boundaryElements[0]              = 1;
+	this->boundaryElements[abs(a_noElements)-1] = 1;
 }
 
 /******************************************************************************

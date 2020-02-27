@@ -302,6 +302,7 @@ Elements::Elements(const int &a_noElements)
 		this->elementConnectivity .resize(a_noElements);
 		this->elements   	      = new Element*[a_noElements];
 		this->boundaryElements    .resize(a_noElements);
+		this->startDoFs           .resize(a_noElements+1);
 
 		// *********************
 		// Element connectivity.
@@ -334,6 +335,16 @@ Elements::Elements(const int &a_noElements)
 			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
 		}
 
+		// *********************
+		// Degrees of freedom.
+		// *********************
+		this->startDoFs[0] = a_noElements + 2;
+		for (int i=0; i<a_noElements; ++i)
+		{
+			Element* currentElement = this->elements[i];
+			this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
+		}
+
 		// ******************
 		// Boundary elements.
 		// ******************
@@ -346,10 +357,11 @@ Elements::Elements(const int &a_noElements)
 	{
 		// This is a way of getting a pre-set set of elements.
 		// Sets member variable values.
-		this->noElements         = abs(a_noElements);
-		this->elementConnectivity .resize(a_noElements);
-		this->elements   	     = new Element*[abs(a_noElements)];
-		this->boundaryElements   .resize(abs(a_noElements));
+		this->noElements          = abs(a_noElements);
+		this->elementConnectivity .resize(abs(a_noElements));
+		this->elements   	      = new Element*[abs(a_noElements)];
+		this->boundaryElements    .resize(abs(a_noElements));
+		this->startDoFs           .resize(abs(a_noElements)+1);
 
 		// *********************
 		// Element connectivity.
@@ -369,7 +381,7 @@ Elements::Elements(const int &a_noElements)
 		int n2 = abs(a_noElements) - n1; // Elements in second domain.
 		double h1 = double(1)/n1;
 		double h2 = double(1)/n2;
-		this->nodeCoordinates.resize(a_noElements+1);
+		this->nodeCoordinates.resize(abs(a_noElements)+1);
 
 		for (int i=0; i<n1; ++i)
 			nodeCoordinates[i] = -1 + i*h1;
@@ -392,6 +404,16 @@ Elements::Elements(const int &a_noElements)
 			nodeIndices[1] = n1 + i + 1;
 
 			this->elements[n1 + i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
+		}
+
+		// *********************
+		// Degrees of freedom.
+		// *********************
+		this->startDoFs[0] = abs(a_noElements) + 2;
+		for (int i=0; i<abs(a_noElements); ++i)
+		{
+			Element* currentElement = this->elements[i];
+			this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
 		}
 
 		// ******************
@@ -442,4 +464,24 @@ int Elements::get_noElements() const
 std::vector<int> Elements::get_elementConnectivity(const int &a_i) const
 {
 	return this->elementConnectivity[a_i];
+}
+
+std::vector<int> Elements::get_elementDoFs(const int &a_i) const
+{
+	// Standard degrees of freedom.
+	std::vector<int> DoFs = this->get_elementConnectivity(a_i);
+
+	// Adds higher-order DoFs.
+	int start = this->startDoFs[a_i];
+	int end = this->startDoFs[a_i+1];
+
+	for (int i=start; i<end; ++i)
+		DoFs.push_back(i);
+
+	return DoFs;
+}
+
+int Elements::get_DoF() const
+{
+	return this->startDoFs.back() - 1;
 }

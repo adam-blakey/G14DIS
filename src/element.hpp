@@ -54,6 +54,7 @@ class Elements
 		Element** elements;
 		std::vector<double> boundaryElements; // This info (if needed at all) is best attached to an individual element.
 		std::vector<double> nodeCoordinates;
+		std::vector<double> startDoFs;
 
 	public:
 		Elements(const int &a_noElements);
@@ -61,6 +62,8 @@ class Elements
 		Element* operator[](const int &a_i);
 		int get_noElements() const;
 		std::vector<int> get_elementConnectivity(const int &a_i) const;
+		std::vector<int> get_elementDoFs(const int &a_i) const;
+		int get_DoF() const;
 };
 
 #endif

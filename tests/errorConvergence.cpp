@@ -1,8 +1,8 @@
-#include "common.hpp"
-#include "element.hpp"
-#include "matrix.hpp"
-#include "mesh.hpp"
-#include "solution.hpp"
+#include "../src/common.hpp"
+#include "../src/element.hpp"
+#include "../src/matrix.hpp"
+#include "../src/mesh.hpp"
+#include "../src/solution.hpp"
 #include <cassert>
 #include <cmath>
 #include <fstream>
@@ -55,11 +55,12 @@ int main()
 
 	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
-		Elements* myElements = new Elements(-N);
+		//Elements* myElements = new Elements(-N);
+		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);
 		Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
 
-		mySolution->Solve();
+		mySolution->Solve(1e-5);
 		mySolution->outputToFile();
 
 		currentNormL2 = mySolution->get_L2Norm();

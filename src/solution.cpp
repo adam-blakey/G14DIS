@@ -84,15 +84,15 @@ void Solution::Solve(const double &a_cgTolerance)
 		double elementLeft  = currentElement->get_nodeCoordinates()[0];
 		double elementRight = currentElement->get_nodeCoordinates()[1];
 
-		std::vector<int> elementConnectivity = elements->get_elementConnectivity(elementCounter);
-		for (int a=0; a<elementConnectivity.size(); ++a)
+		std::vector<int> elementDoFs = elements->get_elementDoFs(elementCounter);
+		for (int a=0; a<elementDoFs.size(); ++a)
 		{
-			int j = elementConnectivity[a];
+			int j = elementDoFs[a];
 			loadVector[j] += this->l(currentElement, j, elementCounter);
 
-			for (int b=0; b<elementConnectivity.size(); ++b)
+			for (int b=0; b<elementDoFs.size(); ++b)
 			{
-				int i = elementConnectivity[b];
+				int i = elementDoFs[b];
 				double value = stiffnessMatrix(i, j);
 				stiffnessMatrix.set(i, j, value + this->a(currentElement, i, j, elementCounter));
 			}

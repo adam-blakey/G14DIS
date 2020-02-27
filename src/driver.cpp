@@ -48,7 +48,7 @@ double expx2(double x)
 
 int main()
 {
-	Elements* myElements = new Elements(200);
+	Elements* myElements = new Elements(-10);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
 

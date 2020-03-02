@@ -299,7 +299,6 @@ Elements::Elements(const int &a_noElements)
 	this->noElements          = abs(a_noElements);
 	this->elementConnectivity .resize(abs(a_noElements));
 	this->elements   	      = new Element*[abs(a_noElements)];
-	this->boundaryElements    .resize(abs(a_noElements));
 	this->startDoFs           .resize(abs(a_noElements)+1);
 
 	// *********************
@@ -377,14 +376,6 @@ Elements::Elements(const int &a_noElements)
 		Element* currentElement = this->elements[i];
 		this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
 	}
-
-	// ******************
-	// Boundary elements.
-	// ******************
-	// Sets boundary elements.
-	std::fill(this->boundaryElements.begin(), this->boundaryElements.end(), 0);
-	this->boundaryElements[0]              = 1;
-	this->boundaryElements[abs(a_noElements)-1] = 1;
 }
 
 /******************************************************************************

@@ -16,6 +16,7 @@
 
 class Element
 {
+	// Mark as boundary?
 	private:
 		int elementNo;
 		int noNodes;
@@ -52,7 +53,6 @@ class Elements
 		int noElements;
 		std::vector<std::vector<int>> elementConnectivity;
 		Element** elements;
-		std::vector<double> boundaryElements; // This info (if needed at all) is best attached to an individual element.
 		std::vector<double> nodeCoordinates;
 		std::vector<double> startDoFs;
 

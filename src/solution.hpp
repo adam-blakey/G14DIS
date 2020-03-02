@@ -35,7 +35,6 @@ class Solution
 		double compute_uh_1(const int &a_i, const double &a_xi) const;
 		double compute_u(const double &a_x) const;
 		double compute_u_1(const double &a_x) const;
-		double compute_errorIndicator(const double &a_i) const;
 		double compute_residual(const double &a_uh, const double &a_x) const;
 
 		// Getters.
@@ -62,7 +61,13 @@ class Solution
 		double get_L2Norm() const;
 		double get_H1Norm() const;
 		double get_energyNorm() const;
+		double compute_errorIndicator(const double &a_i) const;
 		double get_globalErrorIndicator() const;
+		f_double get_f() const;
+		double get_epsilon() const;
+		f_double get_c() const;
+		f_double get_exact() const;
+		f_double get_exact_() const;
 
 		// Outputters.
 		void outputToFile(const std::string a_filename = "./output.dat") const;

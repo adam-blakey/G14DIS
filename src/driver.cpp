@@ -48,11 +48,11 @@ double expx2(double x)
 
 int main()
 {
-	Elements* myElements = new Elements(-10);
+	Elements* myElements = new Elements(10);
 	Mesh*     myMesh     = new Mesh(myElements);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
 
-	mySolution->Solve(1e-5);
+	mySolution->Solve(1e-3);
 	mySolution->outputToFile();
 
 	std::cout << "DONE" << std::endl;

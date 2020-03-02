@@ -10,6 +10,7 @@
 #include "matrix.hpp"
 #include "matrix_full.hpp"
 #include "mesh.hpp"
+#include "meshRefinement.hpp"
 #include "quadrature.hpp"
 #include "solution.hpp"
 
@@ -144,16 +145,16 @@ void Solution::Solve(const double &a_cgTolerance, const double &a_refTolerance, 
 	Mesh* oldMesh = this->mesh; // There's probably a better way.
 	this->Solve(a_cgTolerance);
 
-	// Variables for the algorithm.
-	bool checksRequired = true;
-	std::vector<bool> localChecks(noElements, true);
-
-	while (checksRequired && noElements <= a_maxNoElements)
+	// Loops whilst we've still got 
+	while (true && noElements <= a_maxNoElements)
 	{
-		for (int i=0; i<this->mesh->get_noElements(); ++i)
-		{
-
-		}
+		// Solve
+		// Error indicators
+		// [True error]
+		//Maybe ask to stop?
+		// Refine and create new mesh and solution -- needs old mesh, old solution, and error indicators
+		// Keep looping... 
+		break;
 	}
 
 	// Put the old mesh back.
@@ -566,4 +567,29 @@ std::vector<int> Solution::get_higherOrderDoFs() const
 	}
 
 	return DoFStarts;
+}
+
+f_double Solution::get_f() const
+{
+	return this->f;
+}
+
+double Solution::get_epsilon() const
+{
+	return this->epsilon;
+}
+
+f_double Solution::get_c() const
+{
+	return this->c;
+}
+
+f_double Solution::get_exact() const
+{
+	return this->exact_u;
+}
+
+f_double Solution::get_exact_() const
+{
+	return this->exact_u_1;
 }

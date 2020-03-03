@@ -58,11 +58,14 @@ class Elements
 
 	public:
 		Elements(const int &a_noElements);
+		Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates);
 		~Elements();
 		Element* operator[](const int &a_i);
 		int get_noElements() const;
 		std::vector<int> get_elementConnectivity(const int &a_i) const;
 		std::vector<int> get_elementDoFs(const int &a_i) const;
+		std::vector<double> get_nodeCoordinates() const;
+		const std::vector<double>* get_rawNodeCoordinates() const;
 		int get_DoF() const;
 };
 

@@ -10,7 +10,6 @@
 #include "matrix.hpp"
 #include "matrix_full.hpp"
 #include "mesh.hpp"
-#include "meshRefinement.hpp"
 #include "quadrature.hpp"
 #include "solution.hpp"
 
@@ -128,37 +127,6 @@ void Solution::Solve(const double &a_cgTolerance)
 
 	this->solution[0]   = A;
 	this->solution[n-1] = B;
-}
-
-/******************************************************************************
- * __Solve__
- * 
- * @details 	Uses the stored data to calculate and populate the value in
- * 					local variable 'solution'.
- ******************************************************************************/
-void Solution::Solve(const double &a_cgTolerance, const double &a_refTolerance, const int &a_maxNoElements)
-{
-	int noElements = this->mesh->get_noElements();
-	assert(noElements <= a_maxNoElements);
-
-	// Temporarily use another mesh.
-	Mesh* oldMesh = this->mesh; // There's probably a better way.
-	this->Solve(a_cgTolerance);
-
-	// Loops whilst we've still got 
-	while (true && noElements <= a_maxNoElements)
-	{
-		// Solve
-		// Error indicators
-		// [True error]
-		//Maybe ask to stop?
-		// Refine and create new mesh and solution -- needs old mesh, old solution, and error indicators
-		// Keep looping... 
-		break;
-	}
-
-	// Put the old mesh back.
-	this->mesh = oldMesh;
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index)
@@ -592,4 +560,14 @@ f_double Solution::get_exact() const
 f_double Solution::get_exact_() const
 {
 	return this->exact_u_1;
+}
+
+std::vector<double> Solution::get_errorIndicators() const
+{
+	std::vector<double> errorIndicators(this->noElements);
+
+	for (int i=0; i<this->noElements; ++i)
+		errorIndicators[i] = compute_errorIndicator(i);
+
+	return errorIndicators;
 }

@@ -2,6 +2,7 @@
 #include "element.hpp"
 #include "matrix.hpp"
 #include "mesh.hpp"
+#include "meshRefinement.hpp"
 #include "solution.hpp"
 #include <cassert>
 #include <cmath>
@@ -48,18 +49,71 @@ double expx2(double x)
 
 int main()
 {
-	Elements* myElements = new Elements(10);
-	Mesh*     myMesh     = new Mesh(myElements);
+	// Sets up problem.
+	Mesh*     myMesh     = new Mesh(10);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
+	int noElements;
+	double errorIndicator;
+	int maxNoElements = 1e3;
+	double tolerance = 1e-3;
+	int maxIterations = 10;
 
-	mySolution->Solve(1e-3);
-	mySolution->outputToFile();
+	// Temporary variables.
+	Mesh* currentMesh;
+	Mesh* newMesh = myMesh;
+	Solution* currentSolution;
+	Solution* newSolution = mySolution;
+
+	// Loops whilst we've still got 
+	
+	for (int i=0; i<maxIterations; ++i)
+	{
+		// Passes pointers from each iteration.
+		currentSolution = newSolution;
+		currentMesh = newMesh;
+
+		// Solve.
+		currentSolution->Solve(1e-3);
+		currentSolution->outputToFile();
+
+		// Error indicators calculation.
+		std::vector<double> errorIndicators = currentSolution->get_errorIndicators();
+
+		// [True error]
+		//Maybe ask to stop?
+		
+		// Refine and create new mesh and solution.
+		meshRefinement::refineMesh(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+
+		// New number of elements and new error indicator.
+		noElements = newMesh->get_noElements();
+		errorIndicator = newSolution->get_globalErrorIndicator();
+
+		if (noElements > maxNoElements)
+		{
+			delete newMesh;
+			delete newSolution;
+			break;
+		}
+
+		if (errorIndicator <= tolerance)
+		{
+			delete currentMesh;
+			delete currentSolution;
+			currentMesh = newMesh;
+			currentSolution = newSolution;
+			break;
+		}
+
+		system("PAUSE");
+	}
+
+	currentSolution->outputToFile();
 
 	std::cout << "DONE" << std::endl;
 
-	delete mySolution;
-	delete myMesh;
-	delete myElements;
+	delete currentSolution;
+	delete currentMesh;
 
 	return 0;
 }

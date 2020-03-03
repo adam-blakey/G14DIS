@@ -23,9 +23,9 @@ class Mesh
 		Mesh(Elements* const &a_elements);
 		~Mesh();
 
-		int get_dimProblem();
-		int get_noElements();
-		int get_noNodes();
+		int get_dimProblem() const;
+		int get_noElements() const;
+		int get_noNodes() const;
 		// Also store 'faces', with many 'face's.
 };
 

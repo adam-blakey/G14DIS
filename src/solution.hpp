@@ -53,7 +53,6 @@ class Solution
 
 		// Solvers.
 		void Solve(const double &a_cgTolerance);
-		void Solve(const double &a_cgTolerance, const double &a_refTolerance, const int &a_maxNoElements);
 
 		// Getters. [maybe change to computers??]
 		f_double get_solutionInterpolant() const;
@@ -62,6 +61,7 @@ class Solution
 		double get_H1Norm() const;
 		double get_energyNorm() const;
 		double compute_errorIndicator(const double &a_i) const;
+		std::vector<double> get_errorIndicators() const;
 		double get_globalErrorIndicator() const;
 		f_double get_f() const;
 		double get_epsilon() const;

@@ -12,7 +12,7 @@
 
 namespace meshRefinement
 {
-	void refineMesh(const Mesh* &a_mesh, Mesh* &a_meshNew, const Solution* &a_solution, Solution* &a_solutionNew, const std::vector<double> &a_errorIndicators);
+	void refineMesh(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators);
 }
 
 #endif

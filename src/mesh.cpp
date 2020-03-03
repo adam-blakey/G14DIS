@@ -57,7 +57,7 @@ Mesh::~Mesh()
  * 
  * @details 	Returns the value of the private variable 'dimProblem'.
  ******************************************************************************/
-int Mesh::get_dimProblem()
+int Mesh::get_dimProblem() const
 {
 	return this->dimProblem;
 }
@@ -67,7 +67,7 @@ int Mesh::get_dimProblem()
  * 
  * @details 	Returns the value of the private variable 'noElements'.
  ******************************************************************************/
-int Mesh::get_noElements()
+int Mesh::get_noElements() const
 {
 	return this->noElements;
 }
@@ -77,7 +77,7 @@ int Mesh::get_noElements()
  * 
  * @details 	Returns the value of the private variable 'noNodes'.
  ******************************************************************************/
-int Mesh::get_noNodes()
+int Mesh::get_noNodes() const
 {
 	return this->noNodes;
 }

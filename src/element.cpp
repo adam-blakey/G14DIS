@@ -240,7 +240,7 @@ int Element::get_noNodes() const
  ******************************************************************************/
 std::vector<double> Element::get_nodeCoordinates() const
 {
-	std::vector<double> tempVector(2, 0);
+	std::vector<double> tempVector(2);
 
 	for (int i=0; i<nodeIndices.size(); ++i)
 		tempVector[i] = nodeCoordinates->at(nodeIndices[i]);
@@ -378,6 +378,12 @@ Elements::Elements(const int &a_noElements)
 	}
 }
 
+Elements::Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates)
+: Elements(a_noElements)
+{
+	this->nodeCoordinates = a_nodeCoordinates;
+}
+
 /******************************************************************************
  * __~Elements__
  * 
@@ -436,4 +442,14 @@ std::vector<int> Elements::get_elementDoFs(const int &a_i) const
 int Elements::get_DoF() const
 {
 	return this->startDoFs.back() - 1;
+}
+
+std::vector<double> Elements::get_nodeCoordinates() const
+{
+	return this->nodeCoordinates;
+}
+
+const std::vector<double>* Elements::get_rawNodeCoordinates() const
+{
+	return &this->nodeCoordinates;
 }

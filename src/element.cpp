@@ -34,7 +34,7 @@ void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const s
 	this->noNodes = a_noNodes;
 	this->nodeIndices = a_nodeIndices;
 	this->nodeCoordinates = a_nodeCoordinates;
-	this->polynomialDegree = 2;
+	this->polynomialDegree = 1;
 }
 
 /******************************************************************************

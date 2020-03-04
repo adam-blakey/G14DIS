@@ -4,6 +4,7 @@
 #include "mesh.hpp"
 #include "meshRefinement.hpp"
 #include "solution.hpp"
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <fstream>
@@ -47,16 +48,24 @@ double expx2(double x)
 	return exp(-pow(x, 2));
 }
 
+void refinement();
+
 int main()
+{
+	refinement();
+
+	return 0;
+}
+
+void refinement()
 {
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(10);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
-	int noElements;
 	double errorIndicator;
-	int maxNoElements = 1e3;
 	double tolerance = 1e-3;
-	int maxIterations = 10;
+	int maxIterations = 50;
+	int iteration;
 
 	// Temporary variables.
 	Mesh* currentMesh;
@@ -66,7 +75,7 @@ int main()
 
 	// Loops whilst we've still got 
 	
-	for (int i=0; i<maxIterations; ++i)
+	for (iteration=0; iteration<maxIterations; ++iteration)
 	{
 		// Passes pointers from each iteration.
 		currentSolution = newSolution;
@@ -76,44 +85,38 @@ int main()
 		currentSolution->Solve(1e-3);
 		currentSolution->outputToFile();
 
+		// Calculates new error indicator.
+		errorIndicator = currentSolution->get_globalErrorIndicator();
+		if (errorIndicator <= tolerance)
+			break;
+
 		// Error indicators calculation.
 		std::vector<double> errorIndicators = currentSolution->get_errorIndicators();
 
 		// [True error]
 		//Maybe ask to stop?
+		std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
+		std::cout << "Error indicator : " << errorIndicator << std::endl;
+		std::cout << "Max indicator   : " << *std::max_element(errorIndicators.begin(), errorIndicators.end()) << std::endl;
+		std::cout << std::endl;
+		//system("PAUSE");
 		
 		// Refine and create new mesh and solution.
 		meshRefinement::refineMesh(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
 
-		// New number of elements and new error indicator.
-		noElements = newMesh->get_noElements();
-		errorIndicator = newSolution->get_globalErrorIndicator();
-
-		if (noElements > maxNoElements)
-		{
-			delete newMesh;
-			delete newSolution;
-			break;
-		}
-
-		if (errorIndicator <= tolerance)
-		{
-			delete currentMesh;
-			delete currentSolution;
-			currentMesh = newMesh;
-			currentSolution = newSolution;
-			break;
-		}
-
-		system("PAUSE");
+		delete currentMesh;
+		delete currentSolution;
+		currentMesh = newMesh;
+		currentSolution = newSolution;
 	}
 
 	currentSolution->outputToFile();
 
-	std::cout << "DONE" << std::endl;
+	std::cout << "Completed with:" << std::endl;
+	std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;
+	std::cout << "  Error indicator: " << errorIndicator << std::endl;
+	std::cout << "  #Iterations    : " << iteration << std::endl;
 
 	delete currentSolution;
 	delete currentMesh;
-
-	return 0;
 }

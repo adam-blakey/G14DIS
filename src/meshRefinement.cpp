@@ -11,6 +11,11 @@
 #include <iterator>
 #include <vector>
 
+
+
+
+#include <iostream>
+
 namespace meshRefinement
 {
 	void refineMesh(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
@@ -21,7 +26,7 @@ namespace meshRefinement
 		// Mark some elements for refinement.
 		std::vector<bool> refine(a_errorIndicators.size());
 		for (int i=0; i<refine.size(); ++i)
-			refine[i] = (a_errorIndicators[i]>errorThreshold)?true:false;
+			refine[i] = (a_errorIndicators[i]>=errorThreshold)?true:false;
 
 		// Adds on the extra number of elements marked for refinement.
 		int oldNoElements = a_mesh->get_noElements();
@@ -57,10 +62,6 @@ namespace meshRefinement
 			totalNoElements,
 			newNodeCoordinates
 		);
-
-		std::vector<double> wow = *elements->get_rawNodeCoordinates();
-		for (int i=0; i<wow.size(); ++i)
-			std::cout << wow[i] << std::endl;
 
 		// Populates elements.
 		for (int i=0; i<totalNoElements; ++i)

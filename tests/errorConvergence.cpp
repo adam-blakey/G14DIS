@@ -87,6 +87,8 @@ int main()
 		delete mySolution;
 		delete myMesh;
 		delete myElements;
+
+		break;
 	}
 
 	return 0;

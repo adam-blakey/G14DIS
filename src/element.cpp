@@ -34,7 +34,7 @@ void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const s
 	this->noNodes = a_noNodes;
 	this->nodeIndices = a_nodeIndices;
 	this->nodeCoordinates = a_nodeCoordinates;
-	this->polynomialDegree = 1;
+	this->polynomialDegree = 2;
 }
 
 /******************************************************************************
@@ -370,7 +370,7 @@ Elements::Elements(const int &a_noElements)
 	// *********************
 	// Degrees of freedom.
 	// *********************
-	this->startDoFs[0] = abs(a_noElements) + 2;
+	this->startDoFs[0] = abs(a_noElements) + 1;
 	for (int i=0; i<abs(a_noElements); ++i)
 	{
 		Element* currentElement = this->elements[i];
@@ -441,7 +441,7 @@ std::vector<int> Elements::get_elementDoFs(const int &a_i) const
 
 int Elements::get_DoF() const
 {
-	return this->startDoFs.back() - 1;
+	return this->startDoFs.back();
 }
 
 std::vector<double> Elements::get_nodeCoordinates() const

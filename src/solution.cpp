@@ -70,7 +70,7 @@ void Solution::Solve(const double &a_cgTolerance)
 	double A = 0;
 	double B = 0;
 
-	int n = this->noElements + 1; // Number of nodes.
+	int n = this->mesh->elements->get_DoF();//this->noElements + 1; // Number of nodes.
 
 	Elements* elements = this->mesh->elements;
 

@@ -62,7 +62,7 @@ void refinement()
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(10);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
-	double errorIndicator;
+	double errorIndicator, errorIndicatorPrev = 0;
 	double tolerance = 1e-3;
 	int maxIterations = 50;
 	int iteration;
@@ -72,6 +72,8 @@ void refinement()
 	Mesh* newMesh = myMesh;
 	Solution* currentSolution;
 	Solution* newSolution = mySolution;
+
+	double eNorm, eNormPrev = 0;
 
 	// Loops whilst we've still got 
 	
@@ -95,11 +97,20 @@ void refinement()
 
 		// [True error]
 		//Maybe ask to stop?
+		
+		eNorm = currentSolution->get_energyNorm();
+
 		std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
 		std::cout << "Error indicator : " << errorIndicator << std::endl;
 		std::cout << "Max indicator   : " << *std::max_element(errorIndicators.begin(), errorIndicators.end()) << std::endl;
+		std::cout << "Energy norm     : " << eNorm << std::endl;
+		std::cout << "Energy ratio    : " << eNormPrev/eNorm << std::endl;
+		std::cout << "Indicator ratio : " << errorIndicatorPrev/errorIndicator << std::endl;
 		std::cout << std::endl;
 		//system("PAUSE");
+
+		eNormPrev = eNorm;
+		errorIndicatorPrev = errorIndicator;
 		
 		// Refine and create new mesh and solution.
 		meshRefinement::refineMesh(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);

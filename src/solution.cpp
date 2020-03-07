@@ -88,48 +88,67 @@ void Solution::Solve(const double &a_cgTolerance)
 		for (int a=0; a<elementDoFs.size(); ++a)
 		{
 			int j = elementDoFs[a];
-			loadVector[j] += this->l(currentElement, j, elementCounter);
+			f_double basis = currentElement->basisFunctions(a);
+
+			loadVector[j] += this->l(currentElement, basis);
 
 			for (int b=0; b<elementDoFs.size(); ++b)
 			{
 				int i = elementDoFs[b];
-				double value = stiffnessMatrix(i, j);
-				stiffnessMatrix.set(i, j, value + this->a(currentElement, i, j, elementCounter));
+				f_double basis1 = currentElement->basisFunctions_(b);
+				f_double basis2 = currentElement->basisFunctions_(a);
+
+				double value = stiffnessMatrix(i, j); // Bit messy...
+				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2));
 			}
 		}
 	}
 
 	std::vector<double> F_(n);
 	std::vector<double> u0(n, 0);
+
+	int m = this->mesh->elements->get_noElements(); // Only works in 1D!
 	
 	stiffnessMatrix.set(0, 0, 0);
-	stiffnessMatrix.set(0, 1, 0);
+	for (int i=1; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(0, i, 0);
+	for (int j=1; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, 0, 0);
 	loadVector[0] = 0;
 
-	stiffnessMatrix.set(n-1, n-1, 0);
-	stiffnessMatrix.set(n-1, n-2, 0);
-	loadVector[n-1] = 0;
+	stiffnessMatrix.set(m, m, 0);
+	for (int i=1; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(m, i, 0);
+	for (int j=1; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, m, 0);
+	loadVector[m] = 0;
 
-	u0[0]   = A;
-	u0[n-1] = B;
+	u0[0] = A;
+	u0[m] = B;
 	
 	F_ = stiffnessMatrix*u0;
 	for (int i=0; i<n; ++i)
 		loadVector[i] -= F_[i];
 
-	stiffnessMatrix.set(0, 1, 0);
 	stiffnessMatrix.set(0, 0, 1);
+	for (int i=1; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(0, i, 0);
+	for (int j=1; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, 0, 0);
 
-	stiffnessMatrix.set(n-1, n-1, 1);
-	stiffnessMatrix.set(n-1, n-2, 0);
+	stiffnessMatrix.set(m, m, 1);
+	for (int i=1; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(m, i, 0);
+	for (int j=1; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, m, 0);
 
 	this->solution = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
 
-	this->solution[0]   = A;
-	this->solution[n-1] = B;
+	this->solution[0] = A;
+	this->solution[m] = B;
 }
 
-double Solution::l(Element* currentElement, const int &j, const int &node1Index)
+double Solution::l(Element* currentElement, f_double &basis)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -140,11 +159,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index)
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (j == node1Index)
-			b_value = currentElement->basisFunctions(0)(coordinates[k]);
-		else
-			b_value = currentElement->basisFunctions(1)(coordinates[k]);
+		double b_value = basis(coordinates[k]);
 
 		double f_value = this->f(currentElement->mapLocalToGlobal(coordinates[k]));
 		integral += b_value*f_value*weights[k]*J;
@@ -153,7 +168,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index)
 	return integral;
 }
 
-double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index)
+double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -164,50 +179,14 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (i==j)
-		{
-			if (i==node1Index)
-			{
-				b_value = currentElement->basisFunctions_(0)(coordinates[k])
-						* currentElement->basisFunctions_(0)(coordinates[k]);
-			}
-			else
-			{
-				b_value = currentElement->basisFunctions_(1)(coordinates[k])
-						* currentElement->basisFunctions_(1)(coordinates[k]);
-			}
-		}
-		else
-		{
-			b_value = currentElement->basisFunctions_(0)(coordinates[k])
-					* currentElement->basisFunctions_(1)(coordinates[k]);
-		}
+		double b_value = basis1(coordinates[k]) * basis2(coordinates[k]);
 
 		integral += this->epsilon*b_value*weights[k]/J;
 	}
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (i==j)
-		{
-			if (i==node1Index)
-			{
-				b_value = currentElement->basisFunctions(1)(coordinates[k])
-						* currentElement->basisFunctions(1)(coordinates[k]);
-			}
-			else
-			{
-				b_value = currentElement->basisFunctions(0)(coordinates[k])
-						* currentElement->basisFunctions(0)(coordinates[k]);
-			}
-		}
-		else
-		{
-			b_value = currentElement->basisFunctions(0)(coordinates[k])
-					* currentElement->basisFunctions(1)(coordinates[k]);
-		}
+		double b_value = basis1(coordinates[k]) * basis2(coordinates[k]);
 
 		double c_value = this->c(currentElement->mapLocalToGlobal(coordinates[k]));
 
@@ -421,20 +400,35 @@ double Solution::get_energyNorm() const
 
 double Solution::compute_uh(const int &a_i, const double &a_xi) const
 {
-	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions(0));
-	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions(1));
+	double result = 0;
 
-	return common::addFunction(f1, f2)(a_xi);
+	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
+	for (int j=0; j<elementDoFs.size(); ++j)
+	{
+		f_double basis = (*(this->mesh->elements))[a_i]->basisFunctions(j);
+
+		result += this->solution[elementDoFs[j]] * basis(a_xi);
+	}
+
+	return result;
 }
 
 double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 {
-	double J = (*(this->mesh->elements))[a_i]->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+	double J = currentElement->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
 
-	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions_(0));
-	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions_(1));
+	double result = 0;
 
-	return common::addFunction(f1, f2)(a_xi) / J;
+	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
+	for (int j=0; j<elementDoFs.size(); ++j)
+	{
+		f_double basis_ = currentElement->basisFunctions_(j);
+
+		result += this->solution[elementDoFs[j]] * basis_(a_xi);
+	}
+
+	return result / J;
 }
 
 double Solution::compute_u(const double &a_x) const
@@ -459,11 +453,16 @@ void Solution::outputToFile(const std::string a_filename) const
 	{
 		Element* currentElement = (*(this->mesh->elements))[i];
 
-		outputFile
-			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[0]
-			<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[i]
-			<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(currentElement->get_nodeCoordinates()[0])
-		<< std::endl;
+		for (int j=0; j<10; ++j)
+		{
+			double x  = currentElement->get_nodeCoordinates()[0] + j*((currentElement->get_nodeCoordinates()[1] - currentElement->get_nodeCoordinates()[0])/10);
+			double xi = -1 + j*double(2)/10;
+			outputFile
+				<< std::setw(26) << std::setprecision(16) << std::scientific << x
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi)
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(x)
+			<< std::endl;
+		}
 	}
 
 	Element* lastElement = (*(this->mesh->elements))[n-1];

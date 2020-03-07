@@ -56,7 +56,7 @@ int main()
 	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
 		//Elements* myElements = new Elements(-N);
-		Elements* myElements = new Elements(-N);
+		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);
 		Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero, exact, exact_);
 
@@ -87,8 +87,6 @@ int main()
 		delete mySolution;
 		delete myMesh;
 		delete myElements;
-
-		break;
 	}
 
 	return 0;

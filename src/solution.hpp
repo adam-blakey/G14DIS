@@ -27,8 +27,8 @@ class Solution
 		f_double c;
 
 		// Computes stiffness and load vector terms.
-		double a(Element* currentElement, const int &i, const int &j, const int &node1Index);
-		double l(Element* currentElement,               const int &j, const int &node1Index);
+		double a(Element* currentElement, f_double &basis1, f_double &basis2);
+		double l(Element* currentElement, f_double &basis);
 
 		// Computers.
 		double compute_uh(const int &a_i, const double &a_xi) const;

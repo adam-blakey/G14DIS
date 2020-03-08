@@ -40,7 +40,7 @@ namespace meshRefinement
 		for (int i=0; i<oldNodeCoordinates.size(); ++i) // This assumes coordinates are in order.
 		{
 			newNodeCoordinates[i+j] = oldNodeCoordinates[i];
-			if (refine[i])
+			if ((refine[i]) && (i!=oldNodeCoordinates.size()-1))
 			{
 				newNodeCoordinates[i+j+1] = (oldNodeCoordinates[i] + oldNodeCoordinates[i+1])/2;
 				++j;

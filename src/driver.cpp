@@ -60,7 +60,7 @@ int main()
 void refinement()
 {
 	// Sets up problem.
-	Mesh*     myMesh     = new Mesh(10);
+	Mesh*     myMesh     = new Mesh(4);
 	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
 	double errorIndicator;
 	double tolerance = 1e-3;
@@ -99,7 +99,7 @@ void refinement()
 		std::cout << "Error indicator : " << errorIndicator << std::endl;
 		std::cout << "Max indicator   : " << *std::max_element(errorIndicators.begin(), errorIndicators.end()) << std::endl;
 		std::cout << std::endl;
-		//system("PAUSE");
+		system("PAUSE");
 		
 		// Refine and create new mesh and solution.
 		meshRefinement::refineMesh(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);

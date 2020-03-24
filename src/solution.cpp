@@ -401,7 +401,6 @@ double Solution::compute_uh(const int &a_i, const double &a_xi) const
 {
 	double result = 0;
 
-
 	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
 	for (int j=0; j<elementDoFs.size(); ++j)
 	{
@@ -419,7 +418,6 @@ double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 	double J = currentElement->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
 
 	double result = 0;
-
 
 	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
 	for (int j=0; j<elementDoFs.size(); ++j)

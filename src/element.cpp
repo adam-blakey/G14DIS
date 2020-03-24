@@ -175,7 +175,7 @@ f_double Element::basisFunctions(const int &a_i)
 								)
 							)
 						);
-				};
+	}
 }
 
 /******************************************************************************
@@ -216,6 +216,7 @@ f_double Element::basisFunctions_(const int &a_i)
 								)
 							)
 						);
+
 	}
 }
 
@@ -272,7 +273,7 @@ std::vector<int> Element::get_nodeIndices() const
 
 void Element::get_elementQuadrature(std::vector<double> &a_coordinates, std::vector<double> &a_weights) const
 {
-	int n = 8;
+	int n = ceil(double(2 * this->get_polynomialDegree() + 1)/2);
 
 	a_coordinates.resize(n);
 	a_weights    .resize(n);
@@ -343,7 +344,7 @@ Elements::Elements(const int &a_noElements)
 			nodeIndices[0] = i;
 			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 2);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 1);
 		}
 	}	
 	else

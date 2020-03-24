@@ -1,8 +1,8 @@
-#include "common.hpp"
-#include "element.hpp"
-#include "matrix.hpp"
-#include "mesh.hpp"
-#include "solution.hpp"
+#include "../src/common.hpp"
+#include "../src/element.hpp"
+#include "../src/matrix.hpp"
+#include "../src/mesh.hpp"
+#include "../src/solution.hpp"
 #include <cassert>
 #include <cmath>
 #include <fstream>
@@ -50,9 +50,9 @@ int main()
 {
 	Elements* myElements = new Elements(2);
 
-	f_double basis0 = (*(myElements))[0]->basisFunctions(0);
-	f_double basis1 = (*(myElements))[0]->basisFunctions(1);
-	f_double basis2 = (*(myElements))[0]->basisFunctions(2);
+	f_double basis0 = (*(myElements))[0]->basisFunctions_(0);
+	f_double basis1 = (*(myElements))[0]->basisFunctions_(1);
+	f_double basis2 = (*(myElements))[0]->basisFunctions_(2);
 
 	std::ofstream outputFile;
 	outputFile.open("plotTest.dat");
@@ -69,7 +69,7 @@ int main()
 
 	outputFile.close();
 
-	std::cout << "DONE" << std::endl;
+	std::cout << "DONE ADAM" << std::endl;
 
 	return 0;
 }

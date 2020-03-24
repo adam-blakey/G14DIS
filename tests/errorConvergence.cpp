@@ -55,6 +55,7 @@ int main()
 
 	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
+		N = 4;
 		//Elements* myElements = new Elements(-N);
 		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);

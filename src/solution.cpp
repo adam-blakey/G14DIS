@@ -70,10 +70,7 @@ void Solution::Solve(const double &a_cgTolerance)
 	double A = 0;
 	double B = 0;
 
-	int n = this->mesh->elements->get_DoF();
-	int m = this->noElements + 1;
-
-	std::cout << "ADAM: " << m << std::endl;
+	int n = this->mesh->elements->get_DoF();//this->noElements + 1; // Number of nodes.
 
 	Elements* elements = this->mesh->elements;
 
@@ -83,6 +80,7 @@ void Solution::Solve(const double &a_cgTolerance)
 	for (int elementCounter=0; elementCounter<this->noElements; ++elementCounter)
 	{
 		Element* currentElement = (*(this->mesh->elements))[elementCounter];
+		int polynomialDegree = currentElement->get_polynomialDegree();
 
 		double elementLeft  = currentElement->get_nodeCoordinates()[0];
 		double elementRight = currentElement->get_nodeCoordinates()[1];
@@ -91,56 +89,62 @@ void Solution::Solve(const double &a_cgTolerance)
 		for (int a=0; a<elementDoFs.size(); ++a)
 		{
 			int j = elementDoFs[a];
-			loadVector[j] += this->l(currentElement, j, elementCounter);
+			f_double basis = currentElement->basisFunctions(a);
+
+			loadVector[j] += this->l(currentElement, basis);
 
 			for (int b=0; b<elementDoFs.size(); ++b)
 			{
 				int i = elementDoFs[b];
-				double value = stiffnessMatrix(i, j);
-				stiffnessMatrix.set(i, j, value + this->a(currentElement, i, j, elementCounter));
+				f_double basis1 = currentElement->basisFunctions_(b);
+				f_double basis2 = currentElement->basisFunctions_(a);
+
+				double value = stiffnessMatrix(i, j); // Bit messy...
+				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2));
 			}
 		}
 	}
 
 	std::vector<double> F_(n);
 	std::vector<double> u0(n, 0);
+
+	int m = this->mesh->elements->get_noElements(); // Only works in 1D!
 	
 	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-		stiffnessMatrix.set(i, 0, 0);
+		stiffnessMatrix.set(0, i, 0);
 	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-		stiffnessMatrix.set(0, j, 0);
+		stiffnessMatrix.set(j, 0, 0);
 	loadVector[0] = 0;
 
 	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-		stiffnessMatrix.set(i,   m-1, 0);
+		stiffnessMatrix.set(m, i, 0);
 	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-		stiffnessMatrix.set(m-1, j,   0);
-	loadVector[m-1] = 0;
+		stiffnessMatrix.set(j, m, 0);
+	loadVector[m] = 0;
 
-	u0[0]   = A;
-	u0[m-1] = B;
+	u0[0] = A;
+	u0[m] = B;
 	
 	F_ = stiffnessMatrix*u0;
 	for (int i=0; i<n; ++i)
 		loadVector[i] -= F_[i];
 
-	//stiffnessMatrix.set(0, 1, 0);
+	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(0, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, 0, 0);
 	stiffnessMatrix.set(0, 0, 1);
 
-	stiffnessMatrix.set(m-1, m-1, 1);
-	//stiffnessMatrix.set(m-1, m-2, 0);
-
 	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-	{
-		for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-			std::cout << std::setw(8) << stiffnessMatrix(i, j) << " ";
-		std::cout << std::endl;
-	}
+		stiffnessMatrix.set(m, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, m, 0);
+	stiffnessMatrix.set(m, m, 1);
 
 	this->solution = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
 
-	this->solution[0]   = A;
-	this->solution[m-1] = B;
+	this->solution[0] = A;
+	this->solution[m] = B;
 }
 
 double Solution::l(Element* currentElement, const int &j, const int &node1Index)

@@ -399,20 +399,37 @@ double Solution::get_energyNorm() const
 
 double Solution::compute_uh(const int &a_i, const double &a_xi) const
 {
-	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions(0));
-	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions(1));
+	double result = 0;
 
-	return common::addFunction(f1, f2)(a_xi);
+
+	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
+	for (int j=0; j<elementDoFs.size(); ++j)
+	{
+		f_double basis = (*(this->mesh->elements))[a_i]->basisFunctions(j);
+
+		result += this->solution[elementDoFs[j]] * basis(a_xi);
+	}
+
+	return result;
 }
 
 double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 {
-	double J = (*(this->mesh->elements))[a_i]->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+	double J = currentElement->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
 
-	f_double f1 = common::constantMultiplyFunction(this->solution[a_i],   (*(this->mesh->elements))[a_i]->basisFunctions_(0));
-	f_double f2 = common::constantMultiplyFunction(this->solution[a_i+1], (*(this->mesh->elements))[a_i]->basisFunctions_(1));
+	double result = 0;
 
-	return common::addFunction(f1, f2)(a_xi) / J;
+
+	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
+	for (int j=0; j<elementDoFs.size(); ++j)
+	{
+		f_double basis_ = currentElement->basisFunctions_(j);
+
+		result += this->solution[elementDoFs[j]] * basis_(a_xi);
+	}
+
+	return result / J;
 }
 
 double Solution::compute_u(const double &a_x) const
@@ -437,11 +454,16 @@ void Solution::outputToFile(const std::string a_filename) const
 	{
 		Element* currentElement = (*(this->mesh->elements))[i];
 
-		outputFile
-			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[0]
-			<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[i]
-			<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(currentElement->get_nodeCoordinates()[0])
-		<< std::endl;
+		for (int j=0; j<10; ++j)
+		{
+			double x  = currentElement->get_nodeCoordinates()[0] + j*((currentElement->get_nodeCoordinates()[1] - currentElement->get_nodeCoordinates()[0])/10);
+			double xi = -1 + j*double(2)/10;
+			outputFile
+				<< std::setw(26) << std::setprecision(16) << std::scientific << x
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi)
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(x)
+			<< std::endl;
+		}
 	}
 
 	Element* lastElement = (*(this->mesh->elements))[n-1];

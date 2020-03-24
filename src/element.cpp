@@ -205,6 +205,17 @@ f_double Element::basisFunctions_(const int &a_i)
 					else
 						return 0;
 				};
+				break;
+		default: return common::constantMultiplyFunction(
+							sqrt(double(a_i-1)-0.5),
+							common::addFunction(
+								quadrature::legendrePolynomialDerivative(a_i),
+								common::constantMultiplyFunction(
+									-1,
+									quadrature::legendrePolynomialDerivative(a_i - 2)
+								)
+							)
+						);
 	}
 }
 

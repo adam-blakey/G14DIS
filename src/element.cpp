@@ -28,13 +28,13 @@
  * @param[in] a_noNodes 			Number of nodes in this element.
  * @param[in] a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates)
+void Element::init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates, const int &a_polynomialDegree)
 {
 	this->elementNo = a_elementNo;
 	this->noNodes = a_noNodes;
 	this->nodeIndices = a_nodeIndices;
 	this->nodeCoordinates = a_nodeCoordinates;
-	this->polynomialDegree = 1;
+	this->polynomialDegree = a_polynomialDegree;
 }
 
 /******************************************************************************
@@ -48,7 +48,8 @@ Element::Element(const Element &a_element)
 : Element::Element(	a_element.get_elementNo(),
 					a_element.get_noNodes(),
 					a_element.get_nodeIndices(),
-					a_element.get_rawNodeCoordinates()
+					a_element.get_rawNodeCoordinates(),
+					a_element.get_polynomialDegree()
 				  )
 {
 	//
@@ -63,9 +64,9 @@ Element::Element(const Element &a_element)
  * @param a_noNodes 			Number of nodes in this element.
  * @param a_nodeCoordiantes 	The coordinates of the nodes.
  ******************************************************************************/
-Element::Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordiantes)
+Element::Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordiantes, const int &a_polynomialDegree)
 {
-	init_Element(a_elementNo, a_noNodes, a_nodeIndices, a_nodeCoordiantes);
+	init_Element(a_elementNo, a_noNodes, a_nodeIndices, a_nodeCoordiantes, a_polynomialDegree);
 }
 
 /******************************************************************************
@@ -87,7 +88,7 @@ Element::~Element()
  ******************************************************************************/
 Element& Element::operator=(const Element &a_element)
 {
-	init_Element(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeIndices(), a_element.get_rawNodeCoordinates());
+	init_Element(a_element.get_elementNo(), a_element.get_noNodes(), a_element.get_nodeIndices(), a_element.get_rawNodeCoordinates(), a_element.get_polynomialDegree());
 
 	return *this;
 }
@@ -331,7 +332,7 @@ Elements::Elements(const int &a_noElements)
 			nodeIndices[0] = i;
 			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 2);
 		}
 	}	
 	else
@@ -356,14 +357,14 @@ Elements::Elements(const int &a_noElements)
 			nodeIndices[0] = i;
 			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 1);
 		}
 		for (int i=0; i<n2; ++i)
 		{
 			nodeIndices[0] = n1 + i;
 			nodeIndices[1] = n1 + i + 1;
 
-			this->elements[n1 + i] = new Element(i, 2, nodeIndices, &nodeCoordinates);
+			this->elements[n1 + i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 1);
 		}
 	}
 

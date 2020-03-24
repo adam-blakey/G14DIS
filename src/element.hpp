@@ -24,11 +24,11 @@ class Element
 		std::vector<int> nodeIndices;
 		const std::vector<double>* nodeCoordinates;
 		// Node coordiantes stored in elements, which a connectiviy array in element to tell you which nodes you're talking about.
-		void init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates);
+		void init_Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates, const int &a_polynomialDegree);
 
 	public:
 		Element(const Element &a_element);
-		Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates);
+		Element(const int &a_elementNo, const int &a_noNodes, const std::vector<int> &a_nodeIndices, const std::vector<double>* a_nodeCoordinates, const int &a_polynomialDegree);
 		~Element();
 		Element& operator= (const Element &a_element);
 		double mapLocalToGlobal(const double &a_xi);

@@ -68,7 +68,7 @@ namespace meshRefinement
 		{
 			std::vector<int> nodeIndices = {i, i+1};
 
-			newElements[i] = new Element(i, 2, nodeIndices, elements->get_rawNodeCoordinates());
+			newElements[i] = new Element(i, 2, nodeIndices, elements->get_rawNodeCoordinates(), 1);
 		}
 
 		// Creates new mesh and solution.

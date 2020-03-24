@@ -147,7 +147,7 @@ void Solution::Solve(const double &a_cgTolerance)
 	this->solution[m] = B;
 }
 
-double Solution::l(Element* currentElement, const int &j, const int &node1Index)
+double Solution::l(Element* currentElement, f_double &basis)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -158,11 +158,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index)
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (j == node1Index)
-			b_value = currentElement->basisFunctions(0)(coordinates[k]);
-		else
-			b_value = currentElement->basisFunctions(1)(coordinates[k]);
+		double b_value = basis(coordinates[k]);
 
 		double f_value = this->f(currentElement->mapLocalToGlobal(coordinates[k]));
 		integral += b_value*f_value*weights[k]*J;
@@ -171,7 +167,7 @@ double Solution::l(Element* currentElement, const int &j, const int &node1Index)
 	return integral;
 }
 
-double Solution::a(Element* currentElement, const int &i, const int &j, const int &node1Index)
+double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -182,50 +178,14 @@ double Solution::a(Element* currentElement, const int &i, const int &j, const in
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (i==j)
-		{
-			if (i==node1Index)
-			{
-				b_value = currentElement->basisFunctions_(0)(coordinates[k])
-						* currentElement->basisFunctions_(0)(coordinates[k]);
-			}
-			else
-			{
-				b_value = currentElement->basisFunctions_(1)(coordinates[k])
-						* currentElement->basisFunctions_(1)(coordinates[k]);
-			}
-		}
-		else
-		{
-			b_value = currentElement->basisFunctions_(0)(coordinates[k])
-					* currentElement->basisFunctions_(1)(coordinates[k]);
-		}
+		double b_value = basis1(coordinates[k]) * basis2(coordinates[k]);
 
 		integral += this->epsilon*b_value*weights[k]/J;
 	}
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value;
-		if (i==j)
-		{
-			if (i==node1Index)
-			{
-				b_value = currentElement->basisFunctions(1)(coordinates[k])
-						* currentElement->basisFunctions(1)(coordinates[k]);
-			}
-			else
-			{
-				b_value = currentElement->basisFunctions(0)(coordinates[k])
-						* currentElement->basisFunctions(0)(coordinates[k]);
-			}
-		}
-		else
-		{
-			b_value = currentElement->basisFunctions(0)(coordinates[k])
-					* currentElement->basisFunctions(1)(coordinates[k]);
-		}
+		double b_value = basis1(coordinates[k]) * basis2(coordinates[k]);
 
 		double c_value = this->c(currentElement->mapLocalToGlobal(coordinates[k]));
 

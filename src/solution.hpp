@@ -27,7 +27,7 @@ class Solution
 		f_double c;
 
 		// Computes stiffness and load vector terms.
-		double a(Element* currentElement, f_double &basis1, f_double &basis2);
+		double a(Element* currentElement, f_double &basis1, f_double &basis2, f_double &basis1_, f_double &basis2_);
 		double l(Element* currentElement, f_double &basis);
 
 		// Computers.

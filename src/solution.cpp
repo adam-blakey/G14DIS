@@ -96,11 +96,13 @@ void Solution::Solve(const double &a_cgTolerance)
 			for (int b=0; b<elementDoFs.size(); ++b)
 			{
 				int i = elementDoFs[b];
-				f_double basis1 = currentElement->basisFunctions_(b);
-				f_double basis2 = currentElement->basisFunctions_(a);
+				f_double basis1  = currentElement->basisFunctions(b);
+				f_double basis2  = currentElement->basisFunctions(a);
+				f_double basis1_ = currentElement->basisFunctions_(b);
+				f_double basis2_ = currentElement->basisFunctions_(a);
 
 				double value = stiffnessMatrix(i, j); // Bit messy...
-				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2));
+				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2, basis1_, basis2_));
 			}
 		}
 	}
@@ -167,7 +169,7 @@ double Solution::l(Element* currentElement, f_double &basis)
 	return integral;
 }
 
-double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2)
+double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2, f_double &basis1_, f_double &basis2_)
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -178,7 +180,7 @@ double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2)
 
 	for (int k=0; k<coordinates.size(); ++k)
 	{
-		double b_value = basis1(coordinates[k]) * basis2(coordinates[k]);
+		double b_value = basis1_(coordinates[k]) * basis2_(coordinates[k]);
 
 		integral += this->epsilon*b_value*weights[k]/J;
 	}

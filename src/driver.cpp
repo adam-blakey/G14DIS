@@ -107,7 +107,7 @@ void refinement()
 		std::cout << "Energy ratio    : " << eNormPrev/eNorm << std::endl;
 		std::cout << "Indicator ratio : " << errorIndicatorPrev/errorIndicator << std::endl;
 		std::cout << std::endl;
-		//system("PAUSE");
+		system("PAUSE");
 
 		eNormPrev = eNorm;
 		errorIndicatorPrev = errorIndicator;

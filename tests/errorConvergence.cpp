@@ -55,7 +55,6 @@ int main()
 
 	for (int N=6; N<=6*pow(2, 10); N*=2)
 	{
-		N = 4;
 		//Elements* myElements = new Elements(-N);
 		Elements* myElements = new Elements(N);
 		Mesh*     myMesh     = new Mesh(myElements);
@@ -79,6 +78,7 @@ int main()
 		std::cout << "En rate: " << previousNormE /currentNormE  << std::endl;
 		std::cout << "In rate: " << previousErrorI/currentErrorI << std::endl;
 		std::cout << std::endl;
+		system("PAUSE");
 
 		previousNormL2 = currentNormL2;
 		previousNormH1 = currentNormH1;
@@ -88,8 +88,6 @@ int main()
 		delete mySolution;
 		delete myMesh;
 		delete myElements;
-
-		break;
 	}
 
 	return 0;

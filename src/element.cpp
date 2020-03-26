@@ -138,85 +138,108 @@ double Element::quadrature(f_double a_f)
 }
 
 /******************************************************************************
- * __basisFunctions__
+ * __basisFunction__
  * 
- * @details 	Calculates a requested basis function.
+ * @details 	Calculates the ith derivative of the nth basis function.
  * 
- * @param[in] a_i 		Which basis function to return.
- * @return  			The requested basis function.
- ******************************************************************************/
-f_double Element::basisFunctions(const int &a_i)
-{
-	switch(a_i)
-	{
-		case 0: return [](double x) -> double
-				{
-					if (-1 <= x && x <= 1)
-						return -x/2 + double(1)/2;
-					else
-						return 0;
-				};
-				break;
-		case 1: return [](double x) -> double
-				{
-					if (-1 <= x && x <= 1)
-						return x/2 + double(1)/2;
-					else
-						return 0;
-				};
-				break;
-		default: return common::constantMultiplyFunction(
-							sqrt(double(a_i-1)-0.5),
-							common::addFunction(
-								quadrature::legendrePolynomial(a_i),
-								common::constantMultiplyFunction(
-									-1,
-									quadrature::legendrePolynomial(a_i - 2)
-								)
-							)
-						);
-	}
-}
-
-/******************************************************************************
- * __basisFunctions___
- * 
- * @details 	Calculates a requested derivative basis function.
- * 
- * @param[in] a_i 		Which derivative basis function to return.
+ * @param[in] a_n 		Which basis function to return.
+ * @param[in] a_i 		Which derivative to return.
  * @return  			The requested derivative basis function.
  ******************************************************************************/
-f_double Element::basisFunctions_(const int &a_i)
+f_double Element::basisFunction(const int &a_n, const int &a_i)
 {
-	switch(a_i)
+	if (a_i==0)
 	{
-		case 0: return [](double x) -> double
-				{
-					if (-1 <= x && x <= 1)
-						return -double(1)/2;
-					else
-						return 0;
-				};
-				break;
-		case 1: return [](double x) -> double
-				{
-					if (-1 <= x && x <= 1)
-						return double(1)/2;
-					else
-						return 0;
-				};
-				break;
-		default: return common::constantMultiplyFunction(
-							sqrt(double(a_i-1)-0.5),
-							common::addFunction(
-								quadrature::legendrePolynomialDerivative(a_i),
-								common::constantMultiplyFunction(
-									-1,
-									quadrature::legendrePolynomialDerivative(a_i - 2)
+		switch(a_n)
+		{
+			case 0: return [](double x) -> double
+					{
+						if (-1 <= x && x <= 1)
+							return (1-x)/2;
+						else
+							return 0;
+					};
+					break;
+			case 1: return [](double x) -> double
+					{
+						if (-1 <= x && x <= 1)
+							return (1+x)/2;
+						else
+							return 0;
+					};
+					break;
+			default: return common::constantMultiplyFunction(
+								sqrt(double(a_n-1)-0.5),
+								common::addFunction(
+									quadrature::legendrePolynomial(a_n, a_i),
+									common::constantMultiplyFunction(
+										-1,
+										quadrature::legendrePolynomial(a_n-2, a_i)
+									)
 								)
-							)
-						);
+							);
 
+		}
+	}
+	else if (a_i==1)
+	{
+		switch(a_n)
+		{
+			case 0: return [](double x) -> double
+					{
+						if (-1 <= x && x <= 1)
+							return -double(1)/2;
+						else
+							return 0;
+					};
+					break;
+			case 1: return [](double x) -> double
+					{
+						if (-1 <= x && x <= 1)
+							return double(1)/2;
+						else
+							return 0;
+					};
+					break;
+			default: return common::constantMultiplyFunction(
+								sqrt(double(a_n-1)-0.5),
+								common::addFunction(
+									quadrature::legendrePolynomial(a_n, a_i),
+									common::constantMultiplyFunction(
+										-1,
+										quadrature::legendrePolynomial(a_n-2, a_i)
+									)
+								)
+							);
+
+		}
+	}
+	else
+	{
+		switch(a_n)
+		{
+			case 0: return [](double x) -> double
+					{
+						return 0;
+					};
+					break;
+			case 1: return [](double x) -> double
+					{
+						return 0;
+					};
+					break;
+			default: return common::constantMultiplyFunction(
+								sqrt(double(a_n-1)-0.5),
+								common::addFunction(
+									quadrature::legendrePolynomial(a_n, a_i),
+									common::constantMultiplyFunction(
+										-1,
+										quadrature::legendrePolynomial(a_n-2, a_i)
+									)
+								)
+							);
+
+		}
 	}
 }
 

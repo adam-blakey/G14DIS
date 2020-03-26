@@ -25,89 +25,88 @@ namespace quadrature
 	/******************************************************************************
 	 * legendrePolynomial
 	 * 
-	 * @details    Returns the nth Legendre polynomial.
+	 * @details    Returns the ith derivative of the nth Legendre polynomial.
 	 *
 	 * @param[in] n 			Gives the degree of the polynomial.
+	 * @param[in] i 			The ith derivative.
 	 * @param[in] x 			The point at which to evaluate the polynomial.
 	 * @return 					The Legendre polynomial.
 	 ******************************************************************************/
-	f_double legendrePolynomial(const int n)
+	f_double legendrePolynomial(const int &a_n, const int &a_i)
 	{
-		assert(n >= 0);
-
-		switch(n)
+		if (a_i==0)
 		{
-			case 0: return[](double x) -> double
+			switch(a_n)
+			{
+				case 0: return[](double x)->double
 					{
 						return 1;
 					};
 					break;
-			case 1: return[](double x) -> double
+				case 1: return[](double x)->double
 					{
 						return x;
 					};
 					break;
-			default: return[n](double x) -> double
+				default: return[a_n](double x)->double
 					{
-						return common::addFunction  (
-														common::constantMultiplyFunction(
-																							double(2*n - 1)/n * x,
-																							legendrePolynomial(n-1)
-																						),
-														common::constantMultiplyFunction(
-																							-1,
-																							common::constantMultiplyFunction(
-																																double(n - 1)/n,
-																																legendrePolynomial(n-2)
-																															)
-																						)
-													)(x);
+						using namespace common;
+
+						return 	addFunction(
+									constantMultiplyFunction(
+										double(2*a_n-1)/a_n * x,
+										legendrePolynomial(a_n-1, 0)
+									),
+									constantMultiplyFunction(
+										-1,
+										constantMultiplyFunction(
+											double(a_n-1)/a_n,
+											legendrePolynomial(a_n-2, 0)
+										)
+									)
+								)(x);
 					};
+			}
 		}
-	}
-
-	/******************************************************************************
-	 * legendrePolynomialDerivative
-	 * 
-	 * @details    Returns the nth Legendre polynomial's derivative.
-	 *
-	 * @param[in] n 			Gives the degree of the polynomial.
-	 * @param[in] x 			The point at which to evaluate the polynomial.
-	 * @return 					The Legendre polynomial derivative.
-	 ******************************************************************************/
-	f_double legendrePolynomialDerivative(const int n)
-	{
-		assert(n >= 0);
-
-		switch(n)
+		else
 		{
-			case 0: return[](double x) -> double
+			switch(a_n)
+			{
+				case 0: return[](double x)->double
 					{
-						return 0;	
+						return 0;
 					};
 					break;
-			case 1: return[](double x) -> double
+				case 1: return[a_i](double x)->double
 					{
-						return 1;
+						return (a_i==1)?1:0;
 					};
 					break;
-			default: return[n](double x) -> double
+				default: return[a_n, a_i](double x)->double
 					{
-						return common::addFunction  (
-														common::constantMultiplyFunction(
-																							double(2*n - 1)/(n - 1) * x,
-																							legendrePolynomialDerivative(n-1)
-																						),
-														common::constantMultiplyFunction(
-																							-1,
-																							common::constantMultiplyFunction(
-																																double(n)/(n - 1),
-																																legendrePolynomialDerivative(n-2)
-																															)
-																						)
-													)(x);						
-					};
+						using namespace common;
 
+						return 	addFunction(
+									addFunction(
+										constantMultiplyFunction(
+											double(2*a_n-1)/(a_n-1) * x,
+											legendrePolynomial(a_n-1, a_i)
+										),
+										constantMultiplyFunction(
+											-1,
+											constantMultiplyFunction(
+												double(a_n)/(a_n-1),
+												legendrePolynomial(a_n-2, a_i)
+											)
+										)
+									),
+									constantMultiplyFunction(
+										(a_i-1) * double(2*a_n-1)/(a_n-1),
+										legendrePolynomial(a_n-1, a_i-1)
+									)
+								)(x);
+					};
+			}
 		}
 	}
 
@@ -124,8 +123,8 @@ namespace quadrature
 	{
 		double root = -cos(double(2*i + 1)/(2*n)*M_PI);
 
-		while (fabs(legendrePolynomial(n)(root)) >= 1e-5)
-			root = root - legendrePolynomial(n)(root)/legendrePolynomialDerivative(n)(root);
+		while (fabs(legendrePolynomial(n, 0)(root)) >= 1e-5)
+			root = root - legendrePolynomial(n, 0)(root)/legendrePolynomial(n, 1)(root);
 
 		return root;
 	}
@@ -166,7 +165,7 @@ namespace quadrature
 		for (int i=0; i<n; ++i)
 		{
 			x = legendrePolynomialRoot(n, i);
-			weight = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomialDerivative(n)(x), 2));
+			weight = double(2) / ((1 - pow(x, 2))*pow(legendrePolynomial(n, 1)(x), 2));
 			quadrature += weight * f(x);
 		}
 
@@ -214,7 +213,7 @@ namespace quadrature
 		if (weights.find(std::make_pair(a_n, a_i)) == weights.end())
 		{
 			double xi = get_gaussLegendrePoint(a_n, a_i);
-			weights[std::make_pair(a_n, a_i)] = double(2) / ((1 - pow(xi, 2))*pow(legendrePolynomialDerivative(a_n)(xi), 2));
+			weights[std::make_pair(a_n, a_i)] = double(2) / ((1 - pow(xi, 2))*pow(legendrePolynomial(a_n, 1)(xi), 2));
 		}
 
 		return weights[std::make_pair(a_n, a_i)];

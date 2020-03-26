@@ -34,8 +34,7 @@ class Element
 		double mapLocalToGlobal(const double &a_xi);
 		double get_Jacobian() const;
 		double quadrature(f_double a_f);
-		f_double basisFunctions (const int &a_i);
-		f_double basisFunctions_(const int &a_i);
+		f_double basisFunction(const int &a_n, const int &a_i);
 
 		int get_elementNo() const;
 		int get_noNodes() const;

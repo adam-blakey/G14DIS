@@ -55,8 +55,6 @@ class Solution
 		void Solve(const double &a_cgTolerance);
 
 		// Getters. [maybe change to computers??]
-		f_double get_solutionInterpolant() const;
-		f_double get_solutionInterpolant_() const;
 		double get_L2Norm() const;
 		double get_H1Norm() const;
 		double get_energyNorm() const;

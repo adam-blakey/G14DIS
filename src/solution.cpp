@@ -89,17 +89,17 @@ void Solution::Solve(const double &a_cgTolerance)
 		for (int a=0; a<elementDoFs.size(); ++a)
 		{
 			int j = elementDoFs[a];
-			f_double basis = currentElement->basisFunctions(a);
+			f_double basis = currentElement->basisFunction(a, 0);
 
 			loadVector[j] += this->l(currentElement, basis);
 
 			for (int b=0; b<elementDoFs.size(); ++b)
 			{
 				int i = elementDoFs[b];
-				f_double basis1  = currentElement->basisFunctions(b);
-				f_double basis2  = currentElement->basisFunctions(a);
-				f_double basis1_ = currentElement->basisFunctions_(b);
-				f_double basis2_ = currentElement->basisFunctions_(a);
+				f_double basis1  = currentElement->basisFunction(b, 0);
+				f_double basis2  = currentElement->basisFunction(a, 0);
+				f_double basis1_ = currentElement->basisFunction(b, 1);
+				f_double basis2_ = currentElement->basisFunction(a, 1);
 
 				double value = stiffnessMatrix(i, j); // Bit messy...
 				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2, basis1_, basis2_));
@@ -195,104 +195,6 @@ double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2, 
 	}
 
 	return integral;
-}
-
-f_double Solution::get_solutionInterpolant() const
-{
-	return [=](double x) -> double
-	{
-		int n = this->noElements;
-
-		int i;
-		bool foundRange = false;
-		double node1, node2;
-
-		for (i=0; i<n && !foundRange;)
-		{
-			node1 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[0];
-			node2 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[1];
-
-			//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
-
-			if (node1<=x && x<=node2)
-			{
-				foundRange = true;
-			}
-			else
-			{
-				++i;
-			}
-		}
-
-		//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
-		//std::cout << "i: " << i << std::endl;
-		//std::cout << "x^: " << 2*(x-node1)/(node2 - node1) - 1 << std::endl;
-		//std::cout << "(" << this->solution[i] << ", " << this->solution[i+1] << ")" << std::endl;
-
-		if (foundRange)
-		{
-			f_double f1 = common::constantMultiplyFunction(this->solution[i],   (*(this->mesh->elements))[i]->basisFunctions(0));
-			f_double f2 = common::constantMultiplyFunction(this->solution[i+1], (*(this->mesh->elements))[i]->basisFunctions(1));
-			/*f_double f1 = common::constantMultiplyFunction(1,   (*(this->mesh->elements))[i]->basisFunctions(0));
-			f_double f2 = common::constantMultiplyFunction(0, (*(this->mesh->elements))[i]->basisFunctions(1));*/
-
-			return common::addFunction(f1, f2)(2*(x-node1)/(node2-node1) - 1);
-			//return common::addFunction(f1, f2)(x);
-		}
-		else
-		{
-			return 0;
-		}
-	};
-}
-
-f_double Solution::get_solutionInterpolant_() const
-{
-	return [=](double x) -> double
-	{
-		int n = this->noElements;
-
-		int i;
-		bool foundRange = false;
-		double node1, node2;
-
-		for (i=0; i<n && !foundRange;)
-		{
-			node1 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[0];
-			node2 = (*(this->mesh->elements))[i]->get_nodeCoordinates()[1];
-
-			//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
-
-			if (node1<=x && x<=node2)
-			{
-				foundRange = true;
-			}
-			else
-			{
-				++i;
-			}
-		}
-
-		//std::cout << "(" << node1 << ", " << node2 << "): " << x << std::endl;
-		//std::cout << "i: " << i << std::endl;
-		//std::cout << "x^: " << 2*(x-node1)/(node2 - node1) - 1 << std::endl;
-		//std::cout << "(" << this->solution[i] << ", " << this->solution[i+1] << ")" << std::endl;
-
-		if (foundRange)
-		{
-			f_double f1 = common::constantMultiplyFunction(this->solution[i],   (*(this->mesh->elements))[i]->basisFunctions_(0));
-			f_double f2 = common::constantMultiplyFunction(this->solution[i+1], (*(this->mesh->elements))[i]->basisFunctions_(1));
-			/*f_double f1 = common::constantMultiplyFunction(1,   (*(this->mesh->elements))[i]->basisFunctions(0));
-			f_double f2 = common::constantMultiplyFunction(0, (*(this->mesh->elements))[i]->basisFunctions(1));*/
-
-			return common::addFunction(f1, f2)(2*(x-node1)/(node2-node1) - 1);
-			//return common::addFunction(f1, f2)(x);
-		}
-		else
-		{
-			return 0;
-		}
-	};
 }
 
 double Solution::get_L2Norm() const
@@ -406,7 +308,7 @@ double Solution::compute_uh(const int &a_i, const double &a_xi) const
 	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
 	for (int j=0; j<elementDoFs.size(); ++j)
 	{
-		f_double basis = (*(this->mesh->elements))[a_i]->basisFunctions(j);
+		f_double basis = (*(this->mesh->elements))[a_i]->basisFunction(j, 0);
 
 		result += this->solution[elementDoFs[j]] * basis(a_xi);
 	}
@@ -424,7 +326,7 @@ double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
 	for (int j=0; j<elementDoFs.size(); ++j)
 	{
-		f_double basis_ = currentElement->basisFunctions_(j);
+		f_double basis_ = currentElement->basisFunction(j, 1);
 
 		result += this->solution[elementDoFs[j]] * basis_(a_xi);
 	}

@@ -38,19 +38,6 @@ Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_eps
 	this->c       = a_c;
 }
 
-Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_epsilon, f_double const &a_c, f_double const &a_exact)
-: Solution(a_mesh, a_f, a_epsilon, a_c)
-{
-	this->exact_u = a_exact;
-}
-
-Solution::Solution(Mesh* const &a_mesh, f_double const &a_f, const double &a_epsilon, f_double const &a_c, f_double const &a_exact, f_double const &a_exact_1)
-: Solution(a_mesh, a_f, a_epsilon, a_c)
-{
-	this->exact_u   = a_exact;
-	this->exact_u_1 = a_exact_1;
-}
-
 /******************************************************************************
  * __~Solution__
  ******************************************************************************/
@@ -197,7 +184,7 @@ double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2, 
 	return integral;
 }
 
-double Solution::get_L2Norm() const
+double Solution::get_L2Norm(f_double const &a_u) const
 {
 	int n = this->mesh->get_noElements();
 
@@ -216,8 +203,8 @@ double Solution::get_L2Norm() const
 		for (int j=0; j<coordinates.size(); ++j)
 		{
 			// Actual and approximate solution at coordinates.
-			double uh = compute_uh(i, coordinates[j]);
-			double u = compute_u(currentElement->mapLocalToGlobal(coordinates[j]));
+			double uh = compute_uh(i, coordinates[j], 0);
+			double u =         a_u(currentElement->mapLocalToGlobal(coordinates[j]));
 
 			double Jacobian = currentElement->get_Jacobian();
 			//Matrix_full JacobiMatrix = currentElement->get_Jacobi();
@@ -231,11 +218,11 @@ double Solution::get_L2Norm() const
 	return sqrt(norm);
 }
 
-double Solution::get_H1Norm() const
+double Solution::get_H1Norm(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 
-	double norm = 0;
+	double norm = pow(this->get_L2Norm(a_u), 2);
 
 	for (int i=0; i<n; ++i)
 	{
@@ -250,23 +237,20 @@ double Solution::get_H1Norm() const
 		for (int j=0; j<coordinates.size(); ++j)
 		{
 			// Actual and approximate solution at coordinates.
-			double uh   = compute_uh  (i, coordinates[j]);
-			double uh_1 = compute_uh_1(i, coordinates[j]);
-			double u    = compute_u   (currentElement->mapLocalToGlobal(coordinates[j]));
-			double u_1  = compute_u_1 (currentElement->mapLocalToGlobal(coordinates[j]));
+			double uh_1 = compute_uh(i, coordinates[j], 1);
+			double u_1  =      a_u_1(currentElement->mapLocalToGlobal(coordinates[j]));
 
 			double Jacobian = currentElement->get_Jacobian();
 			//Matrix_full JacobiMatrixIT = currentElement->get_Jacobi()->get_InverseTranspose();
 
-			norm += pow(u   - uh  , 2)*weights[j]*Jacobian
-				 +  pow(u_1 - uh_1, 2)*weights[j]*Jacobian;
+			norm += pow(u_1 - uh_1, 2)*weights[j]*Jacobian;
 		}
 	}
 
 	return sqrt(norm);
 }
 
-double Solution::get_energyNorm() const
+double Solution::get_energyNorm(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 	double sqrt_epsilon = sqrt(this->epsilon);
@@ -284,39 +268,24 @@ double Solution::get_energyNorm() const
 		currentElement->get_elementQuadrature(coordinates, weights);
 
 		for (int j=0; j<coordinates.size(); ++j)
-		{
+		{			
 			// Actual and approximate solution at coordinates.
-			double uh   = compute_uh  (i, coordinates[j]);
-			double uh_1 = compute_uh_1(i, coordinates[j]);
-			double u    = compute_u   (currentElement->mapLocalToGlobal(coordinates[j]));
-			double u_1  = compute_u_1 (currentElement->mapLocalToGlobal(coordinates[j]));
+			double uh   = compute_uh(i, coordinates[j], 0);
+			double uh_1 = compute_uh(i, coordinates[j], 1);
+			double u    = a_u  (currentElement->mapLocalToGlobal(coordinates[j]));
+			double u_1  = a_u_1(currentElement->mapLocalToGlobal(coordinates[j]));
 
 			double Jacobian = currentElement->get_Jacobian();
 
 			norm += pow(sqrt_epsilon*(u_1 - uh_1), 2)*weights[j]*Jacobian
-				 +  pow(sqrt(this->c(coordinates[j]))*(u - uh), 2)*weights[j]*Jacobian;
+				 +  pow(sqrt(this->c(currentElement->mapLocalToGlobal(coordinates[j])))*(u - uh), 2)*weights[j]*Jacobian;
 		}
 	}
 
 	return sqrt(norm);
 }
 
-double Solution::compute_uh(const int &a_i, const double &a_xi) const
-{
-	double result = 0;
-
-	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
-	for (int j=0; j<elementDoFs.size(); ++j)
-	{
-		f_double basis = (*(this->mesh->elements))[a_i]->basisFunction(j, 0);
-
-		result += this->solution[elementDoFs[j]] * basis(a_xi);
-	}
-
-	return result;
-}
-
-double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
+double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n) const
 {
 	Element* currentElement = (*(this->mesh->elements))[a_i];
 	double J = currentElement->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
@@ -326,25 +295,15 @@ double Solution::compute_uh_1(const int &a_i, const double &a_xi) const
 	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
 	for (int j=0; j<elementDoFs.size(); ++j)
 	{
-		f_double basis_ = currentElement->basisFunction(j, 1);
+		f_double basis = (*(this->mesh->elements))[a_i]->basisFunction(j, a_n);
 
-		result += this->solution[elementDoFs[j]] * basis_(a_xi);
+		result += this->solution[elementDoFs[j]] * basis(a_xi);
 	}
 
-	return result / J;
+	return result / pow(J, a_n);
 }
 
-double Solution::compute_u(const double &a_x) const
-{
-	return this->exact_u(a_x);
-}
-
-double Solution::compute_u_1(const double &a_x) const
-{
-	return this->exact_u_1(a_x);
-}
-
-void Solution::outputToFile(const std::string a_filename) const
+void Solution::outputToFile(f_double const &a_u, const std::string a_filename) const
 {
 	std::ofstream outputFile;
 	outputFile.open(a_filename);
@@ -362,8 +321,8 @@ void Solution::outputToFile(const std::string a_filename) const
 			double xi = -1 + j*double(2)/10;
 			outputFile
 				<< std::setw(26) << std::setprecision(16) << std::scientific << x
-				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi)
-				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(x)
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi, 0)
+				<< std::setw(26) << std::setprecision(16) << std::scientific << a_u(x)
 			<< std::endl;
 		}
 	}
@@ -372,7 +331,7 @@ void Solution::outputToFile(const std::string a_filename) const
 	outputFile
 		<< std::setw(26) << std::setprecision(16) << std::scientific << lastElement->get_nodeCoordinates()[1]
 		<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[n]
-		<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_u(lastElement->get_nodeCoordinates()[1])
+		<< std::setw(26) << std::setprecision(16) << std::scientific << a_u(lastElement->get_nodeCoordinates()[1])
 	<< std::endl;
 
 	outputFile.close();
@@ -403,11 +362,14 @@ double Solution::compute_errorIndicator(const double &a_i) const
 	std::vector<double> quadratureWeights;
 	currentElement->get_elementQuadrature(quadratureCoordinates, quadratureWeights);
 
+	std::cout << "ADAM: " << quadratureCoordinates.size() << std::endl;
+
 	// Loops over quadrature coordinates and weights.
 	for (int j=0; j<quadratureCoordinates.size(); ++j)
 	{
-		double uh = compute_uh(a_i, quadratureCoordinates[j]);
-		double residual = compute_residual(uh, quadratureCoordinates[j]);
+		double uh   = compute_uh(a_i, quadratureCoordinates[j], 0);
+		double uh_2 = compute_uh(a_i, quadratureCoordinates[j], 2);
+		double residual = compute_residual(uh, uh_2, currentElement->mapLocalToGlobal(quadratureCoordinates[j]));
 
 		double x = currentElement->mapLocalToGlobal(quadratureCoordinates[j]);
 		double weight = (rightNode - x)*(x - leftNode);
@@ -418,10 +380,8 @@ double Solution::compute_errorIndicator(const double &a_i) const
 	return double(1)/(P*(P+1)*this->epsilon) * norm_2;
 }
 
-double Solution::compute_residual(const double &a_uh, const double &a_x) const
+double Solution::compute_residual(const double &a_uh, const double &a_uh_2, const double &a_x) const
 {
-	double a_uh_2 = 0;
-
 	return this->f(a_x) + this->epsilon*a_uh_2 - this->c(a_x)*a_uh;
 }
 
@@ -454,16 +414,6 @@ f_double Solution::get_c() const
 	return this->c;
 }
 
-f_double Solution::get_exact() const
-{
-	return this->exact_u;
-}
-
-f_double Solution::get_exact_() const
-{
-	return this->exact_u_1;
-}
-
 std::vector<double> Solution::get_errorIndicators() const
 {
 	std::vector<double> errorIndicators(this->noElements);
@@ -472,4 +422,13 @@ std::vector<double> Solution::get_errorIndicators() const
 		errorIndicators[i] = compute_errorIndicator(i);
 
 	return errorIndicators;
+}
+
+double Solution::compute_smoothnessIndicator() const
+{
+	//Element* currentElement = (*(this->mesh->elements))[a_i];
+
+	double u_max = 1;
+
+	return 0;
 }

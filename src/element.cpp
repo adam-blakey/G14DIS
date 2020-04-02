@@ -489,3 +489,15 @@ const std::vector<double>* Elements::get_rawNodeCoordinates() const
 {
 	return &this->nodeCoordinates;
 }
+
+std::vector<int> Elements::get_polynomialDegrees() const
+{
+	int n = this->noElements;
+
+	std::vector<int> output(n);
+
+	for (int i=0; i<n; ++i)
+		output[i] = this->elements[i]->get_polynomialDegree();
+
+	return output;
+}

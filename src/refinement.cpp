@@ -1,5 +1,5 @@
 /******************************************************************************
- * @details This is a file containing functions regarding [meshRefinement] functions.
+ * @details This is a file containing functions regarding [refinement] functions.
  * 
  * @author     Adam Matthew Blakey
  * @date       2020/03/02
@@ -11,14 +11,9 @@
 #include <iterator>
 #include <vector>
 
-
-
-
-#include <iostream>
-
-namespace meshRefinement
+namespace refinement
 {
-	void refineMesh(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
+	void refine_h(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
 	{
 		double maxError       = *std::max_element(a_errorIndicators.begin(), a_errorIndicators.end());
 		double errorThreshold = maxError/3;
@@ -47,6 +42,20 @@ namespace meshRefinement
 			}
 		}
 
+		// Dry run to calculate new polynomial degrees.
+		std::vector<int> oldPolynomialDegrees = a_mesh->elements->get_polynomialDegrees();
+		std::vector<int> newPolynomialDegrees(newNoElements);
+		j = 0; // Offset.
+		for (int i=0; i<newNoElements; ++i)
+		{
+			newPolynomialDegrees[i+j] = oldPolynomialDegrees[i];
+			if (refine[i])
+			{
+				newPolynomialDegrees[i+j+1] = oldPolynomialDegrees[i];
+				++j;
+			}
+		}
+
 		// Calculates connectivity.
 		std::vector<std::vector<int>> newConnectivity(totalNoElements);
 		for (int i=0; i<newConnectivity.size(); ++i)
@@ -68,7 +77,7 @@ namespace meshRefinement
 		{
 			std::vector<int> nodeIndices = {i, i+1};
 
-			newElements[i] = new Element(i, 2, nodeIndices, elements->get_rawNodeCoordinates(), 1);
+			newElements[i] = new Element(i, 2, nodeIndices, elements->get_rawNodeCoordinates(), newPolynomialDegrees[i]);
 		}
 
 		// Creates new mesh and solution.

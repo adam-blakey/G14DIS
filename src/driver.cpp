@@ -2,7 +2,7 @@
 #include "element.hpp"
 #include "matrix.hpp"
 #include "mesh.hpp"
-#include "meshRefinement.hpp"
+#include "refinement.hpp"
 #include "solution.hpp"
 #include <algorithm>
 #include <cassert>
@@ -48,16 +48,16 @@ double expx2(double x)
 	return exp(-pow(x, 2));
 }
 
-void refinement();
+void lrefinement();
 
 int main()
 {
-	refinement();
+	lrefinement();
 
 	return 0;
 }
 
-void refinement()
+void lrefinement()
 {
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(10);
@@ -98,7 +98,7 @@ void refinement()
 		// [True error]
 		//Maybe ask to stop?
 		
-		eNorm = currentSolution->compute_energyNorm(exact, exact_);
+		eNorm = currentSolution->compute_energyNormDifference2(exact, exact_);
 
 		std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
 		std::cout << "Error indicator : " << errorIndicator << std::endl;
@@ -113,7 +113,7 @@ void refinement()
 		errorIndicatorPrev = errorIndicator;
 		
 		// Refine and create new mesh and solution.
-		meshRefinement::refineMesh(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+		refinement::refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
 
 		delete currentMesh;
 		delete currentSolution;

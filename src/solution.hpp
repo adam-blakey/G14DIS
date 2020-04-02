@@ -48,9 +48,13 @@ class Solution
 		void Solve(const double &a_cgTolerance);
 
 		// Computers.
-		double compute_L2Norm(f_double const &a_u) const;
-		double compute_H1Norm(f_double const &a_u, f_double const &a_u_1) const;
-		double compute_energyNorm(f_double const &a_u, f_double const &a_u_1) const;
+		double compute_norm2(const int &a_n, const bool a_recurse = false) const;
+		double compute_norm2(const int &a_n, const bool a_recurse, const int &a_i) const;
+		double compute_L2NormDifference2(f_double const &a_u) const;
+		double compute_H1NormDifference2(f_double const &a_u, f_double const &a_u_1) const;
+		double compute_EnergyNorm2() const;
+		double compute_EnergyNorm2(const int &a_i) const;
+		double compute_energyNormDifference2(f_double const &a_u, f_double const &a_u_1) const;
 		double compute_errorIndicator(const double &a_i) const;
 		std::vector<double> compute_errorIndicators() const;
 		double compute_globalErrorIndicator() const;

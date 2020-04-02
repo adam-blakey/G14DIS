@@ -185,7 +185,47 @@ double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2, 
 	return integral;
 }
 
-double Solution::compute_L2Norm(f_double const &a_u) const
+double Solution::compute_norm2(const int &a_n, const bool a_recurse) const
+{
+	int n = this->mesh->get_noElements();
+
+	double norm = 0;
+
+	for (int i=0; i<n; ++i)
+		norm += this->compute_norm2(a_n, a_recurse, i);
+
+	return norm;
+}
+
+double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &a_i) const
+{
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+
+	// Recurses to make a full norm, or just makes a seminorm.
+	double norm;
+	if (a_recurse && a_n>0)
+		norm = compute_norm2(a_n-1, a_recurse, a_i);
+	else
+		norm = 0;
+
+	// Retrieves quadrature information.
+	std::vector<double> coordinates;
+	std::vector<double> weights;
+	currentElement->get_elementQuadrature(coordinates, weights);
+
+	for (int j=0; j<coordinates.size(); ++j)
+	{
+		// Actual and approximate solution at coordinates.
+		double uh = compute_uh(a_i, coordinates[j], a_n);
+
+		double Jacobian = currentElement->get_Jacobian();
+		norm += pow(uh, 2)*weights[j]*Jacobian;
+	}
+
+	return norm;
+}
+
+double Solution::compute_L2NormDifference2(f_double const &a_u) const
 {
 	int n = this->mesh->get_noElements();
 
@@ -216,14 +256,14 @@ double Solution::compute_L2Norm(f_double const &a_u) const
 		}
 	}
 
-	return sqrt(norm);
+	return norm;
 }
 
-double Solution::compute_H1Norm(f_double const &a_u, f_double const &a_u_1) const
+double Solution::compute_H1NormDifference2(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 
-	double norm = pow(this->compute_L2Norm(a_u), 2);
+	double norm = this->compute_L2NormDifference2(a_u);
 
 	for (int i=0; i<n; ++i)
 	{
@@ -248,10 +288,10 @@ double Solution::compute_H1Norm(f_double const &a_u, f_double const &a_u_1) cons
 		}
 	}
 
-	return sqrt(norm);
+	return norm;
 }
 
-double Solution::compute_energyNorm(f_double const &a_u, f_double const &a_u_1) const
+double Solution::compute_energyNormDifference2(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 	double sqrt_epsilon = sqrt(this->epsilon);
@@ -283,7 +323,7 @@ double Solution::compute_energyNorm(f_double const &a_u, f_double const &a_u_1) 
 		}
 	}
 
-	return sqrt(norm);
+	return norm;
 }
 
 double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n) const
@@ -445,6 +485,5 @@ double Solution::compute_smoothnessIndicator(const int &a_i) const
 	if (u_max == 0)
 		return 0;
 	else
-		// Restructure L2 and H1 norms to allow this to be easy...
-		return pow(u_max, 2)*tanh(1);///(   /h +     * h);
+		return pow(u_max, 2)*tanh(1)/(this->compute_norm2(0)/h + this->compute_norm2(1)*h);
 }

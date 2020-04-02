@@ -35,12 +35,12 @@ double pi2sin(double x)
 
 double exact(double x)
 {
-	return sin(M_PI * x);
+	return -cosh(pow(10, double(3)/2)*x)/cosh(pow(10, double(3)/2)) + 1;
 }
 
 double exact_(double x)
 {
-	return M_PI * cos(M_PI * x);
+	return -sinh(pow(10, double(3)/2)*x)/cosh(pow(10, double(3)/2)) + 1;
 }
 
 double expx2(double x)
@@ -61,7 +61,7 @@ void refinement()
 {
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(10);
-	Solution* mySolution = new Solution(myMesh, one, 1e-3, one, exact, exact_);
+	Solution* mySolution = new Solution(myMesh, one, 1e-3, one);
 	double errorIndicator, errorIndicatorPrev = 0;
 	double tolerance = 1e-3;
 	int maxIterations = 50;
@@ -85,20 +85,20 @@ void refinement()
 
 		// Solve.
 		currentSolution->Solve(1e-3);
-		currentSolution->outputToFile();
+		currentSolution->outputToFile(exact);
 
 		// Calculates new error indicator.
-		errorIndicator = currentSolution->get_globalErrorIndicator();
+		errorIndicator = currentSolution->compute_globalErrorIndicator();
 		if (errorIndicator <= tolerance)
 			break;
 
 		// Error indicators calculation.
-		std::vector<double> errorIndicators = currentSolution->get_errorIndicators();
+		std::vector<double> errorIndicators = currentSolution->compute_errorIndicators();
 
 		// [True error]
 		//Maybe ask to stop?
 		
-		eNorm = currentSolution->get_energyNorm();
+		eNorm = currentSolution->compute_energyNorm(exact, exact_);
 
 		std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
 		std::cout << "Error indicator : " << errorIndicator << std::endl;
@@ -121,7 +121,7 @@ void refinement()
 		currentSolution = newSolution;
 	}
 
-	currentSolution->outputToFile();
+	currentSolution->outputToFile(exact);
 
 	std::cout << "Completed with:" << std::endl;
 	std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;

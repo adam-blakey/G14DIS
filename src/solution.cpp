@@ -13,6 +13,7 @@
 #include "quadrature.hpp"
 #include "solution.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <fstream>
@@ -184,7 +185,7 @@ double Solution::a(Element* currentElement, f_double &basis1, f_double &basis2, 
 	return integral;
 }
 
-double Solution::get_L2Norm(f_double const &a_u) const
+double Solution::compute_L2Norm(f_double const &a_u) const
 {
 	int n = this->mesh->get_noElements();
 
@@ -218,11 +219,11 @@ double Solution::get_L2Norm(f_double const &a_u) const
 	return sqrt(norm);
 }
 
-double Solution::get_H1Norm(f_double const &a_u, f_double const &a_u_1) const
+double Solution::compute_H1Norm(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 
-	double norm = pow(this->get_L2Norm(a_u), 2);
+	double norm = pow(this->compute_L2Norm(a_u), 2);
 
 	for (int i=0; i<n; ++i)
 	{
@@ -250,7 +251,7 @@ double Solution::get_H1Norm(f_double const &a_u, f_double const &a_u_1) const
 	return sqrt(norm);
 }
 
-double Solution::get_energyNorm(f_double const &a_u, f_double const &a_u_1) const
+double Solution::compute_energyNorm(f_double const &a_u, f_double const &a_u_1) const
 {
 	int n = this->mesh->get_noElements();
 	double sqrt_epsilon = sqrt(this->epsilon);
@@ -337,7 +338,7 @@ void Solution::outputToFile(f_double const &a_u, const std::string a_filename) c
 	outputFile.close();
 }
 
-double Solution::get_globalErrorIndicator() const
+double Solution::compute_globalErrorIndicator() const
 {
 	double errorIndicator = 0;
 
@@ -361,8 +362,6 @@ double Solution::compute_errorIndicator(const double &a_i) const
 	std::vector<double> quadratureCoordinates;
 	std::vector<double> quadratureWeights;
 	currentElement->get_elementQuadrature(quadratureCoordinates, quadratureWeights);
-
-	std::cout << "ADAM: " << quadratureCoordinates.size() << std::endl;
 
 	// Loops over quadrature coordinates and weights.
 	for (int j=0; j<quadratureCoordinates.size(); ++j)
@@ -414,7 +413,7 @@ f_double Solution::get_c() const
 	return this->c;
 }
 
-std::vector<double> Solution::get_errorIndicators() const
+std::vector<double> Solution::compute_errorIndicators() const
 {
 	std::vector<double> errorIndicators(this->noElements);
 
@@ -424,11 +423,28 @@ std::vector<double> Solution::get_errorIndicators() const
 	return errorIndicators;
 }
 
-double Solution::compute_smoothnessIndicator() const
+double Solution::compute_smoothnessIndicator(const int &a_i) const
 {
-	//Element* currentElement = (*(this->mesh->elements))[a_i];
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+	double leftNode  = currentElement->get_nodeCoordinates()[0];
+	double rightNode = currentElement->get_nodeCoordinates()[1];
+	double h = rightNode - leftNode;
 
-	double u_max = 1;
+	int noTestPoints = 10;
+	std::vector<double> testPoints(noTestPoints);
+	for (int i=0; i<noTestPoints; ++i)
+		testPoints[i] = -1 + i*double(2)/(noTestPoints-1);
 
-	return 0;
+	std::vector<double> testValuesAbs(noTestPoints);
+	for (int i=0; i<noTestPoints; ++i)
+		testValuesAbs[i] = abs(compute_uh(a_i, testPoints[i], 0));
+
+	double u_max = *max_element(testValuesAbs.begin(), testValuesAbs.end());
+
+	// Smoothness indicator output.
+	if (u_max == 0)
+		return 0;
+	else
+		// Restructure L2 and H1 norms to allow this to be easy...
+		return pow(u_max, 2)*tanh(1);///(   /h +     * h);
 }

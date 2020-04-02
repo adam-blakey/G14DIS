@@ -47,14 +47,16 @@ class Solution
 		// Solvers.
 		void Solve(const double &a_cgTolerance);
 
-		// Getters. [maybe change to computers??]
-		double get_L2Norm(f_double const &a_u) const;
-		double get_H1Norm(f_double const &a_u, f_double const &a_u_1) const;
-		double get_energyNorm(f_double const &a_u, f_double const &a_u_1) const;
+		// Computers.
+		double compute_L2Norm(f_double const &a_u) const;
+		double compute_H1Norm(f_double const &a_u, f_double const &a_u_1) const;
+		double compute_energyNorm(f_double const &a_u, f_double const &a_u_1) const;
 		double compute_errorIndicator(const double &a_i) const;
-		std::vector<double> get_errorIndicators() const;
-		double get_globalErrorIndicator() const;
-		double compute_smoothnessIndicator() const;
+		std::vector<double> compute_errorIndicators() const;
+		double compute_globalErrorIndicator() const;
+		double compute_smoothnessIndicator(const int &a_i) const;
+
+		// Getters.
 		f_double get_f() const;
 		double get_epsilon() const;
 		f_double get_c() const;

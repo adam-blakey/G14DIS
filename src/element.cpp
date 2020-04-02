@@ -367,7 +367,7 @@ Elements::Elements(const int &a_noElements)
 			nodeIndices[0] = i;
 			nodeIndices[1] = i+1;
 
-			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 4);
+			this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 1);
 		}
 	}	
 	else

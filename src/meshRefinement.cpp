@@ -77,9 +77,7 @@ namespace meshRefinement
 			*a_meshNew,
 			a_solution->get_f(),
 			a_solution->get_epsilon(),
-			a_solution->get_c(),
-			a_solution->get_exact(),
-			a_solution->get_exact_()
+			a_solution->get_c()
 		);
 	}
 }

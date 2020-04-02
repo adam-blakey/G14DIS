@@ -68,10 +68,10 @@ int main()
 		mySolution->Solve(1e-5);
 		mySolution->outputToFile(exact);
 
-		currentNormL2 = mySolution->get_L2Norm(exact);
-		currentNormH1 = mySolution->get_H1Norm(exact, exact_);
-		currentNormE  = mySolution->get_energyNorm(exact, exact_);
-		currentErrorI = mySolution->get_globalErrorIndicator();
+		currentNormL2 = mySolution->compute_L2Norm(exact);
+		currentNormH1 = mySolution->compute_H1Norm(exact, exact_);
+		currentNormE  = mySolution->compute_energyNorm(exact, exact_);
+		currentErrorI = mySolution->compute_globalErrorIndicator();
 
 		std::cout << "N : " << N << std::endl;
 		std::cout << "L2: " << currentNormL2 << std::endl;

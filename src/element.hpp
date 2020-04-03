@@ -58,6 +58,7 @@ class Elements
 	public:
 		Elements(const int &a_noElements);
 		Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates);
+		Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates, Element*** &a_elements);
 		~Elements();
 		Element* operator[](const int &a_i);
 		int get_noElements() const;
@@ -67,6 +68,7 @@ class Elements
 		const std::vector<double>* get_rawNodeCoordinates() const;
 		int get_DoF() const;
 		std::vector<int> get_polynomialDegrees() const;
+		void calculateDoFs();
 };
 
 #endif

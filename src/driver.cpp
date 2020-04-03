@@ -113,7 +113,7 @@ void lrefinement()
 		errorIndicatorPrev = errorIndicator;
 		
 		// Refine and create new mesh and solution.
-		refinement::refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+		refinement::refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
 
 		delete currentMesh;
 		delete currentSolution;

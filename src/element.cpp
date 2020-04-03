@@ -415,8 +415,74 @@ Elements::Elements(const int &a_noElements)
 }
 
 Elements::Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates)
-: Elements(a_noElements)
 {
+	// Sets member variable values.
+	this->noElements          = abs(a_noElements);
+	this->elementConnectivity .resize(abs(a_noElements));
+	this->elements   	      = new Element*[abs(a_noElements)];
+	this->startDoFs           .resize(abs(a_noElements)+1);
+
+	// *********************
+	// Element connectivity.
+	// *********************
+	for (int i=0; i<abs(a_noElements); ++i)
+	{
+		this->elementConnectivity[i].resize(2);
+		this->elementConnectivity[i][0] = i;
+		this->elementConnectivity[i][1] = i+1;
+	}
+
+	// *********
+	// Elements.
+	// *********
+	// Creates the node coordinates.
+	this->nodeCoordinates = a_nodeCoordinates;
+
+	// Loops over the creation of each element.
+	std::vector<int> nodeIndices(2);
+	for (int i=0; i<a_noElements; ++i)
+	{
+		nodeIndices[0] = i;
+		nodeIndices[1] = i+1;
+
+		this->elements[i] = new Element(i, 2, nodeIndices, &nodeCoordinates, 1);
+	}
+
+	// *********************
+	// Degrees of freedom.
+	// *********************
+	this->startDoFs[0] = abs(a_noElements) + 1;
+	for (int i=0; i<abs(a_noElements); ++i)
+	{
+		Element* currentElement = this->elements[i];
+		this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
+	}
+}
+
+Elements::Elements(const int &a_noElements, const std::vector<double> &a_nodeCoordinates, Element*** &a_elements)
+{
+	// Pointer to elements for populating later.
+	a_elements = &this->elements;
+
+	// Sets member variable values.
+	this->noElements          = abs(a_noElements);
+	this->elementConnectivity .resize(abs(a_noElements));
+	this->startDoFs           .resize(abs(a_noElements)+1);
+
+	// *********************
+	// Element connectivity.
+	// *********************
+	for (int i=0; i<abs(a_noElements); ++i)
+	{
+		this->elementConnectivity[i].resize(2);
+		this->elementConnectivity[i][0] = i;
+		this->elementConnectivity[i][1] = i+1;
+	}
+
+	// *********
+	// Elements.
+	// *********
+	// Creates the node coordinates.
 	this->nodeCoordinates = a_nodeCoordinates;
 }
 
@@ -500,4 +566,14 @@ std::vector<int> Elements::get_polynomialDegrees() const
 		output[i] = this->elements[i]->get_polynomialDegree();
 
 	return output;
+}
+
+void Elements::calculateDoFs()
+{
+	this->startDoFs[0] = this->noElements + 1;
+	for (int i=0; i<this->noElements; ++i)
+	{
+		Element* currentElement = this->elements[i];
+		this->startDoFs[i+1] = this->startDoFs[i] + currentElement->get_polynomialDegree() - 1;
+	}
 }

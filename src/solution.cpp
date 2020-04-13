@@ -215,7 +215,6 @@ double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &
 
 	for (int j=0; j<coordinates.size(); ++j)
 	{
-		// Actual and approximate solution at coordinates.
 		double uh = compute_uh(a_i, coordinates[j], a_n);
 
 		double Jacobian = currentElement->get_Jacobian();
@@ -466,6 +465,7 @@ std::vector<double> Solution::compute_errorIndicators() const
 double Solution::compute_smoothnessIndicator(const int &a_i) const
 {
 	Element* currentElement = (*(this->mesh->elements))[a_i];
+	double Jacobian  = currentElement->get_Jacobian();
 	double leftNode  = currentElement->get_nodeCoordinates()[0];
 	double rightNode = currentElement->get_nodeCoordinates()[1];
 	double h = rightNode - leftNode;
@@ -477,13 +477,25 @@ double Solution::compute_smoothnessIndicator(const int &a_i) const
 
 	std::vector<double> testValuesAbs(noTestPoints);
 	for (int i=0; i<noTestPoints; ++i)
-		testValuesAbs[i] = abs(compute_uh(a_i, testPoints[i], 0));
+	{
+		testValuesAbs[i] = fabs(compute_uh(a_i, testPoints[i], 0));
+	}
 
 	double u_max = *max_element(testValuesAbs.begin(), testValuesAbs.end());
 
 	// Smoothness indicator output.
 	if (u_max == 0)
-		return 0;
+		return 1;
 	else
-		return pow(u_max, 2)*tanh(1)/(this->compute_norm2(0)/h + this->compute_norm2(1)*h);
+		return pow(u_max, 2)*tanh(1)/(this->compute_norm2(0, false, a_i)/h + this->compute_norm2(1, false, a_i)*h);
+}
+
+std::vector<double> Solution::compute_smoothnessIndicators() const
+{
+	std::vector<double> smoothnessIndicators(this->noElements);
+
+	for (int i=0; i<this->noElements; ++i)
+		smoothnessIndicators[i] = compute_smoothnessIndicator(i);
+
+	return smoothnessIndicators;
 }

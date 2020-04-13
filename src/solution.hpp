@@ -59,6 +59,7 @@ class Solution
 		std::vector<double> compute_errorIndicators() const;
 		double compute_globalErrorIndicator() const;
 		double compute_smoothnessIndicator(const int &a_i) const;
+		std::vector<double> compute_smoothnessIndicators() const;
 
 		// Getters.
 		f_double get_f() const;

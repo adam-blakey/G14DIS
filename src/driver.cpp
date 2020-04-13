@@ -33,6 +33,11 @@ double pi2sin(double x)
 	return pow(M_PI, 2) * sin(M_PI * x);
 }
 
+double sinpi(double x)
+{
+	return sin(M_PI * x);
+}
+
 double exact(double x)
 {
 	return -cosh(pow(10, double(3)/2)*x)/cosh(pow(10, double(3)/2)) + 1;
@@ -50,9 +55,71 @@ double expx2(double x)
 
 void lrefinement();
 
+double adam(double x)
+{
+	double a = 1e-3;
+
+	return -exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) - (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1) + 1;
+}
+
 int main()
 {
-	lrefinement();
+	// Sets up problem.
+	Mesh*     myMesh     = new Mesh(4);
+	//Solution* mySolution = new Solution(myMesh, one, 1e-3, one);
+
+	Solution* mySolution = new Solution(myMesh, one, 1e-3, one);
+
+	//Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero);
+	Mesh*     myNewMesh;
+	Solution* myNewSolution;
+	double errorIndicator, errorIndicatorPrev = 0;
+	double tolerance = 1e-5;
+	int maxIterations = 10;
+	int iteration;
+
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, tolerance, maxIterations, true, true, true);
+	myNewSolution->Solve(1e-15);
+	//myNewSolution->outputToFile(sinpi);
+	//myNewSolution->outputToFile(exact);
+	myNewSolution->outputToFile(adam);
+
+
+
+
+	std::ofstream outputFile;
+	outputFile.open("refinement.dat");
+	assert(outputFile.is_open());
+
+	int n = myNewMesh->get_noElements();
+
+	for (int i=0; i<n; ++i)
+	{
+		Element* currentElement = (*(myNewMesh->elements))[i];
+
+		outputFile
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[0]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[1]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_polynomialDegree()
+		<< std::endl;
+	}
+
+	outputFile.close();
+
+
+
+
+
+
+
+
+	delete mySolution;
+	delete myMesh;
+
+
+
+
+	//lrefinement();
 
 	return 0;
 }
@@ -125,7 +192,7 @@ void lrefinement()
 
 	std::cout << "Completed with:" << std::endl;
 	std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;
-	std::cout << "  Error indicator: " << errorIndicator << std::endl;
+	std::cout << "  Error indicator: " << currentSolution->compute_globalErrorIndicator() << std::endl;
 	std::cout << "  #Iterations    : " << iteration << std::endl;
 
 	delete currentSolution;

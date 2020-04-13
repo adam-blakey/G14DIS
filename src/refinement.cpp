@@ -11,15 +11,101 @@
 #include <iterator>
 #include <vector>
 
-
-
-
-
+#include <fstream>
 #include <iostream>
-
+#include <cassert>
 
 namespace refinement
 {
+	void refine_hp(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
+	{
+		// Some algorithm variables.
+		double maxError       = *std::max_element(a_errorIndicators.begin(), a_errorIndicators.end());
+		double errorThreshold = maxError/3;
+		double smoothnessThreshold = 0.5;
+
+		// Mark some elements for refinement.
+		std::vector<bool> refineh(a_errorIndicators.size());
+		for (int i=0; i<refineh.size(); ++i)
+			refineh[i] = (a_errorIndicators[i]>=errorThreshold && a_solution->compute_smoothnessIndicator(i) <= smoothnessThreshold)?true:false;
+		std::vector<bool> refinep(a_errorIndicators.size());
+		for (int i=0; i<refinep.size(); ++i)
+			refinep[i] = (a_errorIndicators[i]>=errorThreshold && a_solution->compute_smoothnessIndicator(i) >  smoothnessThreshold)?true:false;
+
+		// Adds on the extra number of elements marked for refinement.
+		int oldNoElements = a_mesh->get_noElements();
+		int newNoElements = std::count(refineh.begin(), refineh.end(), true);
+		int totalNoElements = oldNoElements + newNoElements;
+
+		// Dry run to calculate new coordinates.
+		std::vector<double> oldNodeCoordinates = a_mesh->elements->get_nodeCoordinates();
+		std::vector<double> newNodeCoordinates(totalNoElements+1);
+		int j = 0; // Offset.
+		for (int i=0; i<oldNodeCoordinates.size(); ++i) // This assumes coordinates are in order.
+		{
+			newNodeCoordinates[i+j] = oldNodeCoordinates[i];
+			if (refineh[i])
+			{
+				newNodeCoordinates[i+j+1] = (oldNodeCoordinates[i] + oldNodeCoordinates[i+1])/2;
+				++j;
+			}
+		}
+
+		// Dry run to calculate new polynomial degrees.
+		std::vector<int> oldPolynomialDegrees = a_mesh->elements->get_polynomialDegrees();
+		std::vector<int> newPolynomialDegrees(totalNoElements);
+		j = 0; // Offset.
+		for (int i=0; i<oldNoElements; ++i)
+		{
+			newPolynomialDegrees[i+j] = oldPolynomialDegrees[i];
+
+			if (refinep[i])
+				++newPolynomialDegrees[i+j];
+
+			if (refineh[i])
+			{
+				newPolynomialDegrees[i+j+1] = oldPolynomialDegrees[i];
+				++j;
+			}
+		}
+
+		// Calculates connectivity.
+		std::vector<std::vector<int>> newConnectivity(totalNoElements);
+		for (int i=0; i<newConnectivity.size(); ++i)
+		{
+			newConnectivity[i].resize(2);
+			newConnectivity[i][0] = i;
+			newConnectivity[i][1] = i+1;
+		}
+
+		// Creates new elements.
+		Element*** newElements;
+		Elements* elements = new Elements(
+			totalNoElements,
+			newNodeCoordinates,
+			newElements
+		);
+
+		// Populates elements.
+		*newElements = new Element*[totalNoElements];
+		for (int i=0; i<totalNoElements; ++i)
+		{
+			std::vector<int> nodeIndices = {i, i+1};
+			(*newElements)[i] = new Element(i, 2, nodeIndices, elements->get_rawNodeCoordinates(), newPolynomialDegrees[i]);
+		}
+
+		elements->calculateDoFs();
+
+		// Creates new mesh and solution.
+		*a_meshNew = new Mesh(elements);
+		*a_solutionNew = new Solution(
+			*a_meshNew,
+			a_solution->get_f(),
+			a_solution->get_epsilon(),
+			a_solution->get_c()
+		);
+	}
+
 	void refine_h(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
 	{
 		double maxError       = *std::max_element(a_errorIndicators.begin(), a_errorIndicators.end());
@@ -150,5 +236,106 @@ namespace refinement
 			a_solution->get_epsilon(),
 			a_solution->get_c()
 		);
+	}
+
+	double exact(double x)
+	{
+		return -cosh(pow(10, double(3)/2)*x)/cosh(pow(10, double(3)/2)) + 1;
+	}
+
+	double adam(double x)
+	{
+		double a = 1e-3;
+
+		return -exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) - (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1) + 1;
+	}
+
+	double adam_(double x)
+	{
+		double a = 1e-3;
+
+		return (-exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) + (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1))/sqrt(a);
+	}
+
+	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_tolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output)
+	{
+		// Starting conditions.
+		Mesh*     newMesh     = new Mesh(*a_mesh);
+		Solution* newSolution = new Solution(*a_solution);
+
+		// Loop variables initialisation.
+		double errorIndicator, errorIndicatorPrev = 0;
+		int iteration;
+		Mesh*     currentMesh;
+		Solution* currentSolution;
+
+		std::ofstream outputFile;
+		outputFile.open("convergence.dat");
+		assert(outputFile.is_open());
+
+		for (iteration=0; iteration<a_maxIterations; ++iteration)
+		{
+			// Passes pointers from each iteration.
+			currentSolution = newSolution;
+			currentMesh = newMesh;
+
+			// Solve.
+			currentSolution->Solve(1e-15);
+
+			// Calculates new error indicator.
+			double errorIndicator = currentSolution->compute_globalErrorIndicator();
+			if (errorIndicator <= a_tolerance)
+				break;
+
+			// Error indicators calculation.
+			std::vector<double> errorIndicators = currentSolution->compute_errorIndicators();
+
+			// Outputs details if asked.
+			if (a_output)
+			{
+				std::cout << "#Iterations     : " << iteration << std::endl;
+				std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
+				std::cout << "DoF             : " << currentMesh->elements->get_DoF() << std::endl;
+				std::cout << "Energy          : " << sqrt(currentSolution->compute_energyNormDifference2(adam, adam_)) << std::endl;
+				std::cout << "Error indicator : " << errorIndicator << std::endl;
+				std::cout << "Max indicator   : " << *std::max_element(errorIndicators.begin(), errorIndicators.end()) << std::endl;
+				std::cout << "Indicator ratio : " << errorIndicatorPrev/errorIndicator << std::endl;
+				std::cout << std::endl;
+			}
+			outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(adam, adam_)) << std::endl;
+			//currentSolution->outputToFile(adam);
+			//system("pause");
+
+			errorIndicatorPrev = errorIndicator;
+			
+			// Refine and create new mesh and solution.
+			if (a_refineh && a_refinep)
+				refine_hp(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else if (a_refineh)
+				refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else if (a_refinep)
+				refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+
+			delete currentMesh;
+			delete currentSolution;
+			currentMesh = newMesh;
+			currentSolution = newSolution;
+		}
+
+		outputFile.close();
+
+		currentSolution->Solve(1e-15);
+
+		// What we're spitting back.
+		*a_meshNew     = currentMesh;
+		*a_solutionNew = currentSolution;
+
+		if (a_output)
+		{
+			std::cout << "Completed with:" << std::endl;
+			std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;
+			std::cout << "  Error indicator: " << currentSolution->compute_globalErrorIndicator() << std::endl;
+			std::cout << "  #Iterations    : " << iteration << std::endl;
+		}
 	}
 }

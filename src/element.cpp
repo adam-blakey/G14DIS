@@ -353,11 +353,11 @@ Elements::Elements(const int &a_noElements)
 	if (a_noElements > 0)
 	{
 		// Creates the node coordinates.
-		double h = double(2)/(a_noElements);
+		double h = double(1)/(a_noElements);
 		this->nodeCoordinates.resize(a_noElements+1);
 		for (int i=0; i<=a_noElements; ++i)
 		{
-			this->nodeCoordinates[i] = -1 + i*h;
+			this->nodeCoordinates[i] = i*h;
 		}
 
 		// Loops over the creation of each element.
@@ -375,15 +375,15 @@ Elements::Elements(const int &a_noElements)
 		// Creates the node coordinates.
 		int n1 = ceil(2*double(abs(a_noElements))/3); // Elements in first domain.
 		int n2 = abs(a_noElements) - n1; // Elements in second domain.
-		double h1 = double(1)/n1;
-		double h2 = double(1)/n2;
+		double h1 = 0.5/n1;
+		double h2 = 0.5/n2;
 		this->nodeCoordinates.resize(abs(a_noElements)+1);
 
 		for (int i=0; i<n1; ++i)
-			nodeCoordinates[i] = -1 + i*h1;
+			nodeCoordinates[i] = i*h1;
 
 		for (int i=0; i<=n2; ++i)
-			nodeCoordinates[n1+i] = -1 + h1*n1 + i*h2;
+			nodeCoordinates[n1+i] = h1*n1 + i*h2;
 
 		// Loops over the creation of each element.
 		std::vector<int> nodeIndices(2);

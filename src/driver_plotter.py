@@ -5,17 +5,10 @@ import matplotlib.pyplot as plt
 import math as maths
 
 points, approximate, exact = np.loadtxt("output.dat", unpack=True)
-all_points = np.linspace(-1, 1, 1000)
-all_exact = []
-
-for i in range(0, 1000):
-	x = all_points[i]
-	all_exact.append(maths.sin(maths.pi * x))
 
 plt.figure(1)
 
 plt.plot(points,     approximate, 'b-')
-#plt.plot(all_points, all_exact,   'g-')
 plt.plot(points, exact,   'g-')
 plt.grid(True)
 plt.xlabel("u")

@@ -343,7 +343,7 @@ double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n) 
 	return result / pow(J, a_n);
 }
 
-void Solution::outputToFile(f_double const &a_u, const std::string a_filename) const
+void Solution::outputToFile(f_double const a_u, const std::string a_filename) const
 {
 	std::ofstream outputFile;
 	outputFile.open(a_filename);
@@ -361,18 +361,24 @@ void Solution::outputToFile(f_double const &a_u, const std::string a_filename) c
 			double xi = -1 + j*double(2)/10;
 			outputFile
 				<< std::setw(26) << std::setprecision(16) << std::scientific << x
-				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi, 0)
-				<< std::setw(26) << std::setprecision(16) << std::scientific << a_u(x)
-			<< std::endl;
+				<< std::setw(26) << std::setprecision(16) << std::scientific << this->compute_uh(i, xi, 0);
+				if (a_u != 0)
+					outputFile << std::setw(26) << std::setprecision(16) << std::scientific << a_u(x);
+				else
+					outputFile << std::setw(26) << std::setprecision(16) << "Inf";
+			outputFile << std::endl;
 		}
 	}
 
 	Element* lastElement = (*(this->mesh->elements))[n-1];
 	outputFile
 		<< std::setw(26) << std::setprecision(16) << std::scientific << lastElement->get_nodeCoordinates()[1]
-		<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[n]
-		<< std::setw(26) << std::setprecision(16) << std::scientific << a_u(lastElement->get_nodeCoordinates()[1])
-	<< std::endl;
+		<< std::setw(26) << std::setprecision(16) << std::scientific << this->solution[n];
+		if (a_u != 0)
+			outputFile << std::setw(26) << std::setprecision(16) << std::scientific << a_u(lastElement->get_nodeCoordinates()[1]);
+		else
+			outputFile << std::setw(26) << std::setprecision(16) << "Inf";
+	outputFile << std::endl;
 
 	outputFile.close();
 }

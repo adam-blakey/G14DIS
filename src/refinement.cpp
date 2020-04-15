@@ -238,26 +238,7 @@ namespace refinement
 		);
 	}
 
-	double exact(double x)
-	{
-		return -cosh(pow(10, double(3)/2)*x)/cosh(pow(10, double(3)/2)) + 1;
-	}
-
-	double adam(double x)
-	{
-		double a = 1e-3;
-
-		return -exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) - (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1) + 1;
-	}
-
-	double adam_(double x)
-	{
-		double a = 1e-3;
-
-		return (-exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) + (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1))/sqrt(a);
-	}
-
-	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_tolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output)
+	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_tolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output, f_double const exact, f_double const exact_)
 	{
 		// Starting conditions.
 		Mesh*     newMesh     = new Mesh(*a_mesh);
@@ -296,13 +277,16 @@ namespace refinement
 				std::cout << "#Iterations     : " << iteration << std::endl;
 				std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
 				std::cout << "DoF             : " << currentMesh->elements->get_DoF() << std::endl;
-				std::cout << "Energy          : " << sqrt(currentSolution->compute_energyNormDifference2(adam, adam_)) << std::endl;
+				if (exact != 0 && exact_ != 0)
+					std::cout << "Energy          : " << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << std::endl;
 				std::cout << "Error indicator : " << errorIndicator << std::endl;
 				std::cout << "Max indicator   : " << *std::max_element(errorIndicators.begin(), errorIndicators.end()) << std::endl;
 				std::cout << "Indicator ratio : " << errorIndicatorPrev/errorIndicator << std::endl;
 				std::cout << std::endl;
+
+				if (exact !=0 && exact_ != 0)
+					outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << std::endl;
 			}
-			outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(adam, adam_)) << std::endl;
 			//currentSolution->outputToFile(adam);
 			//system("pause");
 

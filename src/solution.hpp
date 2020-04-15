@@ -67,7 +67,7 @@ class Solution
 		f_double get_c() const;
 
 		// Outputters.
-		void outputToFile(f_double const &a_u, const std::string a_filename = "./output.dat") const;
+		void outputToFile(f_double const a_u = 0, const std::string a_filename = "./output.dat") const;
 };
 
 #endif

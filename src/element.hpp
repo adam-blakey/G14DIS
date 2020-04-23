@@ -33,7 +33,6 @@ class Element
 		Element& operator= (const Element &a_element);
 		double mapLocalToGlobal(const double &a_xi);
 		double get_Jacobian() const;
-		double quadrature(f_double a_f);
 		f_double basisFunction(const int &a_n, const int &a_i);
 
 		int get_elementNo() const;

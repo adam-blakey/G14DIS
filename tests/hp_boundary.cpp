@@ -23,37 +23,36 @@ double one(double x)
 	return 1;
 }
 
-double pi2sin(double x)
+double exact(double x)
 {
-	return pow(2*M_PI, 2) * sin(2*M_PI * x);
+	double a = 1e-3;
+
+	return -exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1) - (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1) + 1;
 }
 
-double sinpi(double x)
+double exact_(double x)
 {
-	return sin(2*M_PI * x);
-}
+	double a = 1e-3;
 
-double sinpi_(double x)
-{
-	return 2*M_PI * cos(2*M_PI * x);
+	return -exp(x/sqrt(a))/(exp(double(1)/sqrt(a)) + 1)/sqrt(a) + (exp(-x/sqrt(a)) * exp(double(1)/sqrt(a)))/(exp(double(1)/sqrt(a)) + 1)/sqrt(a);
 }
 
 int main()
 {
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(4);
-	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero);
+	Solution* mySolution = new Solution(myMesh, one, 1e-3, one);
 
 	// Adaptivity variables.
 	Mesh*     myNewMesh;
 	Solution* myNewSolution;
 
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-5, 10, true, true, true, sinpi, sinpi_);
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-10, 14, true, true, true, exact, exact_);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	myNewSolution->Solve(1e-15);
-	myNewSolution->output_solution(sinpi);
+	myNewSolution->output_solution(exact);
 	myNewSolution->output_mesh();
 
 	delete mySolution;

@@ -67,7 +67,8 @@ class Solution
 		f_double get_c() const;
 
 		// Outputters.
-		void outputToFile(f_double const a_u = 0, const std::string a_filename = "./output.dat") const;
+		void output_solution(f_double const a_u = 0, const std::string a_filename = "./solution.dat") const;
+		void output_mesh(const std::string a_filename = "./mesh.dat") const;
 };
 
 #endif

@@ -520,10 +520,28 @@
 	"buffers":
 	[
 		{
-			"file": "src/driver.cpp",
+			"file": "tests/hp_boundary.cpp",
 			"settings":
 			{
-				"buffer_size": 4652,
+				"buffer_size": 1387,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/refinement.cpp",
+			"settings":
+			{
+				"buffer_size": 10998,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/solution.cpp",
+			"settings":
+			{
+				"buffer_size": 15694,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -532,7 +550,7 @@
 			"file": "src/refinement.dat",
 			"settings":
 			{
-				"buffer_size": 9954,
+				"buffer_size": 632,
 				"line_ending": "Windows"
 			}
 		},
@@ -546,28 +564,28 @@
 			}
 		},
 		{
-			"file": "src/refinement.cpp",
+			"file": "src/plot_solution.py",
 			"settings":
 			{
-				"buffer_size": 10765,
+				"buffer_size": 353,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/driver_plotter.py",
+			"file": "src/plot_convergence.py",
 			"settings":
 			{
-				"buffer_size": 533,
+				"buffer_size": 379,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/delete_me.py",
+			"file": "src/plot_mesh.py",
 			"settings":
 			{
-				"buffer_size": 580,
+				"buffer_size": 576,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1393,7 +1411,7 @@
 			]
 		]
 	],
-	"build_varint": "Basic Builder - LuaLaTeX",
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 0.0,
@@ -1491,6 +1509,8 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Adam/Blakey Cloud/JARK File Drop/Readme.md",
+		"/C/Users/Adam/Nextcloud2/Readme.md",
 		"/C/Users/Adam/Blakey Cloud/Documents/Scouts/file",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/refinement.dat",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/Blakey FEM/src/output.dat",
@@ -1616,13 +1636,11 @@
 		"/C/Users/Adam/AppData/Local/Temp/Rar$DRa14328.24065/onelab-source/gmsh-git-source/Numeric/BasisFactory.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/i do not like git/fem.cpp",
 		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/finiteDifference.f90",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/testForPaul20191104.f90",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Breathe/README.rst",
-		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/documentation/Breathe/setup.cfg"
+		"/C/Users/Adam/Blakey Cloud/Documents/Education/University of Nottingham/Year 4/G14DIS/FEM Program/files/src/testForPaul20191104.f90"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 22.0
 	},
 	"find_in_files":
 	{
@@ -1649,6 +1667,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"sinpi",
+			"<< 0",
+			"#include \"",
+			";\n",
 			"0",
 			"set::",
 			"set",
@@ -1772,11 +1794,7 @@
 			"new double",
 			"F",
 			"A1",
-			"1",
-			"operator*",
-			"common",
-			"max",
-			";\n"
+			"1"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1804,57 +1822,126 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/driver.cpp",
+					"file": "tests/hp_boundary.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4652,
+						"buffer_size": 1387,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1482,
-								1482
+								615,
+								615
 							]
 						],
 						"settings":
 						{
+							"SL.168.region_keys":
+							[
+							],
 							"SL.26.region_keys":
 							[
 							],
-							"function_name_status_row": 80,
+							"SL.43.region_keys":
+							[
+							],
+							"function_name_status_row": 34,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 632.0,
+						"translation.y": 116.8,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/refinement.dat",
+					"file": "src/refinement.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9954,
+						"buffer_size": 10998,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								790,
-								790
+								8744,
+								8744
 							]
 						],
 						"settings":
 						{
-							"function_name_status_row": 10,
+							"function_name_status_row": 273,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3114.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/solution.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15694,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10981,
+								10981
+							]
+						],
+						"settings":
+						{
+							"SL.44.region_keys":
+							[
+							],
+							"function_name_status_row": 367,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4357.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/refinement.dat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 632,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 0,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 3,
 							"translate_tabs_to_spaces": true
@@ -1863,11 +1950,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "src/delete_me.cpp",
 					"semi_transient": false,
 					"settings":
@@ -1879,8 +1966,8 @@
 						"selection":
 						[
 							[
-								589,
-								589
+								374,
+								374
 							]
 						],
 						"settings":
@@ -1888,79 +1975,43 @@
 							"SL.95.region_keys":
 							[
 							],
-							"function_name_status_row": 37,
+							"function_name_status_row": 26,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 49.0,
+						"translation.y": 53.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/refinement.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10765,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9702,
-								9702
-							]
-						],
-						"settings":
-						{
-							"SL.140.region_keys":
-							[
-							],
-							"SL.92.region_keys":
-							[
-							],
-							"function_name_status_row": 296,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3380.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
-					"buffer": 4,
-					"file": "src/driver_plotter.py",
+					"buffer": 5,
+					"file": "src/plot_solution.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 533,
+						"buffer_size": 353,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								533,
-								533
+								353,
+								353
 							]
 						],
 						"settings":
 						{
-							"function_name_status_row": 23,
+							"function_name_status_row": 16,
 							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
@@ -1971,25 +2022,57 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "src/delete_me.py",
+					"buffer": 6,
+					"file": "src/plot_convergence.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 580,
+						"buffer_size": 379,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								566,
-								566
+								379,
+								379
 							]
 						],
 						"settings":
 						{
-							"function_name_status_row": 19,
+							"SL.47.region_keys":
+							[
+							],
+							"function_name_status_row": 16,
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/plot_mesh.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 576,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								576,
+								576
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 21,
 							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
@@ -2030,7 +2113,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.643948296122,
 			1.0
 		],
 		"rows":
@@ -2046,7 +2129,7 @@
 	},
 	"output.exec":
 	{
-		"height": 159.0
+		"height": 78.0
 	},
 	"output.find_results":
 	{
@@ -2102,7 +2185,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -2114,5 +2197,6 @@
 	"status_bar_visible": true,
 	"template_settings":
 	{
+		"max_columns": 2
 	}
 }

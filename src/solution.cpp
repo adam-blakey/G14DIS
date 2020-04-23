@@ -343,7 +343,7 @@ double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n) 
 	return result / pow(J, a_n);
 }
 
-void Solution::outputToFile(f_double const a_u, const std::string a_filename) const
+void Solution::output_solution(f_double const a_u, const std::string a_filename) const
 {
 	std::ofstream outputFile;
 	outputFile.open(a_filename);
@@ -379,6 +379,28 @@ void Solution::outputToFile(f_double const a_u, const std::string a_filename) co
 		else
 			outputFile << std::setw(26) << std::setprecision(16) << "Inf";
 	outputFile << std::endl;
+
+	outputFile.close();
+}
+
+void Solution::output_mesh(const std::string a_filename) const
+{
+	std::ofstream outputFile;
+	outputFile.open(a_filename);
+	assert(outputFile.is_open());
+
+	int n = this->mesh->get_noElements();
+
+	for (int i=0; i<n; ++i)
+	{
+		Element* currentElement = (*(this->mesh->elements))[i];
+
+		outputFile
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[0]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_nodeCoordinates()[1]
+			<< std::setw(26) << std::setprecision(16) << std::scientific << currentElement->get_polynomialDegree()
+		<< std::endl;
+	}
 
 	outputFile.close();
 }

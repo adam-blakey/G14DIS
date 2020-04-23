@@ -4,12 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as maths
 
-points, approximate, exact = np.loadtxt("output.dat", unpack=True)
+points, approximate, exact = np.loadtxt("solution.dat", unpack=True)
 
 plt.figure(1)
 
-plt.plot(points,     approximate, 'b-')
-plt.plot(points, exact,   'g-')
+plt.plot(points, approximate, 'b-')
+plt.plot(points, exact,       'g-')
 plt.grid(True)
 plt.xlabel("u")
 plt.ylabel("x")

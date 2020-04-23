@@ -238,7 +238,7 @@ namespace refinement
 		);
 	}
 
-	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_tolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output, f_double const exact, f_double const exact_)
+	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_solveTolerance, const double &a_adaptivityTolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output, f_double const exact, f_double const exact_)
 	{
 		// Starting conditions.
 		Mesh*     newMesh     = new Mesh(*a_mesh);
@@ -250,10 +250,15 @@ namespace refinement
 		Mesh*     currentMesh;
 		Solution* currentSolution;
 
+		// Outputs convergence data to a file if asked.
 		std::ofstream outputFile;
-		outputFile.open("convergence.dat");
-		assert(outputFile.is_open());
+		if (a_output)
+		{
+			outputFile.open("convergence.dat");
+			assert(outputFile.is_open());
+		}
 
+		// Loops through refinement algorithm.
 		for (iteration=0; iteration<a_maxIterations; ++iteration)
 		{
 			// Passes pointers from each iteration.
@@ -265,7 +270,7 @@ namespace refinement
 
 			// Calculates new error indicator.
 			double errorIndicator = currentSolution->compute_globalErrorIndicator();
-			if (errorIndicator <= a_tolerance)
+			if (errorIndicator <= a_adaptivityTolerance)
 				break;
 
 			// Error indicators calculation.
@@ -285,12 +290,8 @@ namespace refinement
 				std::cout << std::endl;
 
 				if (exact !=0 && exact_ != 0)
-					outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << std::endl;
+					outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << "\t" << errorIndicator << std::endl;
 			}
-			//currentSolution->outputToFile(adam);
-			//system("pause");
-
-			errorIndicatorPrev = errorIndicator;
 			
 			// Refine and create new mesh and solution.
 			if (a_refineh && a_refinep)
@@ -300,20 +301,26 @@ namespace refinement
 			else if (a_refinep)
 				refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
 
+			// Sets variables for next loop.
 			delete currentMesh;
 			delete currentSolution;
 			currentMesh = newMesh;
 			currentSolution = newSolution;
+			errorIndicatorPrev = errorIndicator;
 		}
 
-		outputFile.close();
+		// Closes convergence file.
+		if (a_output)
+			outputFile.close();
 
+		// Solves solution.
 		currentSolution->Solve(1e-15);
 
 		// What we're spitting back.
 		*a_meshNew     = currentMesh;
 		*a_solutionNew = currentSolution;
 
+		// Outputs completed info.
 		if (a_output)
 		{
 			std::cout << "Completed with:" << std::endl;

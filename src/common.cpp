@@ -129,3 +129,25 @@ namespace common
 		return L2Norm(diff);
 	}
 }
+
+// OPERATOR-
+std::vector<double> operator-(const std::vector<double> &a_v1, const std::vector<double> &a_v2)
+{
+	std::vector<double> result = a_v1;
+
+	for (int i=0; i<result.size(); ++i)
+		result[i] -= a_v2[i];
+
+	return result;
+}
+
+// OPERATOR*
+std::vector<double> operator*(const double &a_c, const std::vector<double> &a_v)
+{
+	std::vector<double> result = a_v;
+
+	for (int i=0; i<result.size(); ++i)
+		result[i] = a_c*a_v[i];
+
+	return result;
+}

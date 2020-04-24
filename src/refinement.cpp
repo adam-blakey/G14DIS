@@ -7,6 +7,7 @@
 
 #include "mesh.hpp"
 #include "solution.hpp"
+#include "solution_linear.hpp"
 #include <algorithm>
 #include <iterator>
 #include <vector>
@@ -98,12 +99,12 @@ namespace refinement
 
 		// Creates new mesh and solution.
 		*a_meshNew = new Mesh(elements);
-		*a_solutionNew = new Solution(
-			*a_meshNew,
-			a_solution->get_f(),
-			a_solution->get_epsilon(),
-			a_solution->get_c()
-		);
+		if (a_solution->get_linear())
+			*a_solutionNew = new Solution_linear(
+				*a_meshNew,
+				const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution))
+			);
+
 	}
 
 	void refine_h(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
@@ -178,12 +179,11 @@ namespace refinement
 
 		// Creates new mesh and solution.
 		*a_meshNew = new Mesh(elements);
-		*a_solutionNew = new Solution(
-			*a_meshNew,
-			a_solution->get_f(),
-			a_solution->get_epsilon(),
-			a_solution->get_c()
-		);
+		if (a_solution->get_linear())
+			*a_solutionNew = new Solution_linear(
+				*a_meshNew,
+				const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution))
+			);
 	}
 
 	void refine_p(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const std::vector<double> &a_errorIndicators)
@@ -230,19 +230,20 @@ namespace refinement
 
 		// Creates new mesh and solution.
 		*a_meshNew = new Mesh(elements);
-		*a_solutionNew = new Solution(
-			*a_meshNew,
-			a_solution->get_f(),
-			a_solution->get_epsilon(),
-			a_solution->get_c()
-		);
+		if (a_solution->get_linear())
+			*a_solutionNew = new Solution_linear(
+				*a_meshNew,
+				const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution))
+			);
 	}
 
 	void refinement(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_solveTolerance, const double &a_adaptivityTolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output, f_double const exact, f_double const exact_)
 	{
 		// Starting conditions.
 		Mesh*     newMesh     = new Mesh(*a_mesh);
-		Solution* newSolution = new Solution(*a_solution);
+		Solution* newSolution;
+		if (a_solution->get_linear())
+			newSolution = new Solution_linear(*const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution)));
 
 		// Loop variables initialisation.
 		double errorIndicator, errorIndicatorPrev = 0;
@@ -300,6 +301,11 @@ namespace refinement
 				refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
 			else if (a_refinep)
 				refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else
+			{
+				/*newMesh     = new Mesh(currentMesh->elements);
+				newSolution = new Solution(newMesh, currentSolution->get_f(), currentSolution->get_epsilon(), currentSolution->get_c());*/
+			}
 
 			// Sets variables for next loop.
 			delete currentMesh;

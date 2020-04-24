@@ -92,16 +92,6 @@ namespace linearSystems
 	}
 }
 
-std::vector<double> operator*(const double &a_constant, const std::vector<double> &a_vector)
-{
-	std::vector<double> result(a_vector.size());
-
-	for (int i=0; i<a_vector.size(); ++i)
-		result[i] = a_constant * a_vector[i];
-
-	return result;
-}
-
 std::vector<double>& operator+=(std::vector<double> &a_v1, const std::vector<double> &a_v2)
 {
 	for (int i=0; i<a_v1.size(); ++i)

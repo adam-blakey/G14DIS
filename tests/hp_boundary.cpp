@@ -4,6 +4,7 @@
 #include "../src/mesh.hpp"
 #include "../src/refinement.hpp"
 #include "../src/solution.hpp"
+#include "../src/solution_linear.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -41,19 +42,20 @@ int main()
 {
 	// Sets up problem.
 	Mesh*     myMesh     = new Mesh(4);
-	Solution* mySolution = new Solution(myMesh, one, 1e-3, one);
+	Solution_linear* mySolution = new Solution_linear(myMesh, one, 1e-3, one);
 
 	// Adaptivity variables.
 	Mesh*     myNewMesh;
-	Solution* myNewSolution;
+	Solution_linear* myNewSolution;
+	Solution* s = myNewSolution;
 
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-10, 14, true, true, true, exact, exact_);
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &s, 1e-15, 1e-10, 20, true, true, true, exact, exact_);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
-	myNewSolution->Solve(1e-15);
-	myNewSolution->output_solution(exact);
-	myNewSolution->output_mesh();
+	s->output_solution(exact);
+	s->Solve(1e-15);
+	s->output_mesh();
 
 	delete mySolution;
 	delete myMesh;

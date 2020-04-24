@@ -119,25 +119,6 @@ double Element::get_Jacobian() const
 }
 
 /******************************************************************************
- * __quadrature__
- * 
- * @details 	Uses Gauss-Legendre quadrature to approximate the integral of
- * 					the given function over the element.
- * 
- * @param[in] f 		The function to integrate over the element with.
- * @return  			The quadrature value.
- ******************************************************************************/
-double Element::quadrature(f_double a_f)
-{
-	double node1 = this->get_nodeCoordinates()[0];
-	double node2 = this->get_nodeCoordinates()[1];
-
-	f_double fTransform = common::transformFunction(a_f, node1, node2);
-
-	return quadrature::gaussLegendreQuadrature(fTransform, 8)*get_Jacobian();
-}
-
-/******************************************************************************
  * __basisFunction__
  * 
  * @details 	Calculates the ith derivative of the nth basis function.

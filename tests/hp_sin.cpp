@@ -4,6 +4,7 @@
 #include "../src/mesh.hpp"
 #include "../src/refinement.hpp"
 #include "../src/solution.hpp"
+#include "../src/solution_linear.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -41,12 +42,13 @@ double sinpi_(double x)
 int main()
 {
 	// Sets up problem.
-	Mesh*     myMesh     = new Mesh(4);
-	Solution* mySolution = new Solution(myMesh, pi2sin, 1, zero);
+	Mesh*            myMesh     = new Mesh(4);
+	Solution_linear* mySolution = new Solution_linear(myMesh, pi2sin, 1, zero);
 
 	// Adaptivity variables.
-	Mesh*     myNewMesh;
-	Solution* myNewSolution;
+	Mesh*            myNewMesh;
+	Solution_linear* myNewSolution_linear;
+	Solution*        myNewSolution = myNewSolution_linear;
 
 	// Performs the refinement with the correct type of adaptivity.
 	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-5, 10, true, true, true, sinpi, sinpi_);

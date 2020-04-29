@@ -50,14 +50,18 @@ int main()
 	Solution_linear* myNewSolution_linear;
 	Solution*        myNewSolution = myNewSolution_linear;
 
+	myNewSolution = mySolution;
+
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-5, 10, true, true, true, sinpi, sinpi_);
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 20, false, true, true, sinpi, sinpi_);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	myNewSolution->Solve(1e-15);
 	myNewSolution->output_solution(sinpi);
 	myNewSolution->output_mesh();
 
+	delete myNewSolution;
+	delete myNewMesh;
 	delete mySolution;
 	delete myMesh;
 

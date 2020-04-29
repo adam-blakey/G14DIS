@@ -29,26 +29,31 @@ Solution::~Solution()
 	//
 }
 
-double Solution::compute_norm2(const int &a_n, const bool a_recurse) const
+double Solution::compute_norm2(const int &a_n, const bool a_recurse, const std::vector<double> &a_u) const
 {
 	int n = this->mesh->get_noElements();
 
 	double norm = 0;
 
 	for (int i=0; i<n; ++i)
-		norm += this->compute_norm2(a_n, a_recurse, i);
+		norm += this->compute_norm2(a_n, a_recurse, i, a_u);
 
 	return norm;
 }
 
-double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &a_i) const
+double Solution::compute_norm2(const int &a_n, const bool a_recurse) const
+{
+	return compute_norm2(a_n, a_recurse, this->solution);
+}
+
+double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &a_i, const std::vector<double> &a_u) const
 {
 	Element* currentElement = (*(this->mesh->elements))[a_i];
 
 	// Recurses to make a full norm, or just makes a seminorm.
 	double norm;
 	if (a_recurse && a_n>0)
-		norm = compute_norm2(a_n-1, a_recurse, a_i);
+		norm = compute_norm2(a_n-1, a_recurse, a_i, a_u);
 	else
 		norm = 0;
 
@@ -59,13 +64,18 @@ double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &
 
 	for (int j=0; j<coordinates.size(); ++j)
 	{
-		double uh = compute_uh(a_i, coordinates[j], a_n);
+		double uh = compute_uh(a_i, coordinates[j], a_n, a_u);
 
 		double Jacobian = currentElement->get_Jacobian();
 		norm += pow(uh, 2)*weights[j]*Jacobian;
 	}
 
 	return norm;
+}
+
+double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &a_i) const
+{
+	return compute_norm2(a_n, a_recurse, a_i, this->solution);
 }
 
 double Solution::compute_L2NormDifference2(f_double const &a_u) const
@@ -147,6 +157,24 @@ double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n) 
 		f_double basis = (*(this->mesh->elements))[a_i]->basisFunction(j, a_n);
 
 		result += this->solution[elementDoFs[j]] * basis(a_xi);
+	}
+
+	return result / pow(J, a_n);
+}
+
+double Solution::compute_uh(const int &a_i, const double &a_xi, const int &a_n, const std::vector<double> &a_u) const
+{
+	Element* currentElement = (*(this->mesh->elements))[a_i];
+	double J = currentElement->get_Jacobian(); // Needs to be inverse transpose of Jacobi in dimensions higher than 1.
+
+	double result = 0;
+
+	std::vector<int> elementDoFs = this->mesh->elements->get_elementDoFs(a_i);
+	for (int j=0; j<elementDoFs.size(); ++j)
+	{
+		f_double basis = (*(this->mesh->elements))[a_i]->basisFunction(j, a_n);
+
+		result += a_u[elementDoFs[j]] * basis(a_xi);
 	}
 
 	return result / pow(J, a_n);

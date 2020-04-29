@@ -9,6 +9,8 @@
 #include <cmath>
 #include <functional>
 
+#include <iostream>
+
 namespace common
 {
 	/******************************************************************************
@@ -127,6 +129,29 @@ namespace common
 		f_double diff  = common::addFunction(a_f, gm);
 
 		return L2Norm(diff);
+	}
+
+	/******************************************************************************
+	 * __vectorL2Norm__
+	 * 
+	 * @details     Calculates the vector L2 norm of the function.
+	 *
+	 * @param[in]  a_v1 Vector 1.
+	 * @param[in]  a_v2 Vector 2.
+	 *
+	 * @return     The value of the vector L2 norm.
+	 ******************************************************************************/
+	double l2Norm(const std::vector<double> &a_v1, const std::vector<double> &a_v2)
+	{
+		double norm = 0;
+
+		for (int i=0; i<a_v1.size(); ++i)
+		{
+			//std::cout << a_v1[i] - a_v2[i] << std::endl;
+			norm += pow(a_v1[i] - a_v2[i], 2);
+		}
+
+		return sqrt(norm);
 	}
 }
 

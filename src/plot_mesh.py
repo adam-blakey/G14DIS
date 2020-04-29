@@ -19,4 +19,5 @@ plt.grid(True)
 plt.xlabel("x")
 plt.ylabel("p")
 
+
 plt.show()

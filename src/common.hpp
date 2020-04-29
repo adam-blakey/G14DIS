@@ -11,12 +11,14 @@
 #include <functional>
 #include <vector>
 
-typedef std::function<double(double)> f_double;
+typedef std::function<double(double)>         f_double;
+typedef std::function<double(double, double)> f_double2;
 
 namespace common
 {
 	f_double addFunction(const f_double &a_f, const f_double &a_g);
 	f_double constantMultiplyFunction(const double &a_a, const f_double &a_f);
+	double   l2Norm(const std::vector<double> &a_v1, const std::vector<double> &a_v2);
 	double   L2Norm(const f_double &a_f);
 	double   L2NormDifference(const f_double &a_f, const f_double &a_g);
 	f_double multiplyFunction(const f_double &a_f, const f_double &a_g);	

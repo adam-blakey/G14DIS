@@ -22,6 +22,7 @@ class Solution
 
 		// Computers.
 		double compute_uh(const int &a_i, const double &a_xi, const int &a_n) const;
+		double compute_uh(const int &a_i, const double &a_xi, const int &a_n, const std::vector<double> &a_u) const;
 
 		// Getters.
 		std::vector<int> get_higherOrderDoFs() const;
@@ -35,7 +36,9 @@ class Solution
 
 		// Computers.
 		double compute_norm2(const int &a_n, const bool a_recurse = false) const;
+		double compute_norm2(const int &a_n, const bool a_recurse, const std::vector<double> &a_u) const;
 		double compute_norm2(const int &a_n, const bool a_recurse, const int &a_i) const;
+		double compute_norm2(const int &a_n, const bool a_recurse, const int &a_i, const std::vector<double> &a_u) const;
 		double compute_L2NormDifference2(f_double const &a_u) const;
 		double compute_H1NormDifference2(f_double const &a_u, f_double const &a_u_1) const;
 		double compute_EnergyNorm2() const;

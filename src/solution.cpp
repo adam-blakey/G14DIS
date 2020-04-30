@@ -67,7 +67,7 @@ double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &
 		double uh = compute_uh(a_i, coordinates[j], a_n, a_u);
 
 		double Jacobian = currentElement->get_Jacobian();
-		norm += pow(uh, 2)*weights[j]*Jacobian;
+		norm += pow(uh, 2)*weights[j]*pow(Jacobian, 1-a_n);
 	}
 
 	return norm;
@@ -137,7 +137,7 @@ double Solution::compute_H1NormDifference2(f_double const &a_u, f_double const &
 			double Jacobian = currentElement->get_Jacobian();
 			//Matrix_full JacobiMatrixIT = currentElement->get_Jacobi()->get_InverseTranspose();
 
-			norm += pow(u_1 - uh_1, 2)*weights[j]*Jacobian;
+			norm += pow(u_1 - uh_1, 2)*weights[j]*Jacobian;// Is Jacobian wrong here?
 		}
 	}
 

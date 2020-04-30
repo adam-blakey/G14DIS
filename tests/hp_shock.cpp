@@ -14,36 +14,44 @@
 
 #include <functional>
 
-double zero(double x)
-{
-	return 0;
-}
-
 double one(double x)
 {
 	return 1;
 }
 
-double pi2sin(double x)
+double exact(double x)
 {
-	return pow(2*M_PI, 2) * sin(2*M_PI * x);
+	double s = 100;
+
+	return atan(s*(x-double(1)/3)) + (1-x)*atan(s/3) - x*atan(2*s/3);
 }
 
-double sinpi(double x)
+double exact1(double x)
 {
-	return sin(2*M_PI * x);
+	double s = 100;
+
+	//return s/(pow(s, 2)*pow(x-double(2)/3, 2) + 1) - atan(2*s/3) - atan(s/3);
+	return s/(pow(s, 2)*pow(x-double(1)/3, 2) + 1) - atan(2*s/3) - atan(s/3);
 }
 
-double sinpi_(double x)
+double exact2(double x)
 {
-	return 2*M_PI * cos(2*M_PI * x);
+	double s = 100;
+
+	//return -2*pow(s, 3)*(x-double(2)/3)/pow(pow(s, 2)*pow(x-double(2)/3, 2) + 1, 2);
+	return -2*pow(s, 3)*(x-double(1)/3)/pow(pow(s, 2)*pow(x-double(1)/3, 2) + 1, 2);
+}
+
+double f(double x)
+{
+	return -exact2(x) + exact(x);
 }
 
 int main()
 {
 	// Sets up problem.
 	Mesh*            myMesh     = new Mesh(4);
-	Solution_linear* mySolution = new Solution_linear(myMesh, pi2sin, 1, zero);
+	Solution_linear* mySolution = new Solution_linear(myMesh, f, 1, one);
 
 	// Adaptivity variables.
 	Mesh*            myNewMesh;
@@ -53,11 +61,11 @@ int main()
 	myNewSolution = mySolution;
 
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 15, true, false, true, sinpi, sinpi_);
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 16, true, true, true, exact, exact1);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	myNewSolution->Solve(1e-15);
-	myNewSolution->output_solution(sinpi);
+	myNewSolution->output_solution(exact);
 	myNewSolution->output_mesh();
 
 	delete myNewSolution;

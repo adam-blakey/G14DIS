@@ -49,7 +49,7 @@ int main()
 	// Solves the new problem, and then outputs solution and mesh to files.
 	std::vector<double> u0(n+1);
 	for (int i=0; i<u0.size(); ++i)
-		u0[i] = 8*sinpi(double(i)/n);
+		u0[i] = 0.1*sinpi(double(i)/n);
 	mySolution->Solve(1e-15, 1e-15, u0);
 	mySolution->output_solution();
 	mySolution->output_mesh();

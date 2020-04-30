@@ -8,8 +8,8 @@ dof, error, indicator = np.loadtxt("convergence.dat", unpack=True)
 
 plt.figure(1)
 
-plt.semilogy(dof, error,               'bo-',                       label="Energy error")
-plt.semilogy(dof, indicator,           'go-',                       label="Error estimator")
+plt.loglog(dof, error,               'bo-',                       label="Energy error")
+plt.loglog(dof, indicator,           'go-',                       label="Error estimator")
 plt.grid(True)
 plt.xlabel("DoF")
 plt.ylabel("error")

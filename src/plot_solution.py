@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as maths
 
-points, approximate, exact = np.loadtxt("solution.dat", unpack=True)
+points, approximate, exact = np.loadtxt("../data/solution.dat", unpack=True)
 
 plt.figure(1)
 

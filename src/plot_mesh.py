@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as maths
 
-left, right, p = np.loadtxt("mesh.dat", unpack=True)
-points, approximate, exact = np.loadtxt("solution.dat", unpack=True)
+left, right, p = np.loadtxt("../data/mesh.dat", unpack=True)
+points, approximate, exact = np.loadtxt("../data/solution.dat", unpack=True)
 
 plt.figure(1)
 

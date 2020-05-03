@@ -54,8 +54,8 @@ class Solution
 		bool get_linear() const;
 
 		// Outputters.
-		void output_solution(f_double const a_u = 0, const std::string a_filename = "./solution.dat") const;
-		void output_mesh(const std::string a_filename = "./mesh.dat") const;
+		void output_solution(f_double const a_u = 0, const std::string a_filename = "../data/solution.dat") const;
+		void output_mesh(const std::string a_filename = "../data/mesh.dat") const;
 };
 
 #endif

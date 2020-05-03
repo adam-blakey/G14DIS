@@ -518,8 +518,8 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_Newt
 		uNext[m] = B;
 
         // Updates the difference.
-        //difference = common::l2Norm(uNext, uPrev);
-        difference = fabs(this->compute_residualNorm(uNext));
+        difference = common::l2Norm(uNext, uPrev);
+        //difference = fabs(this->compute_residualNorm(uNext));
 
         // Prints.
         std::streamsize old_precision = std::cout.precision();
@@ -541,7 +541,7 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_Newt
 	this->solution = uNext;
 }
 
-double Solution_nonlinear::compute_residualNorm(const std::vector<double> &a_u) const
+/*double Solution_nonlinear::compute_residualNorm(const std::vector<double> &a_u) const
 {
 	int n = this->mesh->get_noElements();
 
@@ -568,7 +568,7 @@ double Solution_nonlinear::compute_residualNorm(const std::vector<double> &a_u) 
 	}
 
 	return sqrt(norm);
-}
+}*/
 
 double Solution_nonlinear::compute_epsilonNorm(const std::vector<double> &a_u) const
 {

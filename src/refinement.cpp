@@ -255,7 +255,7 @@ namespace refinement
 		std::ofstream outputFile;
 		if (a_output)
 		{
-			outputFile.open("convergence.dat");
+			outputFile.open("../data/convergence.dat");
 			assert(outputFile.is_open());
 		}
 
@@ -293,6 +293,105 @@ namespace refinement
 				if (exact !=0 && exact_ != 0)
 					outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << "\t" << errorIndicator << std::endl;
 			}
+			
+			// Refine and create new mesh and solution.
+			if (a_refineh && a_refinep)
+				refine_hp(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else if (a_refineh)
+				refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else if (a_refinep)
+				refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			else
+			{
+				/*newMesh     = new Mesh(currentMesh->elements);
+				newSolution = new Solution(newMesh, currentSolution->get_f(), currentSolution->get_epsilon(), currentSolution->get_c());*/
+			}
+
+			// Sets variables for next loop.
+			delete currentMesh;
+			delete currentSolution;
+			currentMesh = newMesh;
+			currentSolution = newSolution;
+			errorIndicatorPrev = errorIndicator;
+		}
+
+		// Closes convergence file.
+		if (a_output)
+			outputFile.close();
+
+		// Solves solution.
+		currentSolution->Solve(1e-15);
+
+		// What we're spitting back.
+		*a_meshNew     = currentMesh;
+		*a_solutionNew = currentSolution;
+
+		// Outputs completed info.
+		if (a_output)
+		{
+			std::cout << "Completed with:" << std::endl;
+			std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;
+			std::cout << "  Error indicator: " << currentSolution->compute_globalErrorIndicator() << std::endl;
+			std::cout << "  #Iterations    : " << iteration << std::endl;
+			std::cout << "  DoF            : " << currentMesh->elements->get_DoF() << std::endl;
+		}
+	}
+
+	void refinement_g(const Mesh* a_mesh, Mesh** a_meshNew, const Solution* a_solution, Solution** a_solutionNew, const double &a_solveTolerance, const double &a_adaptivityTolerance, const int &a_maxIterations, const bool &a_refineh, const bool &a_refinep, const bool &a_output, f_double const exact, f_double const exact_)
+	{
+		// Starting conditions.
+		Mesh*     newMesh     = new Mesh(*a_mesh);
+		Solution* newSolution;
+		if (a_solution->get_linear())
+			newSolution = new Solution_linear(*const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution)));
+
+		// Loop variables initialisation.
+		double errorIndicator, errorIndicatorPrev = 0;
+		int iteration;
+		Mesh*     currentMesh;
+		Solution* currentSolution;
+
+		// Outputs convergence data to a file if asked.
+		std::ofstream outputFile;
+		if (a_output)
+		{
+			outputFile.open("../data/convergence.dat");
+			assert(outputFile.is_open());
+		}
+
+		// Loops through refinement algorithm.
+		for (iteration=0; iteration<a_maxIterations; ++iteration)
+		{
+			// Passes pointers from each iteration.
+			currentSolution = newSolution;
+			currentMesh = newMesh;
+
+			// Solve.
+			currentSolution->Solve(1e-15);
+
+			// Calculates new error indicator.
+			double errorIndicator = currentSolution->compute_globalErrorIndicator();
+			if (errorIndicator <= a_adaptivityTolerance)
+				break;
+
+			// Outputs details if asked.
+			if (a_output)
+			{
+				std::cout << "#Iterations     : " << iteration << std::endl;
+				std::cout << "#Elements       : " << currentMesh->get_noElements() << std::endl;
+				std::cout << "DoF             : " << currentMesh->elements->get_DoF() << std::endl;
+				if (exact != 0 && exact_ != 0)
+					std::cout << "Energy          : " << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << std::endl;
+				std::cout << "Error indicator : " << errorIndicator << std::endl;
+				std::cout << "Indicator ratio : " << errorIndicatorPrev/errorIndicator << std::endl;
+				std::cout << std::endl;
+
+				if (exact !=0 && exact_ != 0)
+					outputFile << currentMesh->elements->get_DoF() << "\t" << sqrt(currentSolution->compute_energyNormDifference2(exact, exact_)) << "\t" << errorIndicator << std::endl;
+			}
+
+			// Hacky way of forcing global refinement.
+			std::vector<double> errorIndicators(currentMesh->get_noElements(), 1);
 			
 			// Refine and create new mesh and solution.
 			if (a_refineh && a_refinep)

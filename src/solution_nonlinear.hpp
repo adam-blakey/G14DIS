@@ -37,7 +37,7 @@ class Solution_nonlinear : public Solution
 		// Computers.
 		double compute_energyNormDifference2(f_double const &a_u, f_double const &a_u_1) const;
 		double compute_errorIndicator(const double &a_i) const;
-		double compute_epsilonNorm(const std::vector<double> &a_u) const;
+		//double compute_epsilonNorm(const std::vector<double> &a_u) const;
 		double compute_epsilonNormF(const std::vector<double> &a_u) const;
 		double compute_residualNorm(const std::vector<double> &a_u) const;
 

@@ -67,7 +67,7 @@ double Solution::compute_norm2(const int &a_n, const bool a_recurse, const int &
 		double uh = compute_uh(a_i, coordinates[j], a_n, a_u);
 
 		double Jacobian = currentElement->get_Jacobian();
-		norm += pow(uh, 2)*weights[j]*pow(Jacobian, 1-a_n);
+		norm += pow(uh, 2)*weights[j]*Jacobian;//pow(Jacobian, 1-a_n);
 	}
 
 	return norm;

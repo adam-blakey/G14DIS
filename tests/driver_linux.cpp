@@ -1,3 +1,5 @@
+// This script is designed for the app at https://fem.blakey.family.
+
 #include "common.hpp"
 #include "element.hpp"
 #include "matrix.hpp"

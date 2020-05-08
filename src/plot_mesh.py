@@ -18,6 +18,7 @@ plt.axis([0, 1, 0, max(p)+1])
 plt.grid(True)
 plt.xlabel("x")
 plt.ylabel("p")
+plt.title("Problem 2 Mesh After 6 h-Adaptive Steps")
 
 
 plt.show()

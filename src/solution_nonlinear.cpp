@@ -29,13 +29,14 @@
  * 
  * @param[in] a_mesh 		The mesh the solution is defined on.
  ******************************************************************************/
-Solution_nonlinear::Solution_nonlinear(Mesh* const &a_mesh, f_double2 const &a_f, const double &a_epsilon)
+Solution_nonlinear::Solution_nonlinear(Mesh* const &a_mesh, f_double2 const &a_f, f_double2 const &a_f_, const double &a_epsilon)
 {
 	this->noElements		= a_mesh->get_noElements();
 	this->solution 			.resize(a_mesh->get_noNodes());
 	this->boundaryConditions.resize(2);
 	this->mesh 				= a_mesh;
 	this->f       = a_f; 
+	this->f_      = a_f_;
 	this->epsilon = a_epsilon;
 	this->linear  = true;
 }
@@ -47,11 +48,12 @@ Solution_nonlinear::Solution_nonlinear(Mesh* const &a_mesh, Solution_nonlinear* 
 	this->boundaryConditions.resize(2);
 	this->mesh 				= a_mesh;
 	this->f       = a_solution->get_f();
+	this->f_      = a_solution->get_f_();
 	this->epsilon = a_solution->get_epsilon();
 	this->linear  = true;
 }
 
-double Solution_nonlinear::l(Element* currentElement, f_double &basis, f_double &basis_, const std::vector<double> &u)
+double Solution_nonlinear::l(Element* currentElement, f_double &basis, f_double &basis_, const std::vector<double> &u) const
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -75,7 +77,7 @@ double Solution_nonlinear::l(Element* currentElement, f_double &basis, f_double 
 	return integral;
 }
 
-double Solution_nonlinear::a(Element* currentElement, f_double &basis1, f_double &basis2, f_double &basis1_, f_double &basis2_, const std::vector<double> &u)
+double Solution_nonlinear::a(Element* currentElement, f_double &basis1, f_double &basis2, f_double &basis1_, f_double &basis2_, const std::vector<double> &u) const
 {
 	double J = currentElement->get_Jacobian();
 	double integral = 0;
@@ -409,6 +411,103 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance)
 	this->solution = next_x;
 }*/
 
+void Solution_nonlinear::Solve_single(const double &a_cgTolerance, const std::vector<double> &a_uPrev, std::vector<double> &a_uNext, double &a_difference) const
+{
+	// Problem details.
+    double A = 0;
+	double B = 0;
+
+	// Variables to make life easy!
+	int n = this->mesh->elements->get_DoF();
+	Elements* elements = this->mesh->elements;
+
+	// Inverse Jacobian matrix at the previous x.
+	Matrix_full<double> stiffnessMatrix(n, n, 0);
+	std::vector<double> loadVector(n, 0);
+
+	// Loops over all combinations of basis functions.
+	for (int elementCounter=0; elementCounter<this->noElements; ++elementCounter)
+	{
+		Element* currentElement = (*(this->mesh->elements))[elementCounter];
+		int polynomialDegree = currentElement->get_polynomialDegree();
+
+		double elementLeft  = currentElement->get_nodeCoordinates()[0];
+		double elementRight = currentElement->get_nodeCoordinates()[1];
+
+		std::vector<int> elementDoFs = elements->get_elementDoFs(elementCounter);
+		for (int a=0; a<elementDoFs.size(); ++a)
+		{
+			int j = elementDoFs[a];
+			f_double basis  = currentElement->basisFunction(a, 0);
+			f_double basis_ = currentElement->basisFunction(a, 1);
+
+			loadVector[j] += this->l(currentElement, basis, basis_, a_uPrev);
+
+			for (int b=0; b<elementDoFs.size(); ++b)
+			{
+				int i = elementDoFs[b];
+				f_double basis1  = currentElement->basisFunction(b, 0);
+				f_double basis2  = currentElement->basisFunction(a, 0);
+				f_double basis1_ = currentElement->basisFunction(b, 1);
+				f_double basis2_ = currentElement->basisFunction(a, 1);
+
+				double value = stiffnessMatrix(i, j); // Bit messy...
+				stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2, basis1_, basis2_, a_uPrev));
+			}
+		}
+	}
+
+	std::vector<double> F_(n);
+	std::vector<double> u0(n, 0);
+
+	int m = this->mesh->elements->get_noElements(); // Only works in 1D!
+
+	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(0, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, 0, 0);
+	loadVector[0] = 0;
+
+	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(m, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, m, 0);
+	loadVector[m] = 0;
+
+	u0[0] = 0;
+	u0[m] = 0;
+	
+	F_ = stiffnessMatrix*u0;
+	for (int i=0; i<n; ++i)
+		loadVector[i] -= F_[i];
+
+	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(0, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, 0, 0);
+	stiffnessMatrix.set(0, 0, 1);
+
+	for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
+		stiffnessMatrix.set(m, i, 0);
+	for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
+		stiffnessMatrix.set(j, m, 0);
+	stiffnessMatrix.set(m, m, 1);
+	
+	std::vector<double> update = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
+
+	double damping = 1;//std::min(sqrt(2*a_NewtonTolerance/compute_epsilonNorm(uPrev)), double(1)); // Not quite right.
+
+	// Updates the new x.
+	for (int i=0; i<a_uNext.size(); ++i)
+		a_uNext[i] = a_uPrev[i] - damping*update[i];
+
+	a_uNext[0] = A;
+	a_uNext[m] = B;
+
+    // Returns the difference.
+    a_difference = common::l2Norm(a_uNext, a_uPrev);
+}
+
 void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_NewtonTolerance, const std::vector<double> &a_u0)
 {
 	// Consecutive values of x.
@@ -421,120 +520,12 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_Newt
     // Loop counter.
     int k = 0;
 
-    // Problem details.
-    double A = 0;
-	double B = 0;
-
-	// Variables to make life easy!
-	int n = this->mesh->elements->get_DoF();
-	Elements* elements = this->mesh->elements;
-
 	// Iterates until the tolerance is small enough.
 	do
 	{
 		uPrev = uNext;
-
-		// Inverse Jacobian matrix at the previous x.
-		Matrix_full<double> stiffnessMatrix(n, n, 0);
-		std::vector<double> loadVector(n, 0);
-
-		// Loops over all combinations of basis functions.
-		for (int elementCounter=0; elementCounter<this->noElements; ++elementCounter)
-		{
-			Element* currentElement = (*(this->mesh->elements))[elementCounter];
-			int polynomialDegree = currentElement->get_polynomialDegree();
-
-			double elementLeft  = currentElement->get_nodeCoordinates()[0];
-			double elementRight = currentElement->get_nodeCoordinates()[1];
-
-			std::vector<int> elementDoFs = elements->get_elementDoFs(elementCounter);
-			for (int a=0; a<elementDoFs.size(); ++a)
-			{
-				int j = elementDoFs[a];
-				f_double basis  = currentElement->basisFunction(a, 0);
-				f_double basis_ = currentElement->basisFunction(a, 1);
-
-				loadVector[j] += this->l(currentElement, basis, basis_, uPrev);
-
-				for (int b=0; b<elementDoFs.size(); ++b)
-				{
-					int i = elementDoFs[b];
-					f_double basis1  = currentElement->basisFunction(b, 0);
-					f_double basis2  = currentElement->basisFunction(a, 0);
-					f_double basis1_ = currentElement->basisFunction(b, 1);
-					f_double basis2_ = currentElement->basisFunction(a, 1);
-
-					double value = stiffnessMatrix(i, j); // Bit messy...
-					stiffnessMatrix.set(i, j, value + this->a(currentElement, basis1, basis2, basis1_, basis2_, uPrev));
-				}
-			}
-		}
-
-		std::vector<double> F_(n);
-		std::vector<double> u0(n, 0);
-
-		int m = this->mesh->elements->get_noElements(); // Only works in 1D!
-	
-		for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-			stiffnessMatrix.set(0, i, 0);
-		for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-			stiffnessMatrix.set(j, 0, 0);
-		loadVector[0] = 0;
-
-		for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-			stiffnessMatrix.set(m, i, 0);
-		for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-			stiffnessMatrix.set(j, m, 0);
-		loadVector[m] = 0;
-
-		u0[0] = 0;
-		u0[m] = 0;
-		
-		F_ = stiffnessMatrix*u0;
-		for (int i=0; i<n; ++i)
-			loadVector[i] -= F_[i];
-
-		for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-			stiffnessMatrix.set(0, i, 0);
-		for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-			stiffnessMatrix.set(j, 0, 0);
-		stiffnessMatrix.set(0, 0, 1);
-
-		for (int i=0; i<stiffnessMatrix.get_noRows(); ++i)
-			stiffnessMatrix.set(m, i, 0);
-		for (int j=0; j<stiffnessMatrix.get_noColumns(); ++j)
-			stiffnessMatrix.set(j, m, 0);
-		stiffnessMatrix.set(m, m, 1);
-		
-		std::vector<double> update = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
-
-		double damping = 1;//std::min(sqrt(2*a_NewtonTolerance/compute_epsilonNorm(uPrev)), double(1)); // Not quite right.
-
-		// Updates the new x.
-		for (int i=0; i<uNext.size(); ++i)
-			uNext[i] = uPrev[i] - damping*update[i];
-
-		uNext[0] = A;
-		uNext[m] = B;
-
-        // Updates the difference.
-        difference = common::l2Norm(uNext, uPrev);
-        //difference = fabs(this->compute_residualNorm(uNext));
-
-        // Prints.
-        std::streamsize old_precision = std::cout.precision();
-        std::cout << "k=" << k << ": " << std::setprecision(old_precision) << std::scientific << difference << std::endl;
-        std::cout << compute_norm2(0, false, uPrev) << std::endl;
-        std::cout << compute_norm2(0, false, uNext) << std::endl;
-        std::cout << compute_norm2(0, false, update) << std::endl;
-        std::cout << damping << std::endl;
-        std::cout << std::fixed << std::setprecision(old_precision);
-
-        // Increments loop counter.
+		this->Solve_single(a_cgTolerance, uPrev, uNext, difference);
         ++k;
-
-        if (k==300)
-        	break;
 
 	} while(difference >= a_NewtonTolerance);
 
@@ -615,16 +606,25 @@ f_double2 Solution_nonlinear::get_f() const
 	return this->f;
 }
 
+f_double2 Solution_nonlinear::get_f_() const
+{
+	return this->f;
+}
+
 double Solution_nonlinear::get_epsilon() const
 {
 	return this->epsilon;
 }
 
-double Solution_nonlinear::compute_residual(const double &a_uh_2, const double &a_x) const
+double Solution_nonlinear::compute_residual(const double &a_uh, const double &a_uh_2, const double &a_x) const
 {
-	return 1;//this->f(a_x) + this->epsilon*a_uh_2;
+	return this->f(a_x, a_uh) + this->epsilon*a_uh_2;
 }
 
+double Solution_nonlinear::compute_modifiedResidual(const double &a_uh0, const double &a_uh1, const double &a_uh0_2, const double &a_uh1_2, const double &a_damping, const double &a_x) const
+{
+	return this->modified_f(a_uh0, a_uh1, a_damping, a_x) + this->epsilon*modified_u(a_uh0_2, a_uh1_2, a_damping);
+}
 
 // NEEDS TO CHANGE
 double Solution_nonlinear::compute_energyNormDifference2(f_double const &a_u, f_double const &a_u_1) const
@@ -662,8 +662,13 @@ double Solution_nonlinear::compute_energyNormDifference2(f_double const &a_u, f_
 	return norm;
 }
 
-// NEEDS TO CHANGE
+// TEMP
 double Solution_nonlinear::compute_errorIndicator(const double &a_i) const
+{
+	return Solution_nonlinear::compute_errorIndicator(a_i, this->solution, this->solution, 1); //ARRRGGHHH
+}
+
+double Solution_nonlinear::compute_errorIndicator(const double &a_i, const std::vector<double> &a_u0, const std::vector<double> &a_u1, const double &a_damping) const
 {
 	// Gets element and its properties.
 	Element* currentElement = (*(this->mesh->elements))[a_i];
@@ -673,7 +678,8 @@ double Solution_nonlinear::compute_errorIndicator(const double &a_i) const
 	double Jacobian  = currentElement->get_Jacobian();
 
 	// Calculates L2 norm on element with weight and residual.
-	double norm_2 = 0;
+	double etaNorm2 = 0;
+	double deltaNorm2 = 0;
 	std::vector<double> quadratureCoordinates;
 	std::vector<double> quadratureWeights;
 	currentElement->get_elementQuadrature(quadratureCoordinates, quadratureWeights);
@@ -681,15 +687,59 @@ double Solution_nonlinear::compute_errorIndicator(const double &a_i) const
 	// Loops over quadrature coordinates and weights.
 	for (int j=0; j<quadratureCoordinates.size(); ++j)
 	{
-		double uh   = compute_uh(a_i, quadratureCoordinates[j], 0);
-		double uh_2 = compute_uh(a_i, quadratureCoordinates[j], 2);
-		double residual = 1;//compute_residual(uh, uh_2, currentElement->mapLocalToGlobal(quadratureCoordinates[j]));
+		double uh0   = compute_uh(a_i, quadratureCoordinates[j], 0, a_u0);
+		double uh1   = compute_uh(a_i, quadratureCoordinates[j], 0, a_u1);
+		double uh0_2 = compute_uh(a_i, quadratureCoordinates[j], 2, a_u0);
+		double uh1_2 = compute_uh(a_i, quadratureCoordinates[j], 2, a_u1);
+		double residual = compute_modifiedResidual(uh0, uh1, uh0_2, uh1_2, a_damping, currentElement->mapLocalToGlobal(quadratureCoordinates[j]));
 
 		double x = currentElement->mapLocalToGlobal(quadratureCoordinates[j]);
 		double weight = (rightNode - x)*(x - leftNode);
 
-		norm_2 += pow(sqrt(weight)*residual, 2)*quadratureWeights[j]*Jacobian;
+		etaNorm2 += pow(sqrt(weight)*residual, 2)*quadratureWeights[j]*Jacobian;
+	}
+
+	for (int j=0; j<quadratureCoordinates.size(); ++j)
+	{
+		double uh0 = compute_uh(a_i, quadratureCoordinates[j], 0, a_u0);
+		double uh1 = compute_uh(a_i, quadratureCoordinates[j], 0, a_u1);
+
+		double modified_f = this->modified_f(uh0, uh1, a_damping, currentElement->mapLocalToGlobal(quadratureCoordinates[j]));
+		double modified_u = this->modified_u(uh0, uh1, a_damping);
+		double f          = this->f(currentElement->mapLocalToGlobal(quadratureCoordinates[j]), modified_u);
+
+		deltaNorm2 += pow(modified_f - f, 2)*quadratureWeights[j]*Jacobian;
 	}
 	
-	return double(1)/(P*(P+1)*this->epsilon) * norm_2;
+	return double(1)/(P*(P+1)*this->epsilon) * etaNorm2 + deltaNorm2;
+}
+
+std::vector<double> Solution_nonlinear::modified_u(const std::vector<double> &a_u0, const std::vector<double> &a_u1, const double &a_damping) const
+{
+	std::vector<double> result(a_u0.size());
+
+	for (int i=0; i<result.size(); ++i)
+		result[i] = a_u1[i] - (1-a_damping)*a_u0[i];
+
+	return result;
+}
+
+std::vector<double> Solution_nonlinear::modified_f(const std::vector<double> &a_u0, const std::vector<double> &a_u1, const double &a_damping, const double &a_x) const
+{
+	std::vector<double> result(a_u0.size());
+
+	for (int i=0; i<result.size(); ++i)
+		result[i] = a_damping*f(a_x, a_u0[i]) + f_(a_x, a_u0[i])*(a_u1[i] - a_u0[i]);
+
+	return result;
+}
+
+double Solution_nonlinear::modified_u(const double &a_u0, const double &a_u1, const double &a_damping) const
+{
+	return a_u1 - (1-a_damping)*a_u0;
+}
+
+double Solution_nonlinear::modified_f(const double &a_u0, const double &a_u1, const double &a_damping, const double &a_x) const
+{
+	return a_damping*f(a_x, a_u0) + f_(a_x, a_u0)*(a_u1 - a_u0);
 }

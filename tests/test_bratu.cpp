@@ -34,17 +34,7 @@ int main()
 	// Sets up problem.
 	int n = 10;
 	Mesh*               myMesh     = new Mesh(n);
-	Solution_nonlinear* mySolution = new Solution_nonlinear(myMesh, bratu, 1);
-
-	// Adaptivity variables.
-	//Mesh*            myNewMesh;
-	//Solution_linear* myNewSolution_linear;
-	//Solution*        myNewSolution = myNewSolution_linear;
-
-	//myNewSolution = mySolution;
-
-	// Performs the refinement with the correct type of adaptivity.
-	//refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-5, 21, true, false, true, sinpi, sinpi_);
+	Solution_nonlinear* mySolution = new Solution_nonlinear(myMesh, bratu, bratu, 1);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	std::vector<double> u0(n+1);
@@ -53,9 +43,7 @@ int main()
 	mySolution->Solve(1e-15, 1e-15, u0);
 	mySolution->output_solution();
 	mySolution->output_mesh();
-
-	//delete myNewSolution;
-	//delete myNewMesh;
+	
 	delete mySolution;
 	delete myMesh;
 

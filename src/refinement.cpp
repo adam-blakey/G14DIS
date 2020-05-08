@@ -8,6 +8,7 @@
 #include "mesh.hpp"
 #include "solution.hpp"
 #include "solution_linear.hpp"
+#include "solution_nonlinear.hpp"
 #include <algorithm>
 #include <iterator>
 #include <vector>
@@ -244,6 +245,8 @@ namespace refinement
 		Solution* newSolution;
 		if (a_solution->get_linear())
 			newSolution = new Solution_linear(*const_cast<Solution_linear*>(static_cast<const Solution_linear*>(a_solution)));
+		else
+			newSolution = new Solution_nonlinear(*const_cast<Solution_nonlinear*>(static_cast<const Solution_nonlinear*>(a_solution)));
 
 		// Loop variables initialisation.
 		double errorIndicator, errorIndicatorPrev = 0;
@@ -295,16 +298,23 @@ namespace refinement
 			}
 			
 			// Refine and create new mesh and solution.
-			if (a_refineh && a_refinep)
-				refine_hp(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
-			else if (a_refineh)
-				refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
-			else if (a_refinep)
-				refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+			if (a_solution->get_linear())
+			{
+				if (a_refineh && a_refinep)
+					refine_hp(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+				else if (a_refineh)
+					refine_h(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+				else if (a_refinep)
+					refine_p(currentMesh, &newMesh, currentSolution, &newSolution, errorIndicators);
+				else
+				{
+					/*newMesh     = new Mesh(currentMesh->elements);
+					newSolution = new Solution(newMesh, currentSolution->get_f(), currentSolution->get_epsilon(), currentSolution->get_c());*/
+				}
+			}
 			else
 			{
-				/*newMesh     = new Mesh(currentMesh->elements);
-				newSolution = new Solution(newMesh, currentSolution->get_f(), currentSolution->get_epsilon(), currentSolution->get_c());*/
+
 			}
 
 			// Sets variables for next loop.

@@ -1,6 +1,0 @@
-Lib: FEM
-===========
-.. doxygennamespace:: fem
-   :project: BlakeyFEM
-   :path: ./fem.cpp
-   :members:

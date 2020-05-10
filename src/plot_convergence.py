@@ -18,7 +18,7 @@ plt.semilogy(dof,  indicator,            'go-',                       label="Err
 plt.grid(True)
 plt.xlabel("DoF")
 plt.ylabel("error")
-plt.title("Test Problem 1 with hp-Adaptivity Convergence")
+plt.title("Convergence Plot")
 plt.legend(loc="upper right")
 print(indicator/error)
 plt.show()

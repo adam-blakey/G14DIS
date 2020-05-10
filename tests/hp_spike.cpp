@@ -43,7 +43,7 @@ double f(double x)
 int main()
 {
 	// Sets up problem.
-	Mesh*            myMesh     = new Mesh(4);
+	Mesh*            myMesh     = new Mesh(50);
 	Solution_linear* mySolution = new Solution_linear(myMesh, f, 1, one);
 
 	// Adaptivity variables.
@@ -54,7 +54,7 @@ int main()
 	myNewSolution = mySolution;
 
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 25, true, true, true, exact, exact1);
+	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 10, true, false, true, exact, exact1);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	myNewSolution->Solve(1e-15);

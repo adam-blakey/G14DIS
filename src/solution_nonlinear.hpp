@@ -41,7 +41,7 @@ class Solution_nonlinear : public Solution
 		// Solvers.
 		void Solve(const double &a_cgTolerance);
 		void Solve(const double &a_cgTolerance, const double &a_NewtonTolerance, const std::vector<double> &a_u0);
-		void Solve_single(const double &a_cgTolerance, const std::vector<double> &a_uPrev, std::vector<double> &a_uNext, double &a_difference) const;
+		void Solve_single(const double &a_cgTolerance, const double &a_NewtonTolerance, const std::vector<double> &a_uPrev, std::vector<double> &a_uNext, double &a_difference) const;
 
 		// Computers.
 		double compute_energyNormDifference2(f_double const &a_u, f_double const &a_u_1) const;

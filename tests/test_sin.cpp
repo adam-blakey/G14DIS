@@ -45,23 +45,11 @@ int main()
 	Mesh*            myMesh     = new Mesh(4);
 	Solution_linear* mySolution = new Solution_linear(myMesh, pi2sin, 1, zero);
 
-	// Adaptivity variables.
-	Mesh*            myNewMesh;
-	Solution_linear* myNewSolution_linear;
-	Solution*        myNewSolution = myNewSolution_linear;
-
-	myNewSolution = mySolution;
-
-	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-15, 8, true, true, true, sinpi, sinpi_);
-
 	// Solves the new problem, and then outputs solution and mesh to files.
-	myNewSolution->Solve(1e-15);
-	myNewSolution->output_solution(sinpi);
-	myNewSolution->output_mesh();
-
-	delete myNewSolution;
-	delete myNewMesh;
+	mySolution->Solve(1e-15);
+	mySolution->output_solution(sinpi);
+	mySolution->output_mesh();
+	
 	delete mySolution;
 	delete myMesh;
 

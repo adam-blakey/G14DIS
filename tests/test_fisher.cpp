@@ -14,9 +14,9 @@
 
 #include <functional>
 
-double bratu(double x, double u)
+double fisher(double x, double u)
 {
-	return -exp(u);
+	return u*(u-1);
 }
 
 double sinpi(double x)
@@ -24,24 +24,25 @@ double sinpi(double x)
 	return sin(M_PI*x);
 }
 
-double zero(double x, double u)
+double fisher_(double x, double u)
 {
-	return 0;
+	return 2*u - 1;
 }
 
 int main()
 {
 	// Sets up problem.
-	int n = 20;
+	int n = 100;
 	Mesh*               myMesh     = new Mesh(n);
-	Solution_nonlinear* mySolution = new Solution_nonlinear(myMesh, bratu, bratu, 1);
+	Solution_nonlinear* mySolution = new Solution_nonlinear(myMesh, fisher, fisher_, 0.00025);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	double a = 1;
-	std::vector<double> u0(n+1);
+	std::vector<double> u0(n+1, -0.4);
 	for (int i=0; i<u0.size(); ++i)
-		u0[i] = a*sinpi(double(i)/n);
-	mySolution->Solve(1e-15, 1e-12, u0);
+		if ((i % 25 != 0) && ((i-1) % 25 != 0))
+			u0[i] = 1;
+	mySolution->Solve(1e-15, 1e-3, u0);
 	mySolution->output_solution();
 	mySolution->output_mesh();
 	

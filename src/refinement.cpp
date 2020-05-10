@@ -442,6 +442,7 @@ namespace refinement
 			std::cout << "  #Elements      : " << currentMesh->get_noElements() << std::endl;
 			std::cout << "  Error indicator: " << currentSolution->compute_globalErrorIndicator() << std::endl;
 			std::cout << "  #Iterations    : " << iteration << std::endl;
+			std::cout << "  DoF            : " << currentMesh->elements->get_DoF() << std::endl;
 		}
 	}
 }

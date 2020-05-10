@@ -61,7 +61,7 @@ int main()
 	myNewSolution = mySolution;
 
 	// Performs the refinement with the correct type of adaptivity.
-	refinement::refinement(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e1, 1e-3, 100, true, false, true, exact, exact1);
+	refinement::refinement_g(myMesh, &myNewMesh, mySolution, &myNewSolution, 1e-15, 1e-3, 50, false, true, true, exact, exact1);
 
 	// Solves the new problem, and then outputs solution and mesh to files.
 	myNewSolution->Solve(1e-15);

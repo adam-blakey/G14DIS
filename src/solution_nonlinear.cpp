@@ -94,7 +94,7 @@ double Solution_nonlinear::a(Element* currentElement, f_double &basis1, f_double
 		double b_value2_ = basis2_(coordinates[k]);
 		double x_value   = currentElement->mapLocalToGlobal(coordinates[k]);
 		double u_value   = compute_uh(currentElement->get_elementNo(), coordinates[k], 0, u);
-		double f_value   = this->f(x_value, u_value);
+		double f_value   = this->f_(x_value, u_value);
 
 		integral += this->epsilon*b_value1_*b_value2_*weights[k]/J + f_value*b_value1*b_value2*weights[k]*J;
 	}
@@ -411,7 +411,7 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance)
 	this->solution = next_x;
 }*/
 
-void Solution_nonlinear::Solve_single(const double &a_cgTolerance, const std::vector<double> &a_uPrev, std::vector<double> &a_uNext, double &a_difference) const
+void Solution_nonlinear::Solve_single(const double &a_cgTolerance, const double &a_NewtonTolerance, const std::vector<double> &a_uPrev, std::vector<double> &a_uNext, double &a_difference) const
 {
 	// Problem details.
     double A = 0;
@@ -495,7 +495,7 @@ void Solution_nonlinear::Solve_single(const double &a_cgTolerance, const std::ve
 	
 	std::vector<double> update = linearSystems::conjugateGradient(stiffnessMatrix, loadVector, a_cgTolerance);
 
-	double damping = 1;//std::min(sqrt(2*a_NewtonTolerance/compute_epsilonNorm(uPrev)), double(1)); // Not quite right.
+	double damping = 1;//std::min(sqrt(2*a_NewtonTolerance/compute_epsilonNorm(a_uPrev)), double(1)); // Not quite right.
 
 	// Updates the new x.
 	for (int i=0; i<a_uNext.size(); ++i)
@@ -506,6 +506,9 @@ void Solution_nonlinear::Solve_single(const double &a_cgTolerance, const std::ve
 
     // Returns the difference.
     a_difference = common::l2Norm(a_uNext, a_uPrev);
+    /*std::cout << a_difference << std::endl;
+    std::cout << a_uNext[ceil(double(m)/2)] << std::endl;
+    std::cout << std::endl;*/
 }
 
 void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_NewtonTolerance, const std::vector<double> &a_u0)
@@ -524,7 +527,7 @@ void Solution_nonlinear::Solve(const double &a_cgTolerance, const double &a_Newt
 	do
 	{
 		uPrev = uNext;
-		this->Solve_single(a_cgTolerance, uPrev, uNext, difference);
+		this->Solve_single(a_cgTolerance, a_NewtonTolerance, uPrev, uNext, difference);
         ++k;
 
 	} while(difference >= a_NewtonTolerance);
